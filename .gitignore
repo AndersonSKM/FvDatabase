@@ -9,6 +9,7 @@ Desktop.ini
 $RECYCLE.BIN/
 
 *.pro.user
+/Build
 
 # Windows Installer files
 *.cab
@@ -43,3 +44,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.o

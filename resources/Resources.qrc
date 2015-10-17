@@ -1,15 +1,16 @@
 <RCC>
     <qresource prefix="/">
+        <file>assets/projectIcon--128.png</file>
+        <file>assets/projectIcon--16.png</file>
+        <file>assets/projectIcon--32.png</file>
+        <file>assets/projectIcon--64.png</file>
+        <file>icons/1444503647_mysql-2048-black.png</file>
         <file>icons/Cancel.png</file>
         <file>icons/ClientAdd.png</file>
         <file>icons/edit.png</file>
         <file>icons/edit_add.png</file>
         <file>icons/edit_remove.png</file>
         <file>icons/kdmconfig.png</file>
-        <file>icons/ktron.png</file>
-        <file>icons/kword.png</file>
-        <file>icons/Login_Manager.png</file>
-        <file>icons/Logo2.jpg</file>
         <file>icons/LogOut.png</file>
         <file>icons/Ok.png</file>
         <file>icons/package_settings.png</file>
@@ -18,6 +19,6 @@
         <file>icons/share.png</file>
         <file>icons/vcard.png</file>
         <file>icons/viewmag.png</file>
-        <file>icons/1444503647_mysql-2048-black.png</file>
+        <file>note.xml</file>
     </qresource>
 </RCC>

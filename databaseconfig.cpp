@@ -26,7 +26,6 @@ DatabaseConfig::~DatabaseConfig()
     delete ui;
 }
 
-
 void DatabaseConfig::on_btnOk_clicked()
 {
     if (ui->edtServer->text().isEmpty())
@@ -42,19 +41,13 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setPort(ui->sbPorta->value());
         ini->save();
 
-        QDomDocument doc("mydoc");
-        QString fileName = QFileDialog::getOpenFileName(this,
-                                         tr("Open Xml"), ".",
-                                         tr("Xml files (*.xml)"));
-        QFile file(fileName);
-
-        if(!file.open(QFile::ReadOnly | QFile::Text))
+        QFile file(":/note.xml");
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             Menssage("NAO ABRIU");
 
-        if(!doc.setContent(&file))
-        {
+        QDomDocument doc;
+        if (!doc.setContent(&file)) {
             file.close();
-            Menssage("NAO ABRIU");
         }
         file.close();
 
@@ -66,12 +59,13 @@ void DatabaseConfig::on_btnOk_clicked()
             QDomElement mimetype = n.toElement();
             if(!mimetype.isNull())
             {
-                QString value = mimetype.tagName();
+                QString value = mimetype.text();
                 std::cout << "valor: " << qPrintable(value) << std::endl;
             }
             n = n.nextSibling();
         }
-    }
+
+     }
 }
 
 void DatabaseConfig::on_btnCancel_clicked()
