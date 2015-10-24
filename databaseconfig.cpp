@@ -41,7 +41,7 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setPort(ui->sbPorta->value());
         ini->save();
 
-        QFile file(":/note.xml");
+        QFile file(":/Migrations/note.xml");
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             Menssage("NAO ABRIU");
 
@@ -56,11 +56,19 @@ void DatabaseConfig::on_btnOk_clicked()
 
         while(!n.isNull())
         {
-            QDomElement mimetype = n.toElement();
-            if(!mimetype.isNull())
+            QDomElement e = n.toElement();
+            if(!e.isNull())
             {
-                QString value = mimetype.text();
-                std::cout << "valor: " << qPrintable(value) << std::endl;
+                if ( e.tagName() = "t1" )
+                   QString t1 =  e.text();
+                else if (e.tagName() = "t2")
+                   QString t2 =  e.text();
+                else if (e.tagName() = "t3")
+                   QString t3 =  e.text();
+
+                std::cout << "valor: " << qPrintable(t1)  << std::endl;
+                std::cout << "valor: " << qPrintable(t2)  << std::endl;
+                std::cout << "valor: " << qPrintable(t3)  << std::endl;
             }
             n = n.nextSibling();
         }

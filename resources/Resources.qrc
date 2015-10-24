@@ -19,6 +19,6 @@
         <file>icons/share.png</file>
         <file>icons/vcard.png</file>
         <file>icons/viewmag.png</file>
-        <file>note.xml</file>
+        <file>Migrations/note.xml</file>
     </qresource>
 </RCC>
