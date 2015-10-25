@@ -51,29 +51,48 @@ void DatabaseConfig::on_btnOk_clicked()
         }
         file.close();
 
-        QDomElement docElem = doc.documentElement();
-        QDomNode n = docElem.firstChild();
+        QDomElement root = doc.firstChildElement();
 
-        while(!n.isNull())
+        retrievElements(root, "Table", "Name");
+
+        QDomNodeList tables = root.elementsByTagName("Table");
+
+        // Looping through each dorm
+        for(int i = 0; i < tables.count(); i++)
         {
-            QDomElement e = n.toElement();
-            if(!e.isNull())
+            QDomNode tableNode = tables.at(i);
+            Menssage("1");
+            if(tableNode.isElement())
             {
-                if ( e.tagName() = "t1" )
-                   QString t1 =  e.text();
-                else if (e.tagName() = "t2")
-                   QString t2 =  e.text();
-                else if (e.tagName() = "t3")
-                   QString t3 =  e.text();
+                Menssage("2");
+                QDomElement table = tableNode.toElement();
 
-                std::cout << "valor: " << qPrintable(t1)  << std::endl;
-                std::cout << "valor: " << qPrintable(t2)  << std::endl;
-                std::cout << "valor: " << qPrintable(t3)  << std::endl;
+                qDebug() << "Fields in " << table.attribute("Name");
+
+                retrievElements(table, "Field", "Name");
+                retrievElements(table, "Field", "Type");
+                retrievElements(table, "Field", "Lenght");
             }
-            n = n.nextSibling();
         }
 
+
      }
+}
+
+QVariant DatabaseConfig::retrievElements(QDomElement root, QString tag, QString att)
+{
+    QDomNodeList nodes = root.elementsByTagName(tag);
+
+    qDebug() << "# nodes = " << nodes.count();
+    for(int i = 0; i < nodes.count(); i++)
+    {
+        QDomNode elm = nodes.at(i);
+        if(elm.isElement())
+        {
+            QDomElement e = elm.toElement();
+            qDebug() << e.attribute(att);
+        }
+    }
 }
 
 void DatabaseConfig::on_btnCancel_clicked()

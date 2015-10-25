@@ -2,6 +2,7 @@
 #define DATABASECONFIG_H
 
 #include <QDialog>
+#include <QDomElement>
 
 #include "inifile.h"
 
@@ -15,6 +16,9 @@ class DatabaseConfig : public QDialog
 
 public:
     explicit DatabaseConfig(QWidget *parent = 0);
+    void retrievElements(QDomElement root, QString tag, QString att);
+
+
     ~DatabaseConfig();
 
 private slots:

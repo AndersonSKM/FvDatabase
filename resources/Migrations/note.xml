@@ -1,5 +1,6 @@
-<notes>
-    <t1>Ariane</t1>
-    <t2>Eu Te Amo</t2>
-    <t3>Para Sempre</t3>
-</notes>
+<Tables>
+    <Table Name="usuarios">
+        <Field Name="ID" Type="INTEGER" Lenght="0"/>
+        <Field Name="NOME" Type="VARCHAR" Lenght="20"/>
+    </Table>
+</Tables>
