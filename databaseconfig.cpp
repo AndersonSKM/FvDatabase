@@ -6,6 +6,7 @@
 #include "databaseconfig.h"
 #include "ui_databaseconfig.h"
 #include "tools/tools.h"
+#include "dictxml.h"
 #include "inifile.h"
 
 DatabaseConfig::DatabaseConfig(QWidget *parent) :
@@ -41,45 +42,16 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setPort(ui->sbPorta->value());
         ini->save();
 
-        QFile file(":/Migrations/note.xml");
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            Menssage("NAO ABRIU");
+        
 
-        QDomDocument doc;
-        if (!doc.setContent(&file)) {
-            file.close();
-        }
-        file.close();
+        DictXML dici;
+        dici.InitXML(":/Migrations/note.xml");
 
-        QDomElement root = doc.firstChildElement();
-
-        retrievElements(root, "Table", "Name");
-
-        QDomNodeList tables = root.elementsByTagName("Table");
-
-        // Looping through each dorm
-        for(int i = 0; i < tables.count(); i++)
-        {
-            QDomNode tableNode = tables.at(i);
-            Menssage("1");
-            if(tableNode.isElement())
-            {
-                Menssage("2");
-                QDomElement table = tableNode.toElement();
-
-                qDebug() << "Fields in " << table.attribute("Name");
-
-                retrievElements(table, "Field", "Name");
-                retrievElements(table, "Field", "Type");
-                retrievElements(table, "Field", "Lenght");
-            }
-        }
-
-
+        Menssage(dici.GetFieldPropertyByName("ID","Type").toString());
      }
 }
 
-QVariant DatabaseConfig::retrievElements(QDomElement root, QString tag, QString att)
+void DatabaseConfig::retrievElements(QDomElement root, QString tag, QString att)
 {
     QDomNodeList nodes = root.elementsByTagName(tag);
 

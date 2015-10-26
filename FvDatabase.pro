@@ -18,12 +18,16 @@ SOURCES += main.cpp\
         databaseconfig.cpp \
     tools/SQL.cpp \
     tools/tools.cpp \
-    inifile.cpp
+    inifile.cpp \
+    dictionary.cpp \
+    dictxml.cpp
 
 HEADERS  += databaseconfig.h \
     tools/SQL.h \
     tools/tools.h \
-    inifile.h
+    inifile.h \
+    dictionary.h \
+    dictxml.h
 
 FORMS    += databaseconfig.ui
 
