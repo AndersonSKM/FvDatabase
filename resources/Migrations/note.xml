@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Tables>
     <Table Name="usuarios">
-        <Field Name="ID" Type="INTEGER" Lenght="0"/>
-        <Field Name="NOME" Type="VARCHAR" Lenght="20"/>
+        <Field Name="ID" Type="INTEGER" Lenght="0"></Field>
+        <Field Name="NOME" Type="VARCHAR" Lenght="20"></Field>
     </Table>
 </Tables>

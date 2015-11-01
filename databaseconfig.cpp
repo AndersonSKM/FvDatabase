@@ -42,12 +42,8 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setPort(ui->sbPorta->value());
         ini->save();
 
-        
-
         DictXML dici;
-        dici.InitXML(":/Migrations/note.xml");
-
-        Menssage(dici.GetFieldPropertyByName("ID","Type").toString());
+        dici.GetFieldPropertyByName("ID","Name");
      }
 }
 
