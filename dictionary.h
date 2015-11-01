@@ -6,6 +6,8 @@ class Dictionary
 {
 public:
     Dictionary();
+private:
+    
 };
 
 #endif // DICTIONARY_H

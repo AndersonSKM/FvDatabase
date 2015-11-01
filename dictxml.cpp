@@ -9,15 +9,44 @@ DictXML::DictXML()
 
 }
 
-void DictXML::GetFieldPropertyByName(const QString aName, const QString aProperty)
+void DictXML::setFilePath(const QString path)
 {
-    QString Path = ":/Migrations/note.xml";
+    filePath = path;
+}
 
+QVariant DictXML::getFieldPropertyByName(const QString aName, const QString aProperty)
+{
+    QDomNodeList fieldNodes = InitXML(filePath,"Field");
+
+    if (!fieldNodes.isEmpty())
+    {
+        for (int i = 0; i != fieldNodes.count(); i++)
+        {
+            QDomNode tableNode = fieldNodes.at(i);
+
+            if (tableNode.isElement())
+            {
+                QDomElement fieldElement = tableNode.toElement();
+
+                if (fieldElement.attribute("Name").toUpper() == aName.toUpper())
+                {
+                    return fieldElement.attribute(aProperty);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+QDomNodeList DictXML::InitXML(const QString filePath, const QString nodeName = "Tables")
+{
     QDomDocument doc;
 
-    QFile file(Path);
+    QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         Menssage("Erro ao abrir arquivo XML");
+
+    qDebug() << "[Carregando arquivo " << filePath << "]";
 
     if (!doc.setContent(&file)) {
         file.close();
@@ -25,31 +54,9 @@ void DictXML::GetFieldPropertyByName(const QString aName, const QString aPropert
     }
 
     file.close();
+    qDebug() << "[Fechando arquivo]";
 
     QDomElement root = doc.firstChildElement();
-
-    QDomNodeList tableNodes = root.elementsByTagName("Field");
-
-    if (tableNodes.isEmpty())
-        qDebug() << "1";
-
-    for (int i = 0; i != tableNodes.count(); i++) {
-
-        //Table
-        QDomNode tableNode = tableNodes.at(i);
-
-        QDomElement fieldElement = tableNode.toElement();
-
-        //Fields
-        //QDomElement fieldElement = tableNode.firstChildElement("Field");
-
-        qDebug() << fieldElement.attribute(aProperty);
-
-    }
-}
-
-void DictXML::InitXML(const QString afilePath)
-{
-
+    return root.elementsByTagName(nodeName);
 }
 

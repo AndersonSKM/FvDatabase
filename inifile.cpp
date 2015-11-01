@@ -93,5 +93,5 @@ void IniFile::save()
     settings.setValue("CONEXAO/PASSWD",   m_passwd);
     settings.setValue("CONEXAO/PORT",     m_port);
     settings.sync();
-    qDebug() << "[Criando arquivo .ini]";
+    qDebug() << "[Salvando em arquivo .ini]";
 }

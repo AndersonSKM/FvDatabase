@@ -11,9 +11,10 @@ class DictXML
 {
 public:
     DictXML();
-    void GetFieldPropertyByName(const QString aName, const QString aProperty);
+    QDomNodeList InitXML(const QString filePath, const QString nodeName);
+    QVariant getFieldPropertyByName(const QString aName, const QString aProperty);
     
-    void InitXML(const QString afilePath);
+    void setFilePath(const QString);
 
 private:
     QString filePath; 

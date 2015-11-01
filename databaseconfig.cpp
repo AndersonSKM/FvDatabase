@@ -43,7 +43,9 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->save();
 
         DictXML dici;
-        dici.GetFieldPropertyByName("ID","Name");
+        dici.setFilePath(":/Migrations/note.xml");
+
+        Menssage(dici.getFieldPropertyByName("ID","Type").toString());
      }
 }
 
