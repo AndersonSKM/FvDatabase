@@ -4,12 +4,41 @@
 
 Dictionary::Dictionary()
 {
-    loadTablesFromFile(":/Migrations/note.xml");
 
+}
+
+void Dictionary::Migrate(const QString xmlPath, QSqlDatabase *db)
+{
+    loadTablesFromFile(xmlPath);
+    dbMain = db;
+
+    compareTables();
+}
+
+void Dictionary::compareTables()
+{
+    QSqlQuery query;
     for (int i = 0; i != Tables.count(); i++)
     {
         Table table = Tables.at(i);
-        qDebug() << generateSQL(table);
+        if ( !dbMain->tables().contains( table.name() ) )
+        {
+            dbMain->transaction();
+            if ( query.exec( generateSQL(table) ) )
+            {
+                dbMain->commit();
+                qDebug() << "[Criando tabela " << table.name() << "]";
+            }
+            else
+            {
+                dbMain->rollback();
+                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << dbMain->lastError().text() << "]";
+            }
+        }
+        else
+        {
+
+        }
     }
 }
 
@@ -47,14 +76,24 @@ QString Dictionary::generateSQL(Table &table)
         {
             case ftInteger:
                 SQL += "INT ";
+                break;
+
             case ftVarchar:
                 SQL += "VARCHAR(" + QString::number(field.size()) + ") ";
+                break;
+
             case ftBoolean:
                 SQL += "BOOLEAN ";
+                break;
+
             case ftDateTime:
                 SQL += "DATETIME ";
+                break;
+
             case ftFloat:
                 SQL += "FLOAT ";
+                break;
+
             default:
                 SQL += "VARCHAR(" + QString::number(field.size()) + ") ";
         }

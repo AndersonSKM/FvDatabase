@@ -6,12 +6,14 @@
 #include <QtSql>
 #include <QMessageBox>
 
+#include "inifile.h"
+
 class Database : public QWidget
 {
     Q_OBJECT
 public:
     static Database* instance();
-    bool setConection(QStringList parameters);
+    bool setConection(IniFile *parameters);
     bool databaseError(void);
     QSqlDatabase m_db;
 signals:

@@ -13,6 +13,7 @@ private:
     QString m_server;
     QString m_userName;
     QString m_passwd;
+    QString m_database;
     int m_port = 3306;
 
     QString m_PATH;
@@ -24,12 +25,14 @@ public:
     QString server();
     QString userName();
     QString passwd();
+    QString database();
     int port();
 
     void setDriverType(drivers);
     void setServer(QString);
     void setUserName(QString);
     void setPasswd(QString);
+    void setDatabase(QString);
     void setPort(int);
 
     void save();
