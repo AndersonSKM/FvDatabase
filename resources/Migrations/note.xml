@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tables>
     <Table Name="usuarios">
-        <Field Name="ID" Type="INTEGER" Lenght="0"></Field>
-        <Field Name="NOME" Type="VARCHAR" Lenght="20"></Field>
+        <Field Name="ID" Type="INTEGER" Size="0" Pk="True" DEFAULT="AUTO_INCREMENT"/>
+        <Field Name="NOME" Type="VARCHAR" Sze="20" Pk="False" DEFAULT=""/>
     </Table>
 </Tables>

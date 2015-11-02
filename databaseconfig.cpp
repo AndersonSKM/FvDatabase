@@ -42,10 +42,7 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setPort(ui->sbPorta->value());
         ini->save();
 
-        DictXML dici;
-        dici.setFilePath(":/Migrations/note.xml");
-
-        Menssage(dici.getFieldPropertyByName("ID","Type").toString());
+        Dictionary d;
      }
 }
 
