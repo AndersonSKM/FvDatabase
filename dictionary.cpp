@@ -47,16 +47,27 @@ QString Dictionary::generateSQL(Table &table)
         {
             case ftInteger:
                 SQL += "INT ";
+            break;
+
             case ftVarchar:
                 SQL += "VARCHAR(" + QString::number(field.size()) + ") ";
+            break;
+
             case ftBoolean:
                 SQL += "BOOLEAN ";
+            break;
+
             case ftDateTime:
                 SQL += "DATETIME ";
+            break;
+
             case ftFloat:
                 SQL += "FLOAT ";
+            break;
+
             default:
                 SQL += "VARCHAR(" + QString::number(field.size()) + ") ";
+            break;
         }
 
         SQL +=  "NULL ";
