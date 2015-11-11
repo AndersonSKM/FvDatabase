@@ -1,2 +1,2 @@
 # Laycan
-A MySQL database schema migration tool
+A MySQL database schema migration tool in Qt/C++
