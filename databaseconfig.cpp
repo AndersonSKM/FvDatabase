@@ -8,6 +8,7 @@
 #include "tools/tools.h"
 #include "dictxml.h"
 #include "inifile.h"
+#include "connection.h"
 
 DatabaseConfig::DatabaseConfig(QWidget *parent) :
     QDialog(parent),
@@ -42,24 +43,12 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setPort(ui->sbPorta->value());
         ini->save();
 
-        Dictionary d;
-     }
-}
-
-void DatabaseConfig::retrievElements(QDomElement root, QString tag, QString att)
-{
-    QDomNodeList nodes = root.elementsByTagName(tag);
-
-    qDebug() << "# nodes = " << nodes.count();
-    for(int i = 0; i < nodes.count(); i++)
-    {
-        QDomNode elm = nodes.at(i);
-        if(elm.isElement())
+        if ( Database::instance()->setConection(ini) )
         {
-            QDomElement e = elm.toElement();
-            qDebug() << e.attribute(att);
+            Dictionary d;
+            d.Migrate();
         }
-    }
+     }
 }
 
 void DatabaseConfig::on_btnCancel_clicked()

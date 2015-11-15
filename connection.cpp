@@ -1,8 +1,9 @@
-#include "connection.h"
 #include <QMessageBox>
 #include <QAbstractButton>
 #include <QPushButton>
 #include <QApplication>
+
+#include "connection.h";
 
 Database* Database::m_instance = NULL;
 
@@ -45,15 +46,16 @@ bool Database::databaseError()
 return false;
 }
 
-bool Database::setConection(QStringList parameters)
+bool Database::setConection(IniFile *parameters)
 {
    qDebug() << "[Iniciando conexao]";
 
    //Cria conexao apartir dos dados passados
    Database::instance()->m_db = QSqlDatabase::addDatabase("QMYSQL");
-   Database::instance()->m_db.setHostName( parameters.value(0) );
-   Database::instance()->m_db.setUserName( parameters.value(2) );
-   Database::instance()->m_db.setPassword( parameters.value(3) );
+   Database::instance()->m_db.setHostName( parameters->server() );
+   Database::instance()->m_db.setUserName( parameters->userName() );
+   Database::instance()->m_db.setPassword( parameters->passwd() );
+   Database::instance()->m_db.setPort( parameters->port() );
 
    if (!Database::instance()->m_db.open())
    {
@@ -62,21 +64,25 @@ bool Database::setConection(QStringList parameters)
    }
 
    qDebug() << "[Verificando Banco de dados]";
-   QString query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '"+parameters.value(1)+"'";
-   QSqlQuery q(query,Database::instance()->m_db);
 
-   if (q.size() == 0)
+   if (!parameters->database().isEmpty())
    {
-       qDebug() << "[Criando banco de dados]";
-       if (!q.exec("CREATE DATABASE IF NOT EXISTS " + parameters.value(1) + ";"))
-           qDebug() << "[Erro ao criar base de dados: " << q.lastError().text() << "]";
-       else
-           Database::instance()->m_db.close();
+       QString query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '"+parameters->database()+"'";
+       QSqlQuery q(query,Database::instance()->m_db);
+
+       if (q.size() == 0)
+       {
+           qDebug() << "[Criando banco de dados]";
+
+           if (!q.exec("CREATE DATABASE IF NOT EXISTS " + parameters->database() + ";"))
+               qDebug() << "[Erro ao criar base de dados: " << q.lastError().text() << "]";
+           else
+               Database::instance()->m_db.close();
+       }
    }
 
-
    qDebug() << "[Banco ja existente estabelecendo conexao]";
-   Database::instance()->m_db.setDatabaseName(parameters.value(1));
+   Database::instance()->m_db.setDatabaseName(parameters->database());
 
    if (Database::instance()->m_db.open())
        qDebug() << "[Conexao estabelecida com o banco " << Database::instance()->m_db.databaseName() << "]";

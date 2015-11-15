@@ -16,6 +16,7 @@ IniFile::IniFile(QString PATH)
         m_server = settings.value("SERVER").toString();
         m_userName = settings.value("USERNAME").toString();
         m_passwd = settings.value("PASSWD").toString();
+        m_database = settings.value("DATABASE").toString();
         m_port = settings.value("PORT").toInt();
     }
 }
@@ -38,6 +39,11 @@ QString IniFile::userName()
 QString IniFile::passwd()
 {
     return m_passwd;
+}
+
+QString IniFile::database()
+{
+    return m_database;
 }
 
 int IniFile::port()
@@ -63,6 +69,11 @@ void IniFile::setUserName(QString value)
 void IniFile::setPasswd(QString value)
 {
     m_passwd = value;
+}
+
+void IniFile::setDatabase(QString value)
+{
+    m_database = value;
 }
 
 void IniFile::setPort(int value)
@@ -91,6 +102,7 @@ void IniFile::save()
     settings.setValue("CONEXAO/SERVER",   m_server);
     settings.setValue("CONEXAO/USERNAME", m_userName);
     settings.setValue("CONEXAO/PASSWD",   m_passwd);
+    settings.setValue("CONEXAO/DATABASE", m_database);
     settings.setValue("CONEXAO/PORT",     m_port);
     settings.sync();
     qDebug() << "[Salvando em arquivo .ini]";

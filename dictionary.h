@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QVariant>
+#include <QSqlDatabase>
 
 #include <dictxml.h>
 
@@ -20,6 +21,7 @@ public:
     explicit Fields(QString name, DataTypes type, int size, bool pk, QVariant def);
     explicit Fields() {}
     ~Fields();
+
     void setName(QString name);
     void setType(DataTypes type);
     void setSize(int size);
@@ -58,12 +60,18 @@ class Dictionary
 {
 public:
     Dictionary();
+
+    void Migrate(const QString, QSqlDatabase *);
+    void compareTables(void);
+
     QString generateSQL(Table &);
     bool createTables();
 
-    void loadTablesFromFile(const QString &filePath);
 
 private:
+    void loadTablesFromFile(const QString &);
+
+    QSqlDatabase *dbMain;
     QList<Table> Tables;
 };
 
