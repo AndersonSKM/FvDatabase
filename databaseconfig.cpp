@@ -45,8 +45,8 @@ void DatabaseConfig::on_btnOk_clicked()
 
         if ( Database::instance()->setConection(ini) )
         {
-            Dictionary d;
-            d.Migrate();
+            Dictionary d(Database::instance()->m_db);
+            d.Migrate(":/Migrations/note.xml");
         }
      }
 }

@@ -2,42 +2,33 @@
 #include "dictionary.h"
 
 
-Dictionary::Dictionary()
-{
 
-}
-
-void Dictionary::Migrate(const QString xmlPath, QSqlDatabase *db)
+void Dictionary::Migrate(const QString xmlPath)
 {
     loadTablesFromFile(xmlPath);
-    dbMain = db;
 
     compareTables();
 }
 
 void Dictionary::compareTables()
 {
-    QSqlQuery query;
+    QSqlQuery query(dbMain);
     for (int i = 0; i != Tables.count(); i++)
     {
         Table table = Tables.at(i);
-        if ( !dbMain->tables().contains( table.name() ) )
+        if ( !dbMain.tables().contains( table.name() ) )
         {
-            dbMain->transaction();
+            dbMain.transaction();
             if ( query.exec( generateSQL(table) ) )
             {
-                dbMain->commit();
+                dbMain.commit();
                 qDebug() << "[Criando tabela " << table.name() << "]";
             }
             else
             {
-                dbMain->rollback();
-                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << dbMain->lastError().text() << "]";
+                dbMain.rollback();
+                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << dbMain.lastError().text() << "]";
             }
-        }
-        else
-        {
-
         }
     }
 }

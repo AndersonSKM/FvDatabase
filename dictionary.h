@@ -59,19 +59,18 @@ private:
 class Dictionary
 {
 public:
-    Dictionary();
+    explicit Dictionary(QSqlDatabase &db) : dbMain(db) {}
 
-    void Migrate(const QString, QSqlDatabase *);
+    void Migrate(const QString);
     void compareTables(void);
 
     QString generateSQL(Table &);
     bool createTables();
 
-
 private:
     void loadTablesFromFile(const QString &);
 
-    QSqlDatabase *dbMain;
+    QSqlDatabase &dbMain;
     QList<Table> Tables;
 };
 
