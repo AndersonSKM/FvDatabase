@@ -21,6 +21,7 @@ DatabaseConfig::DatabaseConfig(QWidget *parent) :
     ui->edtUsuario->setText(ini->userName());
     ui->edtSenha->setText(ini->passwd());
     ui->sbPorta->setValue(ini->port());
+    ui->edtDatabase->setText(ini->database());
 }
 
 DatabaseConfig::~DatabaseConfig()
@@ -41,6 +42,7 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setUserName(ui->edtUsuario->text().trimmed());
         ini->setPasswd(ui->edtSenha->text().trimmed());
         ini->setPort(ui->sbPorta->value());
+        ini->setDatabase(ui->edtDatabase->text().trimmed());
         ini->save();
 
         if ( Database::instance()->setConection(ini) )
