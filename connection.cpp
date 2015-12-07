@@ -1,9 +1,8 @@
+#include "connection.h";
 #include <QMessageBox>
 #include <QAbstractButton>
 #include <QPushButton>
 #include <QApplication>
-
-#include "connection.h";
 
 Database* Database::m_instance = NULL;
 
