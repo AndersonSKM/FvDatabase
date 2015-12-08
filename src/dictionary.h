@@ -5,7 +5,7 @@
 #include <QVariant>
 #include <QSqlDatabase>
 
-#include <dictxml.h>
+#include "dictxml.h"
 
 enum DataTypes {
     ftInteger,
@@ -59,7 +59,7 @@ private:
 class Dictionary
 {
 public:
-    explicit Dictionary(QSqlDatabase &db) : dbMain(db) {}
+    explicit Dictionary() {}
 
     void Migrate(const QString);
     void compareTables(void);
@@ -70,7 +70,6 @@ public:
 private:
     void loadTablesFromFile(const QString &);
 
-    QSqlDatabase &dbMain;
     QList<Table> Tables;
 };
 

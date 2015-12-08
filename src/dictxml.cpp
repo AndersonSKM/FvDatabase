@@ -1,8 +1,9 @@
 #include <QFile>
 #include <QVariant>
 #include <QDebug>
-#include <dictionary.h>
 
+
+#include "dictionary.h"
 #include "dictxml.h"
 
 DictXML::DictXML()
@@ -87,8 +88,6 @@ Table DictXML::LoadTable(const QString aName)
             f.setDefaultValue(getFieldPropertyByName(fieldName, "DEFAULT") );
 
             tb.fields.append(f);
-
-            qDebug() << type;
         }
     }
     return tb;

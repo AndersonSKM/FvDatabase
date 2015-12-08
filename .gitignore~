@@ -9,8 +9,7 @@ Desktop.ini
 $RECYCLE.BIN/
 
 *.pro.user
-/bin/debug/*.*
-/bin/release/*.*
+/Build
 
 # Windows Installer files
 *.cab

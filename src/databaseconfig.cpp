@@ -5,7 +5,7 @@
 
 #include "databaseconfig.h"
 #include "ui_databaseconfig.h"
-#include "tools/tools.h"
+#include "lib/tools.h"
 #include "dictxml.h"
 #include "inifile.h"
 #include "connection.h"
@@ -35,6 +35,8 @@ void DatabaseConfig::on_btnOk_clicked()
         Menssage("Preencha o campo Servidor !");
     else if (ui->edtUsuario->text().isEmpty())
         Menssage("Preencha o campo Usuário !");
+    else if (ui->edtDatabase->text().isEmpty())
+        Menssage("Preencha o campo Banco de Dados !");
     else
     {
         ini->setDriverType(mysql);
@@ -45,9 +47,10 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->setDatabase(ui->edtDatabase->text().trimmed());
         ini->save();
 
-        if ( Database::instance()->setConection(ini) )
+        Database data;
+        if ( data.setConection(ini) )
         {
-            Dictionary d(Database::instance()->m_db);
+            Dictionary d;
             d.Migrate(":/Migrations/note.xml");
         }
      }

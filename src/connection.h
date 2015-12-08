@@ -12,18 +12,21 @@ class Database : public QWidget
 {
     Q_OBJECT
 public:
-    static Database* instance();
+    Database();
+    ~Database();
+
     bool setConection(IniFile *parameters);
-    bool databaseError(void);
-    QSqlDatabase m_db;
+    bool databaseError(QString erro);
+    bool static commit();
+    bool static transaction();
+    bool static rollBack();
+    QSqlDatabase static DB();
 signals:
 
 public slots:
 
 private:
-    Database();
-    ~Database();
-    static Database* m_instance;
+
 };
 
 

@@ -4,8 +4,8 @@
 #include <QVariant>
 #include <QDomDocument>
 
-#include "tools/tools.h"
-#include <dictionary.h>
+#include "lib/tools.h"
+#include "dictionary.h"
 
 class Table;
 

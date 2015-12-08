@@ -27,7 +27,7 @@
      <string>MySQL </string>
     </property>
     <property name="icon">
-     <iconset resource="resources/Resources.qrc">
+     <iconset resource="../resources/Resources.qrc">
       <normaloff>:/icons/1444503647_mysql-2048-black.png</normaloff>:/icons/1444503647_mysql-2048-black.png</iconset>
     </property>
    </item>
@@ -189,7 +189,7 @@
     <string>Abrir</string>
    </property>
    <property name="icon">
-    <iconset resource="resources/Resources.qrc">
+    <iconset resource="../resources/Resources.qrc">
      <normaloff>:/icons/Ok.png</normaloff>:/icons/Ok.png</iconset>
    </property>
   </widget>
@@ -209,7 +209,7 @@
     <string>Cancelar</string>
    </property>
    <property name="icon">
-    <iconset resource="resources/Resources.qrc">
+    <iconset resource="../resources/Resources.qrc">
      <normaloff>:/icons/Cancel.png</normaloff>:/icons/Cancel.png</iconset>
    </property>
   </widget>
@@ -223,7 +223,7 @@
     </rect>
    </property>
    <property name="echoMode">
-    <enum>QLineEdit::PasswordEchoOnEdit</enum>
+    <enum>QLineEdit::Normal</enum>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -248,7 +248,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="resources/Resources.qrc"/>
+  <include location="../resources/Resources.qrc"/>
  </resources>
  <connections/>
 </ui>

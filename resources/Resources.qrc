@@ -1,15 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>assets/projectIcon--128.png</file>
-        <file>assets/projectIcon--16.png</file>
-        <file>assets/projectIcon--32.png</file>
-        <file>assets/projectIcon--64.png</file>
         <file>icons/1444503647_mysql-2048-black.png</file>
         <file>icons/Cancel.png</file>
         <file>icons/ClientAdd.png</file>
-        <file>icons/edit.png</file>
         <file>icons/edit_add.png</file>
         <file>icons/edit_remove.png</file>
+        <file>icons/edit.png</file>
         <file>icons/kdmconfig.png</file>
         <file>icons/LogOut.png</file>
         <file>icons/Ok.png</file>

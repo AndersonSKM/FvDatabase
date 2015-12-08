@@ -1,7 +1,5 @@
-#include <connection.h>
+#include "connection.h"
 #include "dictionary.h"
-
-
 
 void Dictionary::Migrate(const QString xmlPath)
 {
@@ -12,23 +10,21 @@ void Dictionary::Migrate(const QString xmlPath)
 
 void Dictionary::compareTables()
 {
-    QSqlQuery query(dbMain);
+    QSqlQuery query( Database::DB() );
+
     for (int i = 0; i != Tables.count(); i++)
     {
         Table table = Tables.at(i);
-        if ( !dbMain.tables().contains( table.name() ) )
+        if ( !Database::DB().tables().contains( table.name() ) )
         {
-            dbMain.transaction();
+            //Database::transaction();
             if ( query.exec( generateSQL(table) ) )
             {
-                dbMain.commit();
+                //Database::commit();
                 qDebug() << "[Criando tabela " << table.name() << "]";
             }
             else
-            {
-                dbMain.rollback();
-                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << dbMain.lastError().text() << "]";
-            }
+               qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << Database::DB().lastError().text() << "]";
         }
     }
 }
@@ -112,7 +108,7 @@ QString Dictionary::generateSQL(Table &table)
 
 bool Dictionary::createTables()
 {
-    Database::instance()->m_db.transaction();
+    Database::transaction();
     qDebug() << "[Iniciando criacao de tabelas]";
 
     QSqlQuery *query = new QSqlQuery;
@@ -120,14 +116,14 @@ bool Dictionary::createTables()
     for (int i = 0; i != Tables.count(); i++)
     {
         Table table = Tables.at(i);
-        if (!Database::instance()->m_db.tables().contains(table.name()))
+        if (Database::DB().tables().contains(table.name()))
         {
             query->exec(generateSQL(table));
             qDebug() << "[Criando tabela "+table.name()+"]";
         }
     }
 
-    Database::instance()->m_db.commit();
+    Database::commit();
     qDebug() << "[Finalizado criacao de tabelas]";
 return true;
 }
