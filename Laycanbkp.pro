@@ -11,6 +11,8 @@ QT += gui
 TEMPLATE = app
 TARGET = Laycan
 
+CONFIG += debug_and_release
+
 INCLUDEPATH += .
 
 # Input
@@ -21,11 +23,9 @@ HEADERS += lib/SQL.h \
            src/dictionary.h \
            src/dictxml.h \
            src/inifile.h \
-           src/ui_databaseconfig.h \
-           src/migrationprogress.h
+           src/ui_databaseconfig.h
 
-FORMS += src/databaseconfig.ui \
-         src/migrationprogress.ui
+FORMS += src/databaseconfig.ui
 
 SOURCES += lib/SQL.cpp \
            lib/tools.cpp \
@@ -34,25 +34,26 @@ SOURCES += lib/SQL.cpp \
            src/dictionary.cpp \
            src/dictxml.cpp \
            src/inifile.cpp \
-           src/main.cpp \
-           src/migrationprogress.cpp
+           src/main.cpp
 
 RESOURCES += resources/Resources.qrc
 
 OTHER_FILES += .gitignore
 
-debug {
-    DESTDIR = bin/debug
-}
-
 release {
     DESTDIR = bin/release
+    OBJECTS_DIR = bin/release/.obj
+    MOC_DIR = bin/release/.moc
+    RCC_DIR = bin/release/.rcc
+    UI_DIR = bin/release/.ui
 }
 
-OBJECTS_DIR = $$DESTDIR/.obj
-MOC_DIR = $$DESTDIR/.moc
-RCC_DIR = $$DESTDIR/.qrc
-UI_DIR = $$DESTDIR/.u
-
+debug {
+    DESTDIR = bin/debug
+    OBJECTS_DIR = bin/debug/.obj
+    MOC_DIR = bin/debug/.moc
+    RCC_DIR = bin/debug/.rcc
+    UI_DIR = bin/debug/.ui
+}
 
 

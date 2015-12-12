@@ -1,11 +1,13 @@
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
+#include <QDialog>
 #include <QList>
 #include <QVariant>
 #include <QSqlDatabase>
 
 #include "dictxml.h"
+#include "migrationprogress.h"
 
 enum DataTypes {
     ftInteger,
@@ -59,7 +61,8 @@ private:
 class Dictionary
 {
 public:
-    explicit Dictionary() {}
+    explicit Dictionary();
+    ~Dictionary();
 
     void Migrate(const QString);
     void compareTables(void);
@@ -68,6 +71,7 @@ public:
     bool createTables();
 
 private:
+    MigrationProgress *dlg;
     void loadTablesFromFile(const QString &);
 
     QList<Table> Tables;

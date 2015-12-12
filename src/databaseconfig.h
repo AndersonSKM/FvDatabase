@@ -1,7 +1,7 @@
 #ifndef DATABASECONFIG_H
 #define DATABASECONFIG_H
 
-#include <QDialog>
+#include <QMessageBox>
 #include <QDomElement>
 
 #include "inifile.h"

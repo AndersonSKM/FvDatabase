@@ -1,5 +1,17 @@
+#include <QDialog>
+
 #include "connection.h"
 #include "dictionary.h"
+
+Dictionary::Dictionary()
+{
+    dlg = new MigrationProgress();
+}
+
+Dictionary::~Dictionary()
+{
+    delete dlg;
+}
 
 void Dictionary::Migrate(const QString xmlPath)
 {
@@ -10,23 +22,37 @@ void Dictionary::Migrate(const QString xmlPath)
 
 void Dictionary::compareTables()
 {
-    QSqlQuery query( Database::DB() );
 
+    dlg->show();
+
+    QSqlQuery query;
+
+    int CreatedTables = 0;
+
+    qDebug() << "[Verificando Lista de Tabelas....]";
     for (int i = 0; i != Tables.count(); i++)
     {
         Table table = Tables.at(i);
-        if ( !Database::DB().tables().contains( table.name() ) )
+        if ( !QSqlDatabase::database().tables().contains( table.name() ) )
         {
-            //Database::transaction();
-            if ( query.exec( generateSQL(table) ) )
+            QSqlDatabase::database().transaction();
+
+            if (query.exec(generateSQL(table)))
             {
-                //Database::commit();
+                QSqlDatabase::database().commit();
                 qDebug() << "[Criando tabela " << table.name() << "]";
+                CreatedTables++;
             }
             else
-               qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << Database::DB().lastError().text() << "]";
+            {
+                QSqlDatabase::database().rollback();
+                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << QSqlDatabase::database().lastError().text() << "]";
+            }
         }
     }
+    qDebug() << "[Finalizando Verificação de Tabelas....]";
+    qDebug() << "[Tabelas verificadas: " << Tables.count() << "]";
+    qDebug() << "[Tabelas criadas: " << CreatedTables << "]";
 }
 
 void Dictionary::loadTablesFromFile(const QString &filePath)
@@ -36,6 +62,7 @@ void Dictionary::loadTablesFromFile(const QString &filePath)
 
     QDomNodeList tablesNodes = dici.InitXML(dici.filePath,"Table");
 
+    qDebug() << "[Carregando tabelas do arquivo " << filePath << "]";
     for (int i = 0; i != tablesNodes.count(); i++)
     {
         QDomNode tableNode = tablesNodes.at(i);
@@ -104,28 +131,6 @@ QString Dictionary::generateSQL(Table &table)
     SQL += ");";
 
     return SQL;
-}
-
-bool Dictionary::createTables()
-{
-    Database::transaction();
-    qDebug() << "[Iniciando criacao de tabelas]";
-
-    QSqlQuery *query = new QSqlQuery;
-
-    for (int i = 0; i != Tables.count(); i++)
-    {
-        Table table = Tables.at(i);
-        if (Database::DB().tables().contains(table.name()))
-        {
-            query->exec(generateSQL(table));
-            qDebug() << "[Criando tabela "+table.name()+"]";
-        }
-    }
-
-    Database::commit();
-    qDebug() << "[Finalizado criacao de tabelas]";
-return true;
 }
 
 // ** Table class implementation **

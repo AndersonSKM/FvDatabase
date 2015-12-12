@@ -1,7 +1,5 @@
 #include <QDir>
 #include <QtXml>
-#include <QFileDialog>
-#include <iostream>
 
 #include "databaseconfig.h"
 #include "ui_databaseconfig.h"
@@ -54,6 +52,7 @@ void DatabaseConfig::on_btnOk_clicked()
             d.Migrate(":/Migrations/note.xml");
         }
      }
+
 }
 
 void DatabaseConfig::on_btnCancel_clicked()

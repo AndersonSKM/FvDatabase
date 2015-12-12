@@ -44,7 +44,7 @@ bool Database::setConection(IniFile *parameters)
    qDebug() << "[Iniciando conexao]";
 
    //Cria conexao apartir dos dados passados
-   QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+   db = QSqlDatabase::addDatabase("QMYSQL");
    db.setHostName( parameters->server() );
    db.setUserName( parameters->userName()) ;
    db.setPassword( parameters->passwd() );
@@ -61,24 +61,4 @@ bool Database::setConection(IniFile *parameters)
 
    qDebug() << "[Conexao estabelecida com o banco " << db.databaseName() << "]";
    return true;
-}
-
-bool Database::commit()
-{
-    return QSqlDatabase::database("QMYSQL").commit();
-}
-
-bool Database::transaction()
-{
-    return QSqlDatabase::database("QMYSQL").transaction();
-}
-
-bool Database::rollBack()
-{
-    return QSqlDatabase::database("QMYSQL").rollback();
-}
-
-QSqlDatabase Database::DB()
-{
-   return QSqlDatabase::database("QMYSQL");
 }

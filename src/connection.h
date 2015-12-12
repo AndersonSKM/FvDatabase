@@ -17,16 +17,12 @@ public:
 
     bool setConection(IniFile *parameters);
     bool databaseError(QString erro);
-    bool static commit();
-    bool static transaction();
-    bool static rollBack();
-    QSqlDatabase static DB();
 signals:
 
 public slots:
 
 private:
-
+   QSqlDatabase db;
 };
 
 

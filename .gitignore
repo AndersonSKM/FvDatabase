@@ -9,8 +9,8 @@ Desktop.ini
 $RECYCLE.BIN/
 
 *.pro.user
-/bin/debug/*.*
-/bin/release/*.*
+
+bin/
 
 # Windows Installer files
 *.cab
@@ -46,3 +46,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.o
+
+bin/Release/Makefile
+
+bin/Debug/Makefile

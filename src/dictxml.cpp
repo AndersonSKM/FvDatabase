@@ -2,7 +2,6 @@
 #include <QVariant>
 #include <QDebug>
 
-
 #include "dictionary.h"
 #include "dictxml.h"
 
@@ -101,15 +100,12 @@ QDomNodeList DictXML::InitXML(const QString filePath, const QString nodeName = "
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         Menssage("Erro ao abrir arquivo XML");
 
-    qDebug() << "[Carregando arquivo " << filePath << "]";
-
     if (!doc.setContent(&file)) {
         file.close();
         Menssage("Erro ao setar XML");
     }
 
     file.close();
-    qDebug() << "[Fechando arquivo]";
 
     QDomElement root = doc.firstChildElement();
     return root.elementsByTagName(nodeName);

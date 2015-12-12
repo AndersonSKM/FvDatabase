@@ -1,6 +1,8 @@
-#include "databaseconfig.h"
 #include <QApplication>
 #include <QDir>
+#include <QDebug>
+
+#include "databaseconfig.h"
 
 int main(int argc, char *argv[])
 {
