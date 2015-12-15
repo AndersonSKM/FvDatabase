@@ -13,10 +13,7 @@ class DictXML
 {
 public:
     DictXML();
-    QDomNodeList InitXML(const QString filePath, const QString nodeName);
-    QVariant getFieldPropertyByName(const QString aName, const QString aProperty);
-    QVariant getTablePropertyByName(const QString aName, const QString aProperty);
-
+    QDomDocument InitXML(const QString filePath);
     Table LoadTable(const QString aName);
     
     void setFilePath(const QString);

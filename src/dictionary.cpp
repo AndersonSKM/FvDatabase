@@ -1,38 +1,49 @@
 #include <QDialog>
+#include <QApplication>
+#include <QtGlobal>
 
 #include "connection.h"
 #include "dictionary.h"
 
 Dictionary::Dictionary()
 {
-    dlg = new MigrationProgress();
+
 }
 
 Dictionary::~Dictionary()
 {
-    delete dlg;
+
 }
 
 void Dictionary::Migrate(const QString xmlPath)
 {
     loadTablesFromFile(xmlPath);
-
     compareTables();
 }
 
 void Dictionary::compareTables()
 {
-
+    dlg = new MigrationProgress();
+    dlg->setWindowFlags( Qt::CustomizeWindowHint );
     dlg->show();
 
     QSqlQuery query;
 
     int CreatedTables = 0;
+    int progress = round(Tables.count()/100);
+    int value = 0;
+
+    dlg->setMaximum(progress*Tables.count());
 
     qDebug() << "[Verificando Lista de Tabelas....]";
+
     for (int i = 0; i != Tables.count(); i++)
-    {
+    {   
         Table table = Tables.at(i);
+
+        dlg->setStatus("Verificando tabela: "+table.name());
+        dlg->update();
+
         if ( !QSqlDatabase::database().tables().contains( table.name() ) )
         {
             QSqlDatabase::database().transaction();
@@ -41,6 +52,7 @@ void Dictionary::compareTables()
             {
                 QSqlDatabase::database().commit();
                 qDebug() << "[Criando tabela " << table.name() << "]";
+                dlg->setStatus("Criando tabela: "+table.name(),"red");
                 CreatedTables++;
             }
             else
@@ -49,10 +61,17 @@ void Dictionary::compareTables()
                 qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << QSqlDatabase::database().lastError().text() << "]";
             }
         }
+
+        dlg->setProgress(value += progress);
+
+        QApplication::processEvents();
+        dlg->update();
     }
     qDebug() << "[Finalizando Verificação de Tabelas....]";
     qDebug() << "[Tabelas verificadas: " << Tables.count() << "]";
     qDebug() << "[Tabelas criadas: " << CreatedTables << "]";
+
+    delete dlg;
 }
 
 void Dictionary::loadTablesFromFile(const QString &filePath)
@@ -60,16 +79,18 @@ void Dictionary::loadTablesFromFile(const QString &filePath)
     DictXML dici;
     dici.setFilePath(filePath);
 
-    QDomNodeList tablesNodes = dici.InitXML(dici.filePath,"Table");
+    QDomDocument doc = dici.InitXML(dici.filePath);
+    QDomNodeList root = doc.elementsByTagName("Table");
 
     qDebug() << "[Carregando tabelas do arquivo " << filePath << "]";
-    for (int i = 0; i != tablesNodes.count(); i++)
+
+    for (int i = 0; i != root.count(); i++)
     {
-        QDomNode tableNode = tablesNodes.at(i);
+        QDomNode tableNode = root.at(i);
         if (tableNode.isElement())
         {
             QDomElement tableElement = tableNode.toElement();
-            Tables.append( dici.LoadTable(tableElement.attribute("Name").toUpper()) );
+            Tables.append( dici.LoadTable(tableElement.attribute("Name")) );
         }
     }
 }

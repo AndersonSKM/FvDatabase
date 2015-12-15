@@ -49,6 +49,7 @@ void DatabaseConfig::on_btnOk_clicked()
         if ( data.setConection(ini) )
         {
             Dictionary d;
+            this->hide();
             d.Migrate(":/Migrations/note.xml");
         }
      }

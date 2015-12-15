@@ -71,8 +71,8 @@ public:
     bool createTables();
 
 private:
-    MigrationProgress *dlg;
     void loadTablesFromFile(const QString &);
+    MigrationProgress *dlg;
 
     QList<Table> Tables;
 };

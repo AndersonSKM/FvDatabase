@@ -15,84 +15,56 @@ void DictXML::setFilePath(const QString path)
     filePath = path;
 }
 
-QVariant DictXML::getFieldPropertyByName(const QString aName, const QString aProperty)
-{
-    QDomNodeList fieldNodes = InitXML(filePath,"Field");
-
-    for (int i = 0; i != fieldNodes.count(); i++)
-    {
-        QDomNode tableNode = fieldNodes.at(i);
-        if (tableNode.isElement())
-        {
-            QDomElement fieldElement = tableNode.toElement();
-            if (fieldElement.attribute("Name").toUpper() == aName.toUpper())
-            {
-                return fieldElement.attribute(aProperty);
-                break;
-            }
-        }
-    }
-    return 0;
-}
-
-QVariant DictXML::getTablePropertyByName(const QString aName, const QString aProperty)
-{
-    QDomNodeList tablesNodes = InitXML(filePath,"Table");
-
-    for (int i = 0; i != tablesNodes.count(); i++)
-    {
-        QDomNode tableNode = tablesNodes.at(i);
-        if (tableNode.isElement())
-        {
-            QDomElement tableElement = tableNode.toElement();
-            if (tableElement.attribute("Name").toUpper() == aName.toUpper())
-            {
-                return tableElement.attribute(aProperty);
-                break;
-            }
-        }
-    }
-    return 0;
-}
-
 Table DictXML::LoadTable(const QString aName)
 {
     Table tb;
     tb.setName(aName);
 
-    QDomNodeList fieldsNodes = InitXML(filePath,"Field");
+    QDomDocument doc = InitXML(filePath);
+    QDomNodeList root = doc.elementsByTagName("Table");
 
-    for (int i = 0; i != fieldsNodes.count(); i++)
+    for (int i = 0; i != root.count(); i++)
     {
-        QDomNode fieldNode = fieldsNodes.at(i);
-        if (fieldNode.isElement())
+        QDomNode tableNode = root.at(i);
+        if (tableNode.isElement())
         {
-            QDomElement fieldElement = fieldNode.toElement();
+            QDomElement tableElement = tableNode.toElement();
+            if (tableElement.attribute("Name") == aName)
+            {
+                QDomNodeList fieldsNodes = tableNode.childNodes();
+                for (int i = 0; i != fieldsNodes.count(); i++)
+                {
+                    QDomNode fieldNode = fieldsNodes.at(i);
+                    if (fieldNode.isElement())
+                    {
+                        QDomElement fieldElement = fieldNode.toElement();
 
-            Fields f;
-            QString fieldName = fieldElement.attribute("Name");
-            QString type = getFieldPropertyByName(fieldName, "Type").toString();
+                        Fields f;
+                        f.setName(fieldElement.attribute("Name"));
 
-            f.setName(fieldName);
+                        QString type = fieldElement.attribute("Type");
+                        if (type.toUpper() == "INTEGER")
+                            f.setType(ftInteger);
+                        else if (type.toUpper() == "VARCHAR")
+                            f.setType(ftVarchar);
+                        else if (type.toUpper() == "BOOLEAN")
+                            f.setType(ftBoolean);
 
-            if (type.toUpper() == "INTEGER")
-                f.setType(ftInteger);
-            else if (type.toUpper() == "VARCHAR")
-                f.setType(ftVarchar);
-            else if (type.toUpper() == "BOOLEAN")
-                f.setType(ftBoolean);
+                        f.setSize(fieldElement.attribute("Size").toInt());
+                        f.setPrimaryKey(fieldElement.attribute("Pk").toInt());
+                        f.setDefaultValue(fieldElement.attribute("DEFAULT"));
 
-            f.setSize( getFieldPropertyByName(fieldName, "Size").toInt() );
-            f.setPrimaryKey( getFieldPropertyByName(fieldName, "Pk").toBool() );
-            f.setDefaultValue(getFieldPropertyByName(fieldName, "DEFAULT") );
-
-            tb.fields.append(f);
+                        tb.fields.append(f);
+                    }
+                }
+            }
         }
     }
+
     return tb;
 }
 
-QDomNodeList DictXML::InitXML(const QString filePath, const QString nodeName = "Tables")
+QDomDocument DictXML::InitXML(const QString filePath)
 {
     QDomDocument doc;
 
@@ -107,7 +79,6 @@ QDomNodeList DictXML::InitXML(const QString filePath, const QString nodeName = "
 
     file.close();
 
-    QDomElement root = doc.firstChildElement();
-    return root.elementsByTagName(nodeName);
+    return doc;
 }
 

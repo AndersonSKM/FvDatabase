@@ -50,3 +50,5 @@ Temporary Items
 bin/Release/Makefile
 
 bin/Debug/Makefile
+
+resources/Migrations/note1.xml

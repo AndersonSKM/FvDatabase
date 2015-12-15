@@ -679,10 +679,8 @@ bin/release/.moc/moc_databaseconfig.cpp: ../../Qt5.5.0/5.5/clang_64/lib/QtWidget
 		src/databaseconfig.h
 	/Users/Anderson/Qt5.5.0/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/Anderson/Qt5.5.0/5.5/clang_64/mkspecs/macx-clang -I/Users/Anderson/Worksapce/Laycan -I/Users/Anderson/Worksapce/Laycan -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtSql.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtXml.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers -F/Users/Anderson/Qt5.5.0/5.5/clang_64/lib src/databaseconfig.h -o bin/release/.moc/moc_databaseconfig.cpp
 
-bin/release/.moc/moc_migrationprogress.cpp: ../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/QShowEvent \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/qevent.h \
+bin/release/.moc/moc_migrationprogress.cpp: ../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		src/migrationprogress.h
 	/Users/Anderson/Qt5.5.0/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/Anderson/Qt5.5.0/5.5/clang_64/mkspecs/macx-clang -I/Users/Anderson/Worksapce/Laycan -I/Users/Anderson/Worksapce/Laycan -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtSql.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtXml.framework/Headers -I/Users/Anderson/Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers -F/Users/Anderson/Qt5.5.0/5.5/clang_64/lib src/migrationprogress.h -o bin/release/.moc/moc_migrationprogress.cpp
 
@@ -908,7 +906,8 @@ bin/release/.obj/databaseconfig.o: src/databaseconfig.cpp ../../Qt5.5.0/5.5/clan
 		../../Qt5.5.0/5.5/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
 		../../Qt5.5.0/5.5/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		src/migrationprogress.h \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/QShowEvent \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		src/connection.h \
 		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
@@ -933,6 +932,10 @@ bin/release/.obj/databaseconfig.o: src/databaseconfig.cpp ../../Qt5.5.0/5.5/clan
 
 bin/release/.obj/dictionary.o: src/dictionary.cpp ../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QDialog \
 		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QApplication \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers/QtGlobal \
+		../../Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers/qglobal.h \
 		src/connection.h \
 		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
@@ -970,8 +973,8 @@ bin/release/.obj/dictionary.o: src/dictionary.cpp ../../Qt5.5.0/5.5/clang_64/lib
 		../../Qt5.5.0/5.5/clang_64/lib/QtXml.framework/Headers/qdom.h \
 		lib/tools.h \
 		src/migrationprogress.h \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/QShowEvent \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/qevent.h
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/release/.obj/dictionary.o src/dictionary.cpp
 
 bin/release/.obj/dictxml.o: src/dictxml.cpp ../../Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers/QFile \
@@ -994,8 +997,8 @@ bin/release/.obj/dictxml.o: src/dictxml.cpp ../../Qt5.5.0/5.5/clang_64/lib/QtCor
 		../../Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers/QString \
 		../../Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		src/migrationprogress.h \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/QShowEvent \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/qevent.h
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/release/.obj/dictxml.o src/dictxml.cpp
 
 bin/release/.obj/inifile.o: src/inifile.cpp ../../Qt5.5.0/5.5/clang_64/lib/QtCore.framework/Headers/QDir \
@@ -1026,10 +1029,8 @@ bin/release/.obj/main.o: src/main.cpp ../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.f
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/release/.obj/main.o src/main.cpp
 
 bin/release/.obj/migrationprogress.o: src/migrationprogress.cpp src/migrationprogress.h \
-		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/QShowEvent \
-		../../Qt5.5.0/5.5/clang_64/lib/QtGui.framework/Headers/qevent.h \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../Qt5.5.0/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		bin/release/.u/ui_migrationprogress.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/release/.obj/migrationprogress.o src/migrationprogress.cpp
 
