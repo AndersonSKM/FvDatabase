@@ -70,11 +70,14 @@ public:
     QString generateSQL(Table &);
     bool createTables();
 
+    void setProgressVisible(bool visible);
+    bool progressVisible(void);
 private:
     void loadTablesFromFile(const QString &);
     MigrationProgress *dlg;
 
     QList<Table> Tables;
+    bool m_progressVisible;
 };
 
 #endif // DICTIONARY_H

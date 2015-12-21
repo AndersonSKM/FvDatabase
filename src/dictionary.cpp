@@ -7,7 +7,7 @@
 
 Dictionary::Dictionary()
 {
-
+    m_progressVisible = true;
 }
 
 Dictionary::~Dictionary()
@@ -21,11 +21,23 @@ void Dictionary::Migrate(const QString xmlPath)
     compareTables();
 }
 
+void Dictionary::setProgressVisible(bool visible)
+{
+    m_progressVisible = visible;
+}
+
+bool Dictionary::progressVisible(void)
+{
+    return m_progressVisible;
+}
+
 void Dictionary::compareTables()
 {
     dlg = new MigrationProgress();
     dlg->setWindowFlags( Qt::CustomizeWindowHint );
-    dlg->show();
+
+    if (progressVisible())
+        dlg->show();
 
     QSqlQuery query;
 

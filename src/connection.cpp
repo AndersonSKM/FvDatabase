@@ -22,18 +22,15 @@ bool Database::databaseError(QString erro)
 {
     const QString errorMessage = "O sistema não consegiu se conectar com o banco de dados"
                                  " por favor verifique-a o erro: "+erro;
-
-    QMessageBox *msgBox = new QMessageBox;
-    QAbstractButton *cancelButton = msgBox->addButton(tr("Cancelar"), QMessageBox::NoRole);
+    QMessageBox *msgBox = new QMessageBox;  
     QAbstractButton *configButton = msgBox->addButton(tr("Configurar Conecxão"), QMessageBox::YesRole);
+    msgBox->addButton(tr("Cancelar"), QMessageBox::NoRole);
     msgBox->setText("Erro ao Conecar a Base de Dados");
     msgBox->setInformativeText(errorMessage);
     msgBox->setIcon(QMessageBox::Critical);
     msgBox->exec();
 
-    if(msgBox->clickedButton() == cancelButton)
-        return false;
-    else if(msgBox->clickedButton() == configButton)
+    if(msgBox->clickedButton() == configButton)
         return true;
 
 return false;
