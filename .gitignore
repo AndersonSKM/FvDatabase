@@ -51,4 +51,8 @@ bin/Release/Makefile
 
 bin/Debug/Makefile
 
+MakeFile
+
+*.sh
+
 resources/Migrations/note1.xml
