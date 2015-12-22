@@ -156,17 +156,16 @@ QString Dictionary::generateSQL(Table &table)
     QString SQL;
     SQL += "CREATE TABLE " + table.name() + "( ";
 
-    for (int i = 0; i != table.fields.count(); i++)
+    for (auto i = table.fields.begin(); i != table.fields.end(); ++i)
     {
-        Fields field = table.fields.at(i);
+        Fields &field = *i;
         SQL += field.toSQL();
         SQL += ",";
     }
 
-    for (int i = 0; i != table.fields.count(); i++)
+    for (auto i = table.fields.begin(); i != table.fields.end(); ++i)
     {
-        Fields field = table.fields.at(i);
-
+        Fields &field = *i;
         if ( field.isPrimaryKey() )
             SQL += "PRIMARY KEY(" + field.name() + ")";
     }
