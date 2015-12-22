@@ -61,17 +61,19 @@ void Dictionary::compareTables()
             QSqlDatabase::database().transaction();
 
             if (query.exec(generateSQL(table)))
-            {
-                QSqlDatabase::database().commit();
+            { 
                 qDebug() << "[Criando tabela " << table.name() << "]";
                 dlg->setStatus("Criando tabela: "+table.name(),"red");
                 CreatedTables++;
             }
             else
-            {
-                QSqlDatabase::database().rollback();
-                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << QSqlDatabase::database().lastError().text() << "]";
-            }
+                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << query.lastError().text() << "]";
+
+            QSqlDatabase::database().commit();
+        }
+        else
+        {
+            compareFields(table);
         }
 
         dlg->setProgress(value += progress);
@@ -84,6 +86,47 @@ void Dictionary::compareTables()
     qDebug() << "[Tabelas criadas: " << CreatedTables << "]";
 
     delete dlg;
+}
+
+void Dictionary::compareFields(Table &table)
+{
+    Fields field;
+    foreach (field, table.fields) {
+        if (!columnExists(table.name(), field.name()))
+        {
+            QSqlQuery q;
+            if (!q.exec(generateAddColumnSQL(table.name(),field)) )
+                qDebug() << "Erro ao adicionar coluna: " << field.name()
+                         << ":" << q.lastError().text()
+                         << " : " << q.lastQuery() ;
+        }
+    }
+}
+
+bool Dictionary::columnExists(QString tableName, QString columnName)
+{
+    /* Verifica se a coluna existe na tabela no banco*/
+    QSqlQuery q;
+    q.prepare("SELECT * "
+              "FROM information_schema.columns "
+              "WHERE table_schema = :dbName "
+              "  AND table_name   = :tbName"
+              "  AND column_name  = :colName");
+    q.bindValue(0,QSqlDatabase::database().databaseName());
+    q.bindValue(1,tableName);
+    q.bindValue(2,columnName);
+    q.exec();
+
+    if (q.next()) return true;
+
+    return false;
+}
+
+QString Dictionary::generateAddColumnSQL(QString tableName, Fields field)
+{
+    QString SQL = "ALTER TABLE " + tableName +
+                  " ADD "+ field.toSQL();
+    return SQL;
 }
 
 void Dictionary::loadTablesFromFile(const QString &filePath)
@@ -107,7 +150,6 @@ void Dictionary::loadTablesFromFile(const QString &filePath)
     }
 }
 
-
 QString Dictionary::generateSQL(Table &table)
 {
     //Gera o SQL create da tabela passada como parametro *
@@ -117,39 +159,7 @@ QString Dictionary::generateSQL(Table &table)
     for (int i = 0; i != table.fields.count(); i++)
     {
         Fields field = table.fields.at(i);
-        SQL += field.name() + " ";
-
-        switch (field.type())
-        {
-            case ftInteger:
-                SQL += "INT ";
-                break;
-
-            case ftVarchar:
-                SQL += "VARCHAR(" + QString::number(field.size()) + ") ";
-                break;
-
-            case ftBoolean:
-                SQL += "BOOLEAN ";
-                break;
-
-            case ftDateTime:
-                SQL += "DATETIME ";
-                break;
-
-            case ftFloat:
-                SQL += "FLOAT ";
-                break;
-
-            default:
-                SQL += "VARCHAR(" + QString::number(field.size()) + ") ";
-                break;
-        }
-
-        SQL +=  "NULL ";
-
-        field.defaultValue() == "" ? SQL += "NULL" : SQL += field.defaultValue().toString();
-
+        SQL += field.toSQL();
         SQL += ",";
     }
 
@@ -192,6 +202,52 @@ Fields::Fields(QString name, DataTypes type, int size, bool pk, QVariant def)
 Fields::~Fields()
 {
 
+}
+
+QString Fields::toSQL(void)
+{
+    QString SQL;
+    SQL += name();
+    SQL += " " + typeToSQL(type());
+    SQL += size() != 0 ? "(" + QString::number(size()) + ")" : "";
+    SQL += " NULL ";
+    SQL += defaultValue() == "" ?  "NULL" : defaultValue().toString();
+
+    return SQL;
+}
+
+QString Fields::typeToSQL(DataTypes type)
+{
+    QString SQL;
+
+    switch (type)
+    {
+        case ftInteger:
+            SQL += "INT";
+            break;
+
+        case ftVarchar:
+            SQL += "VARCHAR";
+            break;
+
+        case ftBoolean:
+            SQL += "BOOLEAN";
+            break;
+
+        case ftDateTime:
+            SQL += "DATETIME";
+            break;
+
+        case ftFloat:
+            SQL += "FLOAT";
+            break;
+
+        default:
+            SQL += "VARCHAR";
+            break;
+    }
+
+    return SQL;
 }
 
 void Fields::setName(QString name)

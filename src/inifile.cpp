@@ -7,6 +7,7 @@
 IniFile::IniFile(QString PATH)
 {
     m_PATH = PATH;
+    m_port = 3306;
 
     if (verifyIniFile())
     {

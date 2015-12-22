@@ -3,14 +3,17 @@
     <Table Name="usuarios0">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
+        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
     </Table>
     <Table Name="usuarios1">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
+        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
     </Table>
     <Table Name="usuarios2">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
+        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
     </Table>
     <Table Name="usuarios3">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
@@ -132,10 +135,6 @@
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
     </Table>
-    <Table Name="usuarios33">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-    </Table>
     <Table Name="usuarios34">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
@@ -169,10 +168,6 @@
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
     </Table>
     <Table Name="usuarios42">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-    </Table>
-    <Table Name="usuarios43">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
     </Table>

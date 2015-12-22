@@ -14,7 +14,7 @@ private:
     QString m_userName;
     QString m_passwd;
     QString m_database;
-    int m_port = 3306;
+    int m_port;
 
     QString m_PATH;
 

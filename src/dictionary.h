@@ -24,6 +24,9 @@ public:
     explicit Fields() {}
     ~Fields();
 
+    QString toSQL(void);
+    QString typeToSQL(DataTypes type);
+
     void setName(QString name);
     void setType(DataTypes type);
     void setSize(int size);
@@ -74,8 +77,14 @@ public:
     bool progressVisible(void);
 private:
     void loadTablesFromFile(const QString &);
-    MigrationProgress *dlg;
+    void compareFields(Table &);
 
+    QString generateAddColumnSQL(QString tableName, Fields field);
+    //QString generateAddColumnSQL(QString &tableName, Fields &field, QList<Fields>);
+
+    bool columnExists(QString tableName, QString columnName);
+
+    MigrationProgress *dlg;
     QList<Table> Tables;
     bool m_progressVisible;
 };

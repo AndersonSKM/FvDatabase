@@ -50,6 +50,7 @@ void DatabaseConfig::on_btnOk_clicked()
         {
             Dictionary d;
             this->hide();
+            d.setProgressVisible(true);
             d.Migrate(":/Migrations/note.xml");
         }
      }
