@@ -49,10 +49,13 @@ Table DictXML::LoadTable(const QString aName)
                             f.setType(ftVarchar);
                         else if (type.toUpper() == "BOOLEAN")
                             f.setType(ftBoolean);
+                        else if (type.toUpper() == "FLOAT")
+                            f.setType(ftFloat);
 
                         f.setSize(fieldElement.attribute("Size").toInt());
                         f.setPrimaryKey(fieldElement.attribute("Pk").toInt());
-                        f.setDefaultValue(fieldElement.attribute("DEFAULT"));
+                        f.setDefaultValue(fieldElement.attribute("Default"));
+                        f.setExtra(fieldElement.attribute("Extra"));
 
                         tb.fields.append(f);
                     }

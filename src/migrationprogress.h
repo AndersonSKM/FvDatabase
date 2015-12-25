@@ -15,12 +15,11 @@ public:
     explicit MigrationProgress(QWidget *parent = 0);
     ~MigrationProgress();
 
+    int progress();
+
     void setProgress(int value);
     void setStatus(QString value, QString color = "blue");
     void setMaximum(int value);
-    void update();
-
-
 private:
     Ui::MigrationProgress *ui;
 };

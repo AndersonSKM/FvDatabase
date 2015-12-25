@@ -20,7 +20,7 @@ enum DataTypes {
 class Fields
 {
 public:
-    explicit Fields(QString name, DataTypes type, int size, bool pk, QVariant def);
+    explicit Fields(QString name, DataTypes type, int size, bool pk, QVariant def, bool autoIncKey);
     explicit Fields() {}
     ~Fields();
 
@@ -32,18 +32,23 @@ public:
     void setSize(int size);
     void setPrimaryKey(bool pk);
     void setDefaultValue(QVariant def);
+    void setExtra(QString extra);
+    void setAutoIncKey(bool autoInc);
 
     QString name(void);
     DataTypes type(void);
     int size(void);
     bool isPrimaryKey(void);
     QVariant defaultValue(void);
+    QString extra(void);
+    bool isAutoIncKey(void);
 private:
     QString f_name;
     DataTypes f_type;
     int f_size;
     bool f_primaryKey;
     QVariant f_defaultValue;
+    QString f_extra;
 };
 
 class Table
@@ -71,10 +76,20 @@ public:
     void compareTables(void);
 
     QString generateSQL(Table &);
-    bool createTables();
+
+    void addTablesChanged(void);
+    void addVerifiedTables(void);
+    void addCreatedTables(void);
 
     void setProgressVisible(bool visible);
+    void setTablesChanged(int count);
+    void setVerifiedTables(int count);
+    void setCreatedTables(int count);
+
     bool progressVisible(void);
+    int tablesChanged(void);
+    int verifiedTables(void);
+    int createTables(void);
 private:
     void loadTablesFromFile(const QString &);
     void compareFields(Table &);
@@ -87,6 +102,9 @@ private:
     MigrationProgress *dlg;
     QList<Table> Tables;
     bool m_progressVisible;
+    int m_tablesChanged;
+    int m_verifiedTables;
+    int m_createdTables;
 };
 
 #endif // DICTIONARY_H

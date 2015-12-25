@@ -8,6 +8,9 @@
 Dictionary::Dictionary()
 {
     m_progressVisible = true;
+    m_tablesChanged = 0;
+    m_verifiedTables = 0;
+    m_createdTables = 0;
 }
 
 Dictionary::~Dictionary()
@@ -26,27 +29,70 @@ void Dictionary::setProgressVisible(bool visible)
     m_progressVisible = visible;
 }
 
-bool Dictionary::progressVisible(void)
+void Dictionary::setTablesChanged(int count)
+{
+    m_tablesChanged = count;
+}
+
+void Dictionary::setVerifiedTables(int count)
+{
+    m_verifiedTables = count;
+}
+
+void Dictionary::setCreatedTables(int count)
+{
+    m_createdTables = count;
+}
+
+bool Dictionary::progressVisible()
 {
     return m_progressVisible;
+}
+
+int Dictionary::tablesChanged()
+{
+    return m_tablesChanged;
+}
+
+int Dictionary::verifiedTables()
+{
+    return m_verifiedTables;
+}
+
+int Dictionary::createTables()
+{
+    return m_createdTables;
+}
+
+void Dictionary::addTablesChanged()
+{
+    m_tablesChanged++;
+}
+
+void Dictionary::addVerifiedTables()
+{
+    m_verifiedTables++;
+}
+
+void Dictionary::addCreatedTables()
+{
+    m_createdTables++;
 }
 
 void Dictionary::compareTables()
 {
     dlg = new MigrationProgress();
     dlg->setWindowFlags( Qt::CustomizeWindowHint );
+    dlg->setMaximum(Tables.count());
 
     if (progressVisible())
         dlg->show();
 
+    setVerifiedTables(0);
+    setCreatedTables(0);
+    setVerifiedTables(0);
+
     QSqlQuery query;
-
-    int CreatedTables = 0;
-    int progress = round(Tables.count()/100);
-    int value = 0;
-
-    dlg->setMaximum(progress*Tables.count());
-
     qDebug() << "[Verificando Lista de Tabelas....]";
 
     for (int i = 0; i != Tables.count(); i++)
@@ -54,7 +100,6 @@ void Dictionary::compareTables()
         Table table = Tables.at(i);
 
         dlg->setStatus("Verificando tabela: "+table.name());
-        dlg->update();
 
         if ( !QSqlDatabase::database().tables().contains( table.name() ) )
         {
@@ -64,10 +109,13 @@ void Dictionary::compareTables()
             { 
                 qDebug() << "[Criando tabela " << table.name() << "]";
                 dlg->setStatus("Criando tabela: "+table.name(),"red");
-                CreatedTables++;
+
+                addCreatedTables();
             }
             else
-                qDebug() << "[Erro ao criar tablela: " << table.name() << "Erro: " << query.lastError().text() << "]";
+                qDebug() << "[Erro ao criar tablela: " << table.name()
+                         << "Erro: " << query.lastError().text()
+                         << " SQL: " << query.lastQuery() << "]";
 
             QSqlDatabase::database().commit();
         }
@@ -76,14 +124,13 @@ void Dictionary::compareTables()
             compareFields(table);
         }
 
-        dlg->setProgress(value += progress);
-
-        QApplication::processEvents();
-        dlg->update();
+        dlg->setProgress(dlg->progress()+1);
+        addVerifiedTables();
     }
     qDebug() << "[Finalizando Verificação de Tabelas....]";
-    qDebug() << "[Tabelas verificadas: " << Tables.count() << "]";
-    qDebug() << "[Tabelas criadas: " << CreatedTables << "]";
+    qDebug() << "[Tabelas verificadas: " << verifiedTables() << "]";
+    qDebug() << "[Tabelas criadas: " << createTables() << "]";
+    qDebug() << "[Tabelas alteradas:" << tablesChanged() << "]";
 
     delete dlg;
 }
@@ -95,14 +142,20 @@ void Dictionary::compareFields(Table &table)
     {
         if (!columnExists(table.name(), field.name()))
         {
-            dlg->setStatus("Alterando tabela: "+table.name(),"red");
+            dlg->setStatus("Alterando tabela: "+table.name(),"green");
+
+            QSqlDatabase::database().transaction();
+
             QSqlQuery q;
             if (!q.exec(generateAddColumnSQL(table.name(),field)) )
             {
                 qDebug() << "Erro ao adicionar coluna: " << field.name()
-                         << ":" << q.lastError().text()
-                         << " : " << q.lastQuery();
+                         << "Erro:" << q.lastError().text()
+                         << "SQL: " << q.lastQuery();
             }
+
+            QSqlDatabase::database().commit();
+            addTablesChanged();
         }
     }
 }
@@ -129,8 +182,7 @@ bool Dictionary::columnExists(QString tableName, QString columnName)
 
 QString Dictionary::generateAddColumnSQL(QString tableName, Fields field)
 {
-    QString SQL = "ALTER TABLE " + tableName +
-                  " ADD "+ field.toSQL();
+    QString SQL = "ALTER TABLE " + tableName + " ADD " + field.toSQL();
     return SQL;
 }
 
@@ -158,8 +210,7 @@ void Dictionary::loadTablesFromFile(const QString &filePath)
 QString Dictionary::generateSQL(Table &table)
 {
     //Gera o SQL create da tabela passada como parametro *
-    QString SQL;
-    SQL += "CREATE TABLE " + table.name() + "( ";
+    QString SQL = "CREATE TABLE " + table.name() + "( ";
 
     for (auto i = table.fields.begin(); i != table.fields.end(); ++i)
     {
@@ -194,13 +245,14 @@ QString Table::name(void)
 
 // ** Fields class implementation **
 
-Fields::Fields(QString name, DataTypes type, int size, bool pk, QVariant def)
+Fields::Fields(QString name, DataTypes type, int size, bool pk, QVariant def, bool autoIncKey)
 {
     f_name = name;
     f_type = type;
     f_size = size;
     f_primaryKey = pk;
     f_defaultValue = def;
+    f_extra = autoIncKey ? "AUTO_INCREMENT" : "";
 }
 
 Fields::~Fields()
@@ -214,17 +266,26 @@ QString Fields::toSQL(void)
     SQL += name();
     SQL += " " + typeToSQL(type());
     SQL += size() != 0 ? "(" + QString::number(size()) + ")" : "";
-    SQL += " NULL ";
 
-    if (! (defaultValue() == "")) {
-        SQL += "DEFAULT ";
+    if (isAutoIncKey())
+    {
+        SQL += " NOT NULL ";
+        SQL += " AUTO_INCREMENT";
+    }
+    else
+    {
+        SQL += " NULL";
+        SQL += " DEFAULT ";
 
-        if (type() == ftVarchar)
-            SQL += "'" + defaultValue().toString() + "'";
+        if (! (defaultValue() == ""))
+        {
+            if (type() == ftVarchar)
+                SQL += "'" + defaultValue().toString() + "'";
+            else
+                SQL += defaultValue().toString();
+        }
         else
-            SQL += defaultValue().toString();
-    } else {
-        SQL += "NULL";
+            SQL += "NULL";
     }
 
     return SQL;
@@ -232,36 +293,27 @@ QString Fields::toSQL(void)
 
 QString Fields::typeToSQL(DataTypes type)
 {
-    QString SQL;
-
     switch (type)
     {
         case ftInteger:
-            SQL += "INT";
-            break;
+            return "INT";
 
         case ftVarchar:
-            SQL += "VARCHAR";
-            break;
+            return "VARCHAR";
 
         case ftBoolean:
-            SQL += "BOOLEAN";
-            break;
+            return "BOOLEAN";
 
         case ftDateTime:
-            SQL += "DATETIME";
-            break;
+            return "DATETIME";
 
         case ftFloat:
-            SQL += "FLOAT";
-            break;
+            return "FLOAT";
 
         default:
-            SQL += "VARCHAR";
-            break;
-    }
+            return "VARCHAR";
 
-    return SQL;
+    }
 }
 
 void Fields::setName(QString name)
@@ -289,6 +341,16 @@ void Fields::setDefaultValue(QVariant def)
     f_defaultValue = def;
 }
 
+void Fields::setExtra(QString extra)
+{
+    f_extra = extra;
+}
+
+void Fields::setAutoIncKey(bool autoInc)
+{
+    f_extra = autoInc ? "AUTO_INCREMENT" : "";
+}
+
 QString Fields::name(void)
 {
     return f_name;
@@ -312,4 +374,14 @@ bool Fields::isPrimaryKey(void)
 QVariant Fields::defaultValue(void)
 {
     return f_defaultValue;
+}
+
+QString Fields::extra(void)
+{
+    return f_extra;
+}
+
+bool Fields::isAutoIncKey(void)
+{
+    return (f_extra.toUpper().trimmed() == "AUTO_INCREMENT");
 }

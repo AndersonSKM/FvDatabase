@@ -18,6 +18,8 @@ MigrationProgress::~MigrationProgress()
 void MigrationProgress::setProgress(int value)
 {
     ui->progressBar->setValue(value);
+    ui->progressBar->update();
+    QApplication::processEvents();
 }
 
 void MigrationProgress::setMaximum(int value)
@@ -28,10 +30,11 @@ void MigrationProgress::setMaximum(int value)
 void MigrationProgress::setStatus(QString value, QString color)
 {
     ui->lbStatus->setText("<font color='"+color+"'>"+value+"</font>");
+    ui->label->update();
+    QApplication::processEvents();
 }
 
-void MigrationProgress::update()
+int MigrationProgress::progress()
 {
-    ui->progressBar->update();
-    ui->label->update();
+    return ui->progressBar->value();
 }
