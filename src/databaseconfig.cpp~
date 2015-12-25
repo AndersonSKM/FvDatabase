@@ -35,7 +35,8 @@ void DatabaseConfig::on_btnOk_clicked()
         Menssage("Preencha o campo Usuário !");
     else if (ui->edtDatabase->text().isEmpty())
         Menssage("Preencha o campo Banco de Dados !");
-    else {
+    else
+    {
         ini->setDriverType(mysql);
         ini->setServer(ui->edtServer->text().trimmed());
         ini->setUserName(ui->edtUsuario->text().trimmed());
@@ -45,13 +46,14 @@ void DatabaseConfig::on_btnOk_clicked()
         ini->save();
 
         Database data;
-        if ( data.setConection(ini) ) {
+        if ( data.setConection(ini) )
+        {
             Dictionary d;
             this->hide();
             d.setProgressVisible(true);
             d.Migrate(":/Migrations/note.xml");
         }
-    }
+     }
 
 }
 

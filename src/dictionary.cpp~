@@ -108,11 +108,11 @@ void Dictionary::compareTables()
                 dlg->setStatus("Criando tabela: "+table.name(),"red");
 
                 addCreatedTables();
-            } else {
+            }
+            else
                 qDebug() << "[Erro ao criar tablela: " << table.name()
                          << "Erro: " << query.lastError().text()
                          << " SQL: " << query.lastQuery() << "]";
-			}
 
             QSqlDatabase::database().commit();
         } else {
@@ -269,9 +269,8 @@ QString Fields::toSQL(void)
                 SQL += "'" + defaultValue().toString() + "'";
             else
                 SQL += defaultValue().toString();
-        } else {
+        } else
             SQL += "NULL";
-		}
     }
 
     return SQL;

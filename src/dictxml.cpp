@@ -23,20 +23,19 @@ Table DictXML::LoadTable(const QString aName)
     QDomDocument doc = InitXML(filePath);
     QDomNodeList root = doc.elementsByTagName("Table");
 
-    for (int i = 0; i != root.count(); i++)
-    {
+    for (int i = 0; i != root.count(); i++) {
         QDomNode tableNode = root.at(i);
-        if (tableNode.isElement())
-        {
+
+        if (tableNode.isElement()) {
             QDomElement tableElement = tableNode.toElement();
-            if (tableElement.attribute("Name") == aName)
-            {
+
+            if (tableElement.attribute("Name") == aName) {
                 QDomNodeList fieldsNodes = tableNode.childNodes();
-                for (int i = 0; i != fieldsNodes.count(); i++)
-                {
+
+                for (int i = 0; i != fieldsNodes.count(); i++) {
                     QDomNode fieldNode = fieldsNodes.at(i);
-                    if (fieldNode.isElement())
-                    {
+
+                    if (fieldNode.isElement()) {
                         QDomElement fieldElement = fieldNode.toElement();
 
                         Fields f;
@@ -59,7 +58,7 @@ Table DictXML::LoadTable(const QString aName)
 
                         tb.fields.append(f);
                     }
-                }
+                } //end for
             }
         }
     }
