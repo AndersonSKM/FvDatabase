@@ -13,6 +13,8 @@ TARGET = Laycan
 
 INCLUDEPATH += .
 
+CONFIG += c++11
+
 # Input
 HEADERS += lib/SQL.h \
            lib/tools.h \

@@ -91,21 +91,25 @@ void Dictionary::compareTables()
 void Dictionary::compareFields(Table &table)
 {
     Fields field;
-    foreach (field, table.fields) {
+    foreach (field, table.fields)
+    {
         if (!columnExists(table.name(), field.name()))
         {
+            dlg->setStatus("Alterando tabela: "+table.name(),"red");
             QSqlQuery q;
             if (!q.exec(generateAddColumnSQL(table.name(),field)) )
+            {
                 qDebug() << "Erro ao adicionar coluna: " << field.name()
                          << ":" << q.lastError().text()
-                         << " : " << q.lastQuery() ;
+                         << " : " << q.lastQuery();
+            }
         }
     }
 }
 
 bool Dictionary::columnExists(QString tableName, QString columnName)
 {
-    /* Verifica se a coluna existe na tabela no banco*/
+    /* Verifica se a coluna existe na tabela */
     QSqlQuery q;
     q.prepare("SELECT * "
               "FROM information_schema.columns "
@@ -117,7 +121,8 @@ bool Dictionary::columnExists(QString tableName, QString columnName)
     q.bindValue(2,columnName);
     q.exec();
 
-    if (q.next()) return true;
+    if (q.next())
+        return true;
 
     return false;
 }
@@ -210,7 +215,17 @@ QString Fields::toSQL(void)
     SQL += " " + typeToSQL(type());
     SQL += size() != 0 ? "(" + QString::number(size()) + ")" : "";
     SQL += " NULL ";
-    SQL += defaultValue() == "" ?  "NULL" : defaultValue().toString();
+
+    if (! (defaultValue() == "")) {
+        SQL += "DEFAULT ";
+
+        if (type() == ftVarchar)
+            SQL += "'" + defaultValue().toString() + "'";
+        else
+            SQL += defaultValue().toString();
+    } else {
+        SQL += "NULL";
+    }
 
     return SQL;
 }

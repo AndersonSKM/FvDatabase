@@ -192,6 +192,9 @@
     <iconset resource="../resources/Resources.qrc">
      <normaloff>:/icons/Ok.png</normaloff>:/icons/Ok.png</iconset>
    </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="btnCancel">
    <property name="geometry">
@@ -211,6 +214,9 @@
    <property name="icon">
     <iconset resource="../resources/Resources.qrc">
      <normaloff>:/icons/Cancel.png</normaloff>:/icons/Cancel.png</iconset>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLineEdit" name="edtDatabase">
@@ -247,8 +253,67 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>edtServer</tabstop>
+  <tabstop>edtUsuario</tabstop>
+  <tabstop>edtSenha</tabstop>
+  <tabstop>edtDatabase</tabstop>
+  <tabstop>sbPorta</tabstop>
+  <tabstop>btnOk</tabstop>
+  <tabstop>btnCancel</tabstop>
+  <tabstop>comboBox</tabstop>
+ </tabstops>
  <resources>
   <include location="../resources/Resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>edtServer</sender>
+   <signal>returnPressed()</signal>
+   <receiver>edtUsuario</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>153</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>153</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>edtSenha</sender>
+   <signal>returnPressed()</signal>
+   <receiver>edtDatabase</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>143</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>edtDatabase</sender>
+   <signal>returnPressed()</signal>
+   <receiver>btnOk</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>151</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>230</x>
+     <y>252</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

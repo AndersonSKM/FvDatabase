@@ -4,6 +4,7 @@
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
         <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
+        <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT="M"/>
     </Table>
     <Table Name="usuarios1">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" DEFAULT="AUTO_INCREMENT"/>
