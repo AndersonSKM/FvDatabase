@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tables>
     <Table Name="fornecedores01">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
+        <Field Name="ID" Type="INTEGER" Size="0" Null="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
         <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
         <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
         <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
@@ -9,7 +9,7 @@
     </Table>
     <Table Name="fornecedores02">
         <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
+        <Field Name="NOME" Type="VARCHAR" Size="20" Null="1" Pk="0" DEFAULT=""/>
         <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
         <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
         <Field Name="ALTURA" Type="FLOAT" Size="" Pk="0" DEFAULT="0"/>

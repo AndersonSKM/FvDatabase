@@ -52,6 +52,7 @@ Table DictXML::LoadTable(const QString aName)
                             f.setType(ftFloat);
 
                         f.setSize(fieldElement.attribute("Size").toInt());
+                        f.setIsNull(fieldElement.attribute("Null","1").toInt());
                         f.setPrimaryKey(fieldElement.attribute("Pk").toInt());
                         f.setDefaultValue(fieldElement.attribute("Default"));
                         f.setExtra(fieldElement.attribute("Extra"));
@@ -61,7 +62,7 @@ Table DictXML::LoadTable(const QString aName)
                 } //end for
             }
         }
-    }
+    }//end for
 
     return tb;
 }

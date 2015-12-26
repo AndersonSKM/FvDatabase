@@ -17,12 +17,19 @@ enum DataTypes {
     ftBoolean
 };
 
+enum IndexType {
+    ftPrimary,
+    ftKey,
+    ftUnique
+};
+
 class Fields
 {
 public:
-    explicit Fields(QString name, DataTypes type, int size, bool pk, QVariant def, bool autoIncKey);
+    explicit Fields(QString name, DataTypes type, int size, bool isNull,
+        bool pk, QVariant def, bool autoIncKey);
     explicit Fields() {}
-    ~Fields();
+    inline ~Fields() {}
 
     QString toSQL(void);
     QString typeToSQL(DataTypes type);
@@ -30,6 +37,7 @@ public:
     void setName(QString name);
     void setType(DataTypes type);
     void setSize(int size);
+    void setIsNull(bool isNull);
     void setPrimaryKey(bool pk);
     void setDefaultValue(QVariant def);
     void setExtra(QString extra);
@@ -38,6 +46,7 @@ public:
     QString name(void);
     DataTypes type(void);
     int size(void);
+    bool isNull(void);
     bool isPrimaryKey(void);
     QVariant defaultValue(void);
     QString extra(void);
@@ -46,9 +55,27 @@ private:
     QString f_name;
     DataTypes f_type;
     int f_size;
+    bool f_null;
     bool f_primaryKey;
     QVariant f_defaultValue;
     QString f_extra;
+};
+
+class Index
+{
+public:
+    explicit Index(QString name, IndexType type);
+    inline Index() {}
+    inline ~Index() {}
+
+    void setName(QString name);
+    void setType(IndexType type);
+
+    QString name(void);
+    IndexType type(void);
+private:
+    QString i_name;
+    IndexType i_type;
 };
 
 class Table
@@ -62,6 +89,7 @@ public:
     QString name(void);
 
     QList<Fields> fields;
+    QList<Index> indexes;
 private:
     QString t_name;
 };

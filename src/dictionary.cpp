@@ -235,19 +235,16 @@ QString Table::name(void)
 
 // ** Fields class implementation **
 
-Fields::Fields(QString name, DataTypes type, int size, bool pk, QVariant def, bool autoIncKey)
+Fields::Fields(QString name, DataTypes type, int size, bool isNull,
+    bool pk, QVariant def, bool autoIncKey)
 {
     f_name = name;
     f_type = type;
     f_size = size;
+    f_null = isNull;
     f_primaryKey = pk;
     f_defaultValue = def;
     f_extra = autoIncKey ? "AUTO_INCREMENT" : "";
-}
-
-Fields::~Fields()
-{
-
 }
 
 QString Fields::toSQL(void)
@@ -261,7 +258,7 @@ QString Fields::toSQL(void)
         SQL += " NOT NULL ";
         SQL += " AUTO_INCREMENT";
     } else {
-        SQL += " NULL";
+        SQL += isNull() ? " NULL" : " NOT NULL";
         SQL += " DEFAULT ";
 
         if (! (defaultValue() == "")) {
@@ -316,6 +313,11 @@ void Fields::setSize(int size)
     f_size = size;
 }
 
+void Fields::setIsNull(bool isNull)
+{
+    f_null = isNull;
+}
+
 void Fields::setPrimaryKey(bool pk)
 {
     f_primaryKey = pk;
@@ -336,37 +338,74 @@ void Fields::setAutoIncKey(bool autoInc)
     f_extra = autoInc ? "AUTO_INCREMENT" : "";
 }
 
-QString Fields::name(void)
+QString Fields::name()
 {
     return f_name;
 }
 
-DataTypes Fields::type(void)
+DataTypes Fields::type()
 {
     return f_type;
 }
 
-int Fields::size(void)
+int Fields::size()
 {
     return f_size;
 }
 
-bool Fields::isPrimaryKey(void)
+bool Fields::isNull()
+{
+    return f_null;
+}
+
+bool Fields::isPrimaryKey()
 {
     return f_primaryKey;
 }
 
-QVariant Fields::defaultValue(void)
+QVariant Fields::defaultValue()
 {
     return f_defaultValue;
 }
 
-QString Fields::extra(void)
+QString Fields::extra()
 {
     return f_extra;
 }
 
-bool Fields::isAutoIncKey(void)
+bool Fields::isAutoIncKey()
 {
     return (f_extra.toUpper().trimmed() == "AUTO_INCREMENT");
 }
+
+/* End Fields Class */
+
+/* Index Class Implementation */
+
+Index::Index(QString name, IndexType type)
+{
+    i_name = name;
+    i_type = type;
+}
+
+void Index::setName(QString name)
+{
+    i_name = name;
+}
+
+void Index::setType(IndexType type)
+{
+    i_type = type;
+}
+
+QString Index::name()
+{
+    return i_name;
+}
+
+IndexType Index::type()
+{
+    return i_type;
+}
+
+/* End Index Class */
