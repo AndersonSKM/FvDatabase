@@ -94,6 +94,34 @@ private:
     QString t_name;
 };
 
+class Constraint
+{
+public:
+    explicit Constraint(QString name, Fields column, Table referTable,Fields referColumn) :
+        c_name(name), c_column(column), c_referTable(referTable), c_referColumns(referColumn) {}
+
+    /* Generate Name Atomatically */
+    explicit Constraint(Table *parent, Fields column, Table referTable,Fields referColumn);
+
+    inline Constraint() {}
+    inline ~Constraint() {}
+
+    void setName(QString);
+    void setColumn(Fields);
+    void setReferTable(Table);
+    void setReferColumn(Fields);
+
+    QString name(void);
+    Fields column(void);
+    Table referTable(void);
+    Fields referColumns(void);
+private:
+    QString c_name;
+    Fields c_column;
+    Table c_referTable;
+    Fields c_referColumns;
+};
+
 class Dictionary
 {
 public:
@@ -118,6 +146,8 @@ public:
     int tablesChanged(void);
     int verifiedTables(void);
     int createTables(void);
+
+    Table tableByName(QString);
 private:
     void loadTablesFromFile(const QString &);
     void compareFields(Table &);

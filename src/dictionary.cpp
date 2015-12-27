@@ -79,6 +79,19 @@ void Dictionary::addCreatedTables()
     m_createdTables++;
 }
 
+Table Dictionary::tableByName(QString tableName)
+{
+    Table tb;
+    foreach (tb, Tables) {
+        if (tb.name().toUpper() == tableName.toUpper())
+            return tb;
+    }
+
+    return Table();
+}
+
+
+
 void Dictionary::compareTables()
 {
     dlg = new MigrationProgress();
@@ -409,3 +422,53 @@ IndexType Index::type()
 }
 
 /* End Index Class */
+
+/* Constraint Class Implementation*/
+
+Constraint::Constraint(Table *parent, Fields column, Table referTable,Fields referColumn) :
+    c_column(column), c_referTable(referTable), c_referColumns(referColumn)
+{
+    c_name = "fk_" + parent->name() + "_" + referTable.name() + "_" + column.name();
+}
+
+void Constraint::setName(QString name)
+{
+    c_name = name;
+}
+
+void Constraint::setColumn(Fields column)
+{
+    c_column = column;
+}
+
+void Constraint::setReferTable(Table table)
+{
+    c_referTable = table;
+}
+
+void Constraint::setReferColumn(Fields referColumn)
+{
+    c_referColumns = referColumn;
+}
+
+QString Constraint::name(void)
+{
+    return c_name;
+}
+
+Fields Constraint::column(void)
+{
+    return c_column;
+}
+
+Table Constraint::referTable(void)
+{
+    return c_referTable;
+}
+
+Fields Constraint::referColumns(void)
+{
+    return c_referColumns;
+}
+
+/* End Constriant Class */
