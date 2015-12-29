@@ -78,18 +78,22 @@ private:
     IndexType i_type;
 };
 
+class Constraint;
+
 class Table
 {
 public:
     Table() {}
     ~Table() {}
 
-    void setName(QString);
+    Fields fieldByName(QString);
 
+    void setName(QString);
     QString name(void);
 
     QList<Fields> fields;
     QList<Index> indexes;
+    QList<Constraint> constraints;
 private:
     QString t_name;
 };
@@ -129,9 +133,6 @@ public:
     ~Dictionary();
 
     void Migrate(const QString);
-    void compareTables(void);
-
-    QString generateSQL(Table &);
 
     void addTablesChanged(void);
     void addVerifiedTables(void);
@@ -146,23 +147,30 @@ public:
     int tablesChanged(void);
     int verifiedTables(void);
     int createTables(void);
-
-    Table tableByName(QString);
 private:
-    void loadTablesFromFile(const QString &);
+    void InitXML(void);
+    void loadTablesFromXML(void);
+
+    void compareTables(void);
     void compareFields(Table &);
 
+    Table tableByName(QString);
+
     QString generateAddColumnSQL(QString tableName, Fields field);
-    //QString generateAddColumnSQL(QString &tableName, Fields &field, QList<Fields>);
+    QString generateSQL(Table &);
 
     bool columnExists(QString tableName, QString columnName);
 
+    QString filePath;
+    QDomDocument xml;
+
     MigrationProgress *dlg;
     QList<Table> Tables;
+
     bool m_progressVisible;
     int m_tablesChanged;
     int m_verifiedTables;
-    int m_createdTables;
+    int m_createdTables;  
 };
 
 #endif // DICTIONARY_H

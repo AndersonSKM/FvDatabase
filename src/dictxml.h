@@ -13,9 +13,7 @@ class DictXML
 {
 public:
     DictXML();
-    QDomDocument InitXML(const QString filePath);
-    Table LoadTable(const QString aName);
-    
+
     void setFilePath(const QString);
     QString filePath;
 private:

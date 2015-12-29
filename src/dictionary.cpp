@@ -20,7 +20,9 @@ Dictionary::~Dictionary()
 
 void Dictionary::Migrate(const QString xmlPath)
 {
-    loadTablesFromFile(xmlPath);
+    filePath = xmlPath;
+    InitXML();
+    loadTablesFromXML();
     compareTables();
 }
 
@@ -191,26 +193,6 @@ QString Dictionary::generateAddColumnSQL(QString tableName, Fields field)
     return SQL;
 }
 
-void Dictionary::loadTablesFromFile(const QString &filePath)
-{
-    DictXML dici;
-    dici.setFilePath(filePath);
-
-    QDomDocument doc = dici.InitXML(dici.filePath);
-    QDomNodeList root = doc.elementsByTagName("Table");
-
-    qDebug() << "[Carregando tabelas do arquivo " << filePath << "]";
-
-    for (int i = 0; i != root.count(); i++) {
-        QDomNode tableNode = root.at(i);
-
-        if (tableNode.isElement()) {
-            QDomElement tableElement = tableNode.toElement();
-            Tables.append( dici.LoadTable(tableElement.attribute("Name")) );
-        }
-    }
-}
-
 QString Dictionary::generateSQL(Table &table)
 {
     //Gera o SQL create da tabela passada como parametro *
@@ -234,6 +216,69 @@ QString Dictionary::generateSQL(Table &table)
     return SQL;
 }
 
+/* XML Functions */
+
+void Dictionary::loadTablesFromXML()
+{
+    qDebug() << "[Carregando tabelas do arquivo " << filePath << "]";
+    QDomNodeList root = xml.elementsByTagName("Table");
+
+    for (int i = 0; i != root.count(); i++) {
+        QDomNode tableNode = root.at(i);
+
+        if (tableNode.isElement()) {
+            QDomElement tableElement = tableNode.toElement();
+            Table tb;
+            tb.setName(tableElement.attribute("Name"));
+
+            QDomNodeList fieldNodes = tableNode.childNodes();
+
+            QDomNode fieldNode;
+            foreach (fieldNode, fieldNodes) {
+                QDomElement fieldElement = fieldNode.toElement();
+                Fields f;
+                f.setName(fieldElement.attribute("Name"));
+
+                QString type = fieldElement.attribute("Type");
+                if (type.toUpper() == "INTEGER")
+                    f.setType(ftInteger);
+                else if (type.toUpper() == "VARCHAR")
+                    f.setType(ftVarchar);
+                else if (type.toUpper() == "BOOLEAN")
+                    f.setType(ftBoolean);
+                else if (type.toUpper() == "FLOAT")
+                    f.setType(ftFloat);
+
+                f.setSize(fieldElement.attribute("Size").toInt());
+                f.setIsNull(fieldElement.attribute("Null","1").toInt());
+                f.setPrimaryKey(fieldElement.attribute("Pk","0").toInt());
+                f.setDefaultValue(fieldElement.attribute("Default"));
+                f.setExtra(fieldElement.attribute("Extra"));
+
+                tb.fields.append(f);
+            }
+
+            Tables.append(tb);
+        }
+    }
+}
+
+void Dictionary::InitXML()
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        Menssage("Erro ao abrir arquivo XML");
+
+    if (!xml.setContent(&file)) {
+        file.close();
+        Menssage("Erro ao setar XML");
+    }
+
+    file.close();
+}
+
+/* End XML Functions */
+
 // ** Table class implementation **
 
 void Table::setName(QString name)
@@ -244,6 +289,17 @@ void Table::setName(QString name)
 QString Table::name(void)
 {
     return t_name;
+}
+
+Fields Table::fieldByName(QString fieldName)
+{
+    Fields f;
+    foreach (f, fields) {
+        if (f.name().toUpper() == fieldName.toUpper())
+            return f;
+    }
+
+    return Fields();
 }
 
 // ** Fields class implementation **
