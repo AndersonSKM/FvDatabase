@@ -1,578 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Tables>
-    <Table Name="fornecedores01">
-        <Field Name="ID" Type="INTEGER" Size="0" Null="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-        <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        <Field Name="ALTURA" Type="FLOAT" Size="" Pk="0" DEFAULT="0"/>
-    </Table>
-    <Table Name="fornecedores02">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Null="1" Pk="0" DEFAULT=""/>
-        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-        <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        <Field Name="ALTURA" Type="FLOAT" Size="" Pk="0" DEFAULT="0"/>
-    </Table>
-    <Table Name="fornecedores03">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-        <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        <Field Name="ALTURA" Type="FLOAT" Size="" Pk="0" DEFAULT="0"/>
-    </Table>
-    <Table Name="fornecedores04">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-        <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        <Field Name="ALTURA" Type="FLOAT" Size="" Pk="0" DEFAULT="0"/>
-    </Table>
-    <Table Name="fornecedores05">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-        <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        <Field Name="ALTURA" Type="FLOAT" Size="" Pk="0" DEFAULT="0"/>
-    </Table>
-    <Table Name="fornecedores06">
-        <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-        <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-        <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-        <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores07">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores08">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores09">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores10">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores11">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores12">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores13">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores14">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores15">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores16">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores17">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores18">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="fornecedores19">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas01">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas02">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas03">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas04">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas05">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas06">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas07">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas08">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas09">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas10">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas11">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas12">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas13">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas14">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas15">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas16">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas17">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas18">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="pessoas19">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes01">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes02">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes03">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes04">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes05">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes06">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes07">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes08">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes09">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes10">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes11">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes12">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes13">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes14">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes15">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes16">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes17">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes18">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="clientes19">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores01">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores02">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores03">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores04">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores05">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores06">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores07">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores08">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores09">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores10">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores11">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores12">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores13">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores14">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores15">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores16">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores17">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores18">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="colaboradores19">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios01">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios02">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios03">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios04">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios05">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios06">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios07">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios08">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios09">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios10">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios11">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios12">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios13">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios14">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios15">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios16">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios17">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios18">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-        <Table Name="usuarios19">
-            <Field Name="ID" Type="INTEGER" Size="0" Pk="1" Default="" Extra="AUTO_INCREMENT"/>
-            <Field Name="NOME" Type="VARCHAR" Size="20" Pk="0" DEFAULT=""/>
-            <Field Name="IDADE" Type="INTEGER" Size="" Pk="0" DEFAULT=""/>
-            <Field Name="SEXO" Type="VARCHAR" Size="1" Pk="0" DEFAULT=""/>
-        </Table>
-</Tables>
+<Migrations>
+  <SQL version="1" id="Criar primeira tabela">
+    <!--
+      CREATE TABLE `fornecedores01` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="2" id="Update">
+    <!--
+      CREATE TABLE `fornecedores02` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="3" id="Update">
+    <!--
+      CREATE TABLE `fornecedores03` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="4" id="Update">
+    <!--
+      CREATE TABLE `fornecedores04` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="5" id="Update">
+    <!--
+      CREATE TABLE `fornecedores05` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+</Migrations>

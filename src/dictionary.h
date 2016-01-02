@@ -126,6 +126,25 @@ private:
     Fields c_referColumns;
 };
 
+class Migration
+{
+public:
+    inline Migration() {}
+    inline ~Migration() {}
+
+    void setVersion(int);
+    void setDescription(QString);
+    void setSQL(QString);
+
+    int version(void);
+    QString description(void);
+    QString SQL(void);
+private:
+    int m_version;
+    QString m_description;
+    QString m_sql;
+};
+
 class Dictionary
 {
 public:
@@ -148,8 +167,9 @@ public:
     int verifiedTables(void);
     int createTables(void);
 private:
-    void InitXML(void);
+    void InitXML(QString);
     void loadTablesFromXML(void);
+    void loadMigrationsFromXML(void);
 
     void compareTables(void);
     void compareFields(Table &);
@@ -166,6 +186,7 @@ private:
 
     MigrationProgress *dlg;
     QList<Table> Tables;
+    QList<Migration> Migrations;
 
     bool m_progressVisible;
     int m_tablesChanged;

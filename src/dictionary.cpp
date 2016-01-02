@@ -1,9 +1,11 @@
 #include <QDialog>
 #include <QApplication>
 #include <QtGlobal>
+#include <QDomNode>
 
 #include "connection.h"
 #include "dictionary.h"
+#include "qdom.h"
 
 Dictionary::Dictionary()
 {
@@ -20,10 +22,15 @@ Dictionary::~Dictionary()
 
 void Dictionary::Migrate(const QString xmlPath)
 {
-    filePath = xmlPath;
-    InitXML();
-    loadTablesFromXML();
-    compareTables();
+    InitXML(xmlPath);
+    loadMigrationsFromXML();
+
+    Migration m;
+    foreach (m, Migrations) {
+        qDebug() << m.version() << endl
+                 << m.description() << endl
+                 << m.SQL();
+    }
 }
 
 void Dictionary::setProgressVisible(bool visible)
@@ -91,8 +98,6 @@ Table Dictionary::tableByName(QString tableName)
 
     return Table();
 }
-
-
 
 void Dictionary::compareTables()
 {
@@ -218,6 +223,39 @@ QString Dictionary::generateSQL(Table &table)
 
 /* XML Functions */
 
+void Dictionary::loadMigrationsFromXML(void)
+{
+    qDebug() << "[Carregando scripts do arquivo " << filePath << "]";
+    QDomNodeList root = xml.elementsByTagName("SQL");
+
+    if (root.isEmpty()) {
+        qDebug() << "[Erro ao carregar migrações]";
+        return;
+    }
+
+    for (int i = 0; i != root.count(); i++) {
+        QDomNode migrationNode = root.at(i);
+        Migration script;
+
+        if (migrationNode.isElement()) {
+            QDomElement migration = migrationNode.toElement();
+
+            script.setVersion(migration.attribute("version").toInt());
+            script.setDescription(migration.attribute("id"));
+        }
+
+        // SQL in comment node
+        QDomNode sql = migrationNode.firstChild();
+        if (sql.nodeType() == 8) {
+            script.setSQL(sql.nodeValue());
+        }
+
+        Migrations.append(script);
+    }
+
+    qDebug() << "[Migrações carregadas: " << root.count() << "]";
+}
+
 void Dictionary::loadTablesFromXML()
 {
     qDebug() << "[Carregando tabelas do arquivo " << filePath << "]";
@@ -233,6 +271,7 @@ void Dictionary::loadTablesFromXML()
 
             QDomNodeList fieldNodes = tableNode.childNodes();
 
+            /*
             QDomNode fieldNode;
             foreach (fieldNode, fieldNodes) {
                 QDomElement fieldElement = fieldNode.toElement();
@@ -257,14 +296,16 @@ void Dictionary::loadTablesFromXML()
 
                 tb.fields.append(f);
             }
+            */
 
             Tables.append(tb);
         }
     }
 }
 
-void Dictionary::InitXML()
+void Dictionary::InitXML(QString xmlPath)
 {
+    filePath = xmlPath;
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         Menssage("Erro ao abrir arquivo XML");
@@ -278,6 +319,36 @@ void Dictionary::InitXML()
 }
 
 /* End XML Functions */
+
+void Migration::setVersion(int version)
+{
+    m_version = version;
+}
+
+void Migration::setDescription(QString description)
+{
+    m_description = description;
+}
+
+void Migration::setSQL(QString sql)
+{
+    m_sql = sql;
+}
+
+int Migration::version(void)
+{
+    return m_version;
+}
+
+QString Migration::description(void)
+{
+    return m_description;
+}
+
+QString Migration::SQL(void)
+{
+    return m_sql;
+}
 
 // ** Table class implementation **
 
