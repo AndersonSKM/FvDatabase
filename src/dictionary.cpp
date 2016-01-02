@@ -229,7 +229,7 @@ void Dictionary::loadMigrationsFromXML(void)
     QDomNodeList root = xml.elementsByTagName("SQL");
 
     if (root.isEmpty()) {
-        qDebug() << "[Erro ao carregar migrações]";
+        qDebug() << "[Nenhuma migração encontrada no XML]";
         return;
     }
 
@@ -239,9 +239,10 @@ void Dictionary::loadMigrationsFromXML(void)
 
         if (migrationNode.isElement()) {
             QDomElement migration = migrationNode.toElement();
+            QString version = migration.attribute("version");
 
-            script.setVersion(migration.attribute("version").toInt());
-            script.setDescription(migration.attribute("id"));
+            script.setVersion(version.toInt());
+            script.setDescription(migration.attribute("id", "Update schema to version " + version));
         }
 
         // SQL in comment node
