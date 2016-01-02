@@ -21,7 +21,6 @@ HEADERS += lib/SQL.h \
            src/connection.h \
            src/databaseconfig.h \
            src/dictionary.h \
-           src/dictxml.h \
            src/inifile.h \
            src/ui_databaseconfig.h \
            src/migrationprogress.h
@@ -34,7 +33,6 @@ SOURCES += lib/SQL.cpp \
            src/connection.cpp \
            src/databaseconfig.cpp \
            src/dictionary.cpp \
-           src/dictxml.cpp \
            src/inifile.cpp \
            src/main.cpp \
            src/migrationprogress.cpp
