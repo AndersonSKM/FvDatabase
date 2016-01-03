@@ -9,8 +9,6 @@ class MigrationProgress;
 
 class MigrationProgress : public QMainWindow
 {
-    Q_OBJECT
-
 public:
     explicit MigrationProgress(QWidget *parent = 0);
     ~MigrationProgress();

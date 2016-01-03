@@ -12,7 +12,6 @@ class DatabaseConfig;
 
 class DatabaseConfig : public QDialog
 {
-    Q_OBJECT
 
 public:
     explicit DatabaseConfig(QWidget *parent = 0);

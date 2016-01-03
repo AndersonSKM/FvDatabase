@@ -10,10 +10,11 @@
 
 class Database : public QWidget
 {
-    Q_OBJECT
 public:
     Database();
     ~Database();
+
+    static void Menssage(QString text);
 
     bool setConection(IniFile *parameters);
     bool databaseError(QString erro);

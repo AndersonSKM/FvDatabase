@@ -3,10 +3,9 @@
 
 #include "databaseconfig.h"
 #include "ui_databaseconfig.h"
-#include "lib/tools.h"
-#include "dictxml.h"
 #include "inifile.h"
 #include "connection.h"
+#include "laycan.h"
 
 DatabaseConfig::DatabaseConfig(QWidget *parent) :
     QDialog(parent),
@@ -30,11 +29,11 @@ DatabaseConfig::~DatabaseConfig()
 void DatabaseConfig::on_btnOk_clicked()
 {
     if (ui->edtServer->text().isEmpty())
-        Menssage("Preencha o campo Servidor !");
+        Database::Menssage("Preencha o campo Servidor !");
     else if (ui->edtUsuario->text().isEmpty())
-        Menssage("Preencha o campo Usuário !");
+        Database::Menssage("Preencha o campo Usuário !");
     else if (ui->edtDatabase->text().isEmpty())
-        Menssage("Preencha o campo Banco de Dados !");
+        Database::Menssage("Preencha o campo Banco de Dados !");
     else {
         ini->setDriverType(mysql);
         ini->setServer(ui->edtServer->text().trimmed());
@@ -46,7 +45,7 @@ void DatabaseConfig::on_btnOk_clicked()
 
         Database data;
         if ( data.setConection(ini) ) {
-            Dictionary d;
+            Laycan d;
             this->hide();
             d.setProgressVisible(true);
             d.Migrate(":/Migrations/note.xml");

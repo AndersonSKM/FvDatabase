@@ -5,7 +5,11 @@
 #include <QSqlDriver>
 
 #include "connection.h"
-#include "lib/tools.h"
+
+void Database::Menssage(QString text)
+{
+    QMessageBox::information(NULL,"",text);
+}
 
 Database::Database()
 {
@@ -16,7 +20,6 @@ Database::~Database()
 {
 
 }
-
 
 bool Database::databaseError(QString erro)
 {

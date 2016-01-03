@@ -16,26 +16,23 @@ INCLUDEPATH += .
 CONFIG += c++11
 
 # Input
-HEADERS += lib/SQL.h \
-           lib/tools.h \
+HEADERS += \
            src/connection.h \
            src/databaseconfig.h \
-           src/dictionary.h \
            src/inifile.h \
-           src/ui_databaseconfig.h \
-           src/migrationprogress.h
+           src/migrationprogress.h \
+           src/laycan.h
 
 FORMS += src/databaseconfig.ui \
          src/migrationprogress.ui
 
-SOURCES += lib/SQL.cpp \
-           lib/tools.cpp \
+SOURCES += \
            src/connection.cpp \
            src/databaseconfig.cpp \
-           src/dictionary.cpp \
            src/inifile.cpp \
            src/main.cpp \
-           src/migrationprogress.cpp
+           src/migrationprogress.cpp \
+           src/laycan.cpp
 
 RESOURCES += resources/Resources.qrc
 

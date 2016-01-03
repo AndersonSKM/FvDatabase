@@ -2,13 +2,15 @@
 #include <QApplication>
 #include <QtGlobal>
 #include <QDomNode>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QFile>
+#include <QMessageBox>
 
-#include "lib/tools.h"
-#include "connection.h"
-#include "dictionary.h"
-#include "qdom.h"
+#include "laycan.h"
 
-Dictionary::Dictionary()
+Laycan::Laycan()
 {
     m_progressVisible = true;
     m_tablesChanged = 0;
@@ -16,74 +18,74 @@ Dictionary::Dictionary()
     m_createdTables = 0;
 }
 
-Dictionary::~Dictionary()
+Laycan::~Laycan()
 {
 
 }
 
-void Dictionary::Migrate(const QString xmlPath)
+void Laycan::Migrate(const QString xmlPath)
 {
     InitXML(xmlPath);
     loadMigrationsFromXML();
     executeMigrations();
 }
 
-void Dictionary::setProgressVisible(bool visible)
+void Laycan::setProgressVisible(bool visible)
 {
     m_progressVisible = visible;
 }
 
-void Dictionary::setTablesChanged(int count)
+void Laycan::setTablesChanged(int count)
 {
     m_tablesChanged = count;
 }
 
-void Dictionary::setVerifiedTables(int count)
+void Laycan::setVerifiedTables(int count)
 {
     m_verifiedTables = count;
 }
 
-void Dictionary::setCreatedTables(int count)
+void Laycan::setCreatedTables(int count)
 {
     m_createdTables = count;
 }
 
-bool Dictionary::progressVisible()
+bool Laycan::progressVisible()
 {
     return m_progressVisible;
 }
 
-int Dictionary::tablesChanged()
+int Laycan::tablesChanged()
 {
     return m_tablesChanged;
 }
 
-int Dictionary::verifiedTables()
+int Laycan::verifiedTables()
 {
     return m_verifiedTables;
 }
 
-int Dictionary::createTables()
+int Laycan::createTables()
 {
     return m_createdTables;
 }
 
-void Dictionary::addTablesChanged()
+void Laycan::addTablesChanged()
 {
     m_tablesChanged++;
 }
 
-void Dictionary::addVerifiedTables()
+void Laycan::addVerifiedTables()
 {
     m_verifiedTables++;
 }
 
-void Dictionary::addCreatedTables()
+void Laycan::addCreatedTables()
 {
     m_createdTables++;
 }
 
-Table Dictionary::tableByName(QString tableName)
+Table Laycan::tableByName(QString tableName)
 {
     Table tb;
     foreach (tb, Tables) {
@@ -94,7 +96,7 @@ Table Dictionary::tableByName(QString tableName)
     return Table();
 }
 
-void Dictionary::executeMigrations()
+void Laycan::executeMigrations()
 {
     dlg = new MigrationProgress();
     dlg->setWindowFlags( Qt::CustomizeWindowHint );
@@ -176,7 +178,7 @@ void Dictionary::executeMigrations()
     delete dlg;
 }
 
-void Dictionary::compareTables()
+void Laycan::compareTables()
 {
     dlg = new MigrationProgress();
     dlg->setWindowFlags( Qt::CustomizeWindowHint );
@@ -227,7 +229,7 @@ void Dictionary::compareTables()
     delete dlg;
 }
 
-void Dictionary::compareFields(Table &table)
+void Laycan::compareFields(Table &table)
 {
     Fields field;
     foreach (field, table.fields) {
@@ -249,7 +251,7 @@ void Dictionary::compareFields(Table &table)
     }
 }
 
-bool Dictionary::columnExists(QString tableName, QString columnName)
+bool Laycan::columnExists(QString tableName, QString columnName)
 {
     /* Verifica se a coluna existe na tabela */
     QSqlQuery q;
@@ -269,13 +271,13 @@ bool Dictionary::columnExists(QString tableName, QString columnName)
     return false;
 }
 
-QString Dictionary::generateAddColumnSQL(QString tableName, Fields field)
+QString Laycan::generateAddColumnSQL(QString tableName, Fields field)
 {
     QString SQL = "ALTER TABLE " + tableName + " ADD " + field.toSQL();
     return SQL;
 }
 
-QString Dictionary::generateSQL(Table &table)
+QString Laycan::generateSQL(Table &table)
 {
     //Gera o SQL create da tabela passada como parametro *
     QString SQL = "CREATE TABLE " + table.name() + "( ";
@@ -300,7 +302,7 @@ QString Dictionary::generateSQL(Table &table)
 
 /* XML Functions */
 
-void Dictionary::loadMigrationsFromXML(void)
+void Laycan::loadMigrationsFromXML(void)
 {
     qDebug() << "[Carregando scripts do arquivo " << filePath << "]";
     QDomNodeList root = xml.elementsByTagName("SQL");
@@ -334,7 +336,7 @@ void Dictionary::loadMigrationsFromXML(void)
     qDebug() << "[Migrações carregadas: " << root.count() << "]";
 }
 
-void Dictionary::loadTablesFromXML()
+void Laycan::loadTablesFromXML()
 {
     qDebug() << "[Carregando tabelas do arquivo " << filePath << "]";
     QDomNodeList root = xml.elementsByTagName("Table");
@@ -381,16 +383,16 @@ void Dictionary::loadTablesFromXML()
     }
 }
 
-void Dictionary::InitXML(QString xmlPath)
+void Laycan::InitXML(QString xmlPath)
 {
     filePath = xmlPath;
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        Menssage("Erro ao abrir arquivo XML");
+        QMessageBox::information(NULL,"","Erro ao abrir arquivo XML");
 
     if (!xml.setContent(&file)) {
         file.close();
-        Menssage("Erro ao setar XML");
+        QMessageBox::information(NULL,"","Erro ao setar XML");
     }
 
     file.close();

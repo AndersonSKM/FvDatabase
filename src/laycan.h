@@ -1,10 +1,5 @@
-#ifndef DICTIONARY_H
-#define DICTIONARY_H
-
-#include <QDialog>
-#include <QList>
-#include <QVariant>
-#include <QSqlDatabase>
+#ifndef Laycan_H
+#define Laycan_H
 
 #include "migrationprogress.h"
 
@@ -144,11 +139,11 @@ private:
     QString m_sql;
 };
 
-class Dictionary
+class Laycan
 {
 public:
-    explicit Dictionary();
-    ~Dictionary();
+    explicit Laycan();
+    ~Laycan();
 
     void Migrate(const QString);
 
@@ -194,4 +189,4 @@ private:
     int m_createdTables;  
 };
 
-#endif // DICTIONARY_H
+#endif // Laycan_H
