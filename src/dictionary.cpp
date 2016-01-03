@@ -3,6 +3,7 @@
 #include <QtGlobal>
 #include <QDomNode>
 
+#include "lib/tools.h"
 #include "connection.h"
 #include "dictionary.h"
 #include "qdom.h"
@@ -24,13 +25,7 @@ void Dictionary::Migrate(const QString xmlPath)
 {
     InitXML(xmlPath);
     loadMigrationsFromXML();
-
-    Migration m;
-    foreach (m, Migrations) {
-        qDebug() << m.version() << endl
-                 << m.description() << endl
-                 << m.SQL();
-    }
+    executeMigrations();
 }
 
 void Dictionary::setProgressVisible(bool visible)
@@ -97,6 +92,88 @@ Table Dictionary::tableByName(QString tableName)
     }
 
     return Table();
+}
+
+void Dictionary::executeMigrations()
+{
+    dlg = new MigrationProgress();
+    dlg->setWindowFlags( Qt::CustomizeWindowHint );
+    dlg->setMaximum(Migrations.count());
+
+    if (progressVisible())
+        dlg->show();
+
+    setVerifiedTables(0);
+    setCreatedTables(0);
+    setVerifiedTables(0);
+
+    QSqlQuery query;
+    if ( !QSqlDatabase::database().tables().contains("schema_version")) {
+        qDebug() << "[Criando tabela de versão]";
+
+        QSqlDatabase::database().transaction();
+
+        query.exec("CREATE TABLE schema_version ("
+                   "   version INT NULL, "
+                   "   description VARCHAR(200) NULL,"
+                   "   script TEXT NULL"
+                   ");");
+
+        QSqlDatabase::database().commit();
+    }
+
+    query.clear();
+    query.exec("select max(version) from schema_version");
+    query.next();
+    int dbSchemaVersion = query.value(0).toInt();
+
+    qDebug() << "[Versão do schema atual: " << dbSchemaVersion << "]";
+
+    Migration script;
+    foreach (script, Migrations) {
+        if (script.version() > dbSchemaVersion) {
+            qDebug() << "[Migrando a versão do schema para: " << script.version() << "]";
+            dlg->setStatus("Verificando Migração: " + script.description());
+
+            QSqlDatabase::database().transaction();
+            if (query.exec(script.SQL())) {
+                dlg->setStatus("Executando sql: " + script.description(),"red");
+
+                query.clear();
+                query.exec("delete from schema_version");
+                query.prepare("insert into schema_version"
+                              " (version, description, script) "
+                              "values "
+                              " (:v , :d, :s)");
+                query.bindValue(0, script.version());
+                query.bindValue(1, script.description());
+                query.bindValue(2, script.SQL());
+
+                if ( query.exec() ) {
+                    QSqlDatabase::database().commit();
+                    addCreatedTables();
+                } else {
+                    qDebug() << "[ERRO] Erro ao executar sql: " << script.description() << endl
+                             << "Erro: " << query.lastError().text() << endl
+                             << " SQL: " << query.lastQuery();
+                    QSqlDatabase::database().rollback();
+                }
+
+            } else {
+                qDebug() << "[ERRO] Erro ao executar sql: " << script.description() << endl
+                         << "Erro: " << query.lastError().text() << endl
+                         << " SQL: " << query.lastQuery();
+                QSqlDatabase::database().rollback();
+            }
+        }
+        dlg->setProgress(dlg->progress()+1);
+        addVerifiedTables();
+    }
+    qDebug() << "[Finalizando Migração]";
+    qDebug() << "[Migrações verificadas: " << verifiedTables() << "]";
+    qDebug() << "[Migrações aplicadas: "   << createTables() << "]";
+
+    delete dlg;
 }
 
 void Dictionary::compareTables()

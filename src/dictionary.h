@@ -6,7 +6,6 @@
 #include <QVariant>
 #include <QSqlDatabase>
 
-#include "dictxml.h"
 #include "migrationprogress.h"
 
 enum DataTypes {
@@ -170,6 +169,7 @@ private:
     void InitXML(QString);
     void loadTablesFromXML(void);
     void loadMigrationsFromXML(void);
+    void executeMigrations(void);
 
     void compareTables(void);
     void compareFields(Table &);
