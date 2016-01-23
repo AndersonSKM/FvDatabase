@@ -96,6 +96,20 @@ Table Laycan::tableByName(QString tableName)
     return Table();
 }
 
+bool Laycan::writeMigrationLog(Migration &script)
+{
+    QSqlQuery query;
+    query.prepare("insert into schema_version"
+                  " (version, description, script) "
+                  "values "
+                  " (:v , :d, :s)");
+    query.bindValue(0, script.version());
+    query.bindValue(1, script.description());
+    query.bindValue(2, script.SQL());
+
+    return query.exec();
+}
+
 void Laycan::executeMigrations()
 {
     dlg = new MigrationProgress();
@@ -110,7 +124,7 @@ void Laycan::executeMigrations()
     setVerifiedTables(0);
 
     QSqlQuery query;
-    if ( !QSqlDatabase::database().tables().contains("schema_version")) {
+    if (!QSqlDatabase::database().tables().contains("schema_version")) {
         qDebug() << "[Criando tabela de versão]";
 
         QSqlDatabase::database().transaction();
@@ -138,29 +152,16 @@ void Laycan::executeMigrations()
             dlg->setStatus("Verificando Migração: " + script.description());
 
             QSqlDatabase::database().transaction();
-            if (query.exec(script.SQL())) {
+
+            bool executed = query.exec(script.SQL());
+            if (executed) {
                 dlg->setStatus("Executando sql: " + script.description(),"red");
 
-                query.clear();
-                query.exec("delete from schema_version");
-                query.prepare("insert into schema_version"
-                              " (version, description, script) "
-                              "values "
-                              " (:v , :d, :s)");
-                query.bindValue(0, script.version());
-                query.bindValue(1, script.description());
-                query.bindValue(2, script.SQL());
+                executed = writeMigrationLog(script);
+            }
 
-                if ( query.exec() ) {
-                    QSqlDatabase::database().commit();
-                    addCreatedTables();
-                } else {
-                    qDebug() << "[ERRO] Erro ao executar sql: " << script.description() << endl
-                             << "Erro: " << query.lastError().text() << endl
-                             << " SQL: " << query.lastQuery();
-                    QSqlDatabase::database().rollback();
-                }
-
+            if (executed) {
+                QSqlDatabase::database().commit();
             } else {
                 qDebug() << "[ERRO] Erro ao executar sql: " << script.description() << endl
                          << "Erro: " << query.lastError().text() << endl

@@ -166,6 +166,8 @@ private:
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
 
+    bool writeMigrationLog(Migration&);
+
     void compareTables(void);
     void compareFields(Table &);
 
