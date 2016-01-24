@@ -2,19 +2,9 @@
     <qresource prefix="/">
         <file>icons/1444503647_mysql-2048-black.png</file>
         <file>icons/Cancel.png</file>
-        <file>icons/ClientAdd.png</file>
-        <file>icons/edit_add.png</file>
-        <file>icons/edit_remove.png</file>
-        <file>icons/edit.png</file>
-        <file>icons/kdmconfig.png</file>
         <file>icons/LogOut.png</file>
         <file>icons/Ok.png</file>
         <file>icons/package_settings.png</file>
-        <file>icons/Password.png</file>
-        <file>icons/reload.png</file>
-        <file>icons/share.png</file>
-        <file>icons/vcard.png</file>
-        <file>icons/viewmag.png</file>
         <file>Migrations/note.xml</file>
     </qresource>
 </RCC>

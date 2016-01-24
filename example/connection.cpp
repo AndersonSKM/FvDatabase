@@ -2,7 +2,6 @@
 #include <QAbstractButton>
 #include <QPushButton>
 #include <QApplication>
-#include <QSqlDriver>
 
 #include "connection.h"
 

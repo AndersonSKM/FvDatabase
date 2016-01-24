@@ -1,6 +1,8 @@
 #ifndef Laycan_H
 #define Laycan_H
 
+#include <QDomDocument>
+
 #include "migrationprogress.h"
 
 enum DataTypes {

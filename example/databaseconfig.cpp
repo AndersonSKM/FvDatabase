@@ -1,15 +1,12 @@
-#include <QDir>
-#include <QtXml>
-
 #include "databaseconfig.h"
 #include "ui_databaseconfig.h"
-#include "inifile.h"
-#include "connection.h"
-#include "laycan.h"
 
-DatabaseConfig::DatabaseConfig(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DatabaseConfig)
+#include "laycan.h"
+#include "mainwindow.h"
+
+databaseconfig::databaseconfig(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::databaseconfig)
 {
     ui->setupUi(this);
 
@@ -21,12 +18,12 @@ DatabaseConfig::DatabaseConfig(QWidget *parent) :
     ui->edtDatabase->setText(ini->database());
 }
 
-DatabaseConfig::~DatabaseConfig()
+databaseconfig::~databaseconfig()
 {
     delete ui;
 }
 
-void DatabaseConfig::on_btnOk_clicked()
+void databaseconfig::on_btnOk_clicked()
 {
     if (ui->edtServer->text().isEmpty())
         Database::Menssage("Preencha o campo Servidor !");
@@ -46,16 +43,16 @@ void DatabaseConfig::on_btnOk_clicked()
         Database data;
         if ( data.setConection(ini) ) {
             Laycan d;
-            this->hide();
             d.setProgressVisible(true);
             d.Migrate(":/Migrations/note.xml");
-            on_btnCancel_clicked();
+
+            MainWindow *m = new MainWindow;
+            m->showMaximized();
         }
     }
-
 }
 
-void DatabaseConfig::on_btnCancel_clicked()
+void databaseconfig::on_btnCancel_clicked()
 {
-    QApplication::exit(1);
+    QApplication::exit();
 }

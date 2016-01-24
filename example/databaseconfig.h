@@ -1,21 +1,22 @@
 #ifndef DATABASECONFIG_H
 #define DATABASECONFIG_H
 
-#include <QMessageBox>
-#include <QDomElement>
+#include <QMainWindow>
 
 #include "inifile.h"
+#include "connection.h"
 
 namespace Ui {
-class DatabaseConfig;
+  class databaseconfig;
 }
 
-class DatabaseConfig : public QDialog
+class databaseconfig : public QMainWindow
 {
+    Q_OBJECT
 
 public:
-    explicit DatabaseConfig(QWidget *parent = 0);
-    ~DatabaseConfig();
+    explicit databaseconfig(QWidget *parent = 0);
+    ~databaseconfig();
 
 private slots:
     void on_btnOk_clicked();
@@ -23,7 +24,7 @@ private slots:
     void on_btnCancel_clicked();
 
 private:
-    Ui::DatabaseConfig *ui;
+    Ui::databaseconfig *ui;
     IniFile *ini;
 };
 
