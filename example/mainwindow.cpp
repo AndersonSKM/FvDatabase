@@ -15,5 +15,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionExit_triggered()
 {
- //   QApplication::exit();
+   QApplication::exit();
 }

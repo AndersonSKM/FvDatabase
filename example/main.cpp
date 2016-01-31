@@ -1,11 +1,11 @@
 #include <QApplication>
 
-#include "databaseconfig.h"
+#include "configconnection.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    databaseconfig w;
+    ConfigConnection w;
     w.show();
 
     return a.exec();

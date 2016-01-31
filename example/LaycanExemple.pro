@@ -22,19 +22,18 @@ SOURCES += main.cpp \
     connection.cpp \
     inifile.cpp \
     mainwindow.cpp \
-    databaseconfig.cpp
+    configconnection.cpp
 
 HEADERS  += \
-    databaseconfig.h \
     connection.h \
     inifile.h \
     inifile.h \
     mainwindow.h \
-    databaseconfig.h
+    configconnection.h
 
 FORMS    += \
     mainwindow.ui \
-    databaseconfig.ui
+    configconnection.ui
 
 RESOURCES += \
     ../resources/Resources.qrc
