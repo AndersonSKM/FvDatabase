@@ -45,9 +45,8 @@ void ConfigConnection::on_btnOk_clicked()
         Database data;
         if ( data.setConection(ini) ) {
             Laycan d;
-            d.setProgressVisible(true);
-
             this->hide();
+
             d.Migrate(":/Migrations/note.xml");
 
             MainWindow *m = new MainWindow;

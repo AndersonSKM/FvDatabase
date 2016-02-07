@@ -11,15 +11,15 @@ public:
     inline Migration() {}
     inline ~Migration() {}
 
-    void setVersion(int);
+    void setVersion(float);
     void setDescription(QString);
     void setSQL(QString);
 
-    int version(void);
+    float version(void);
     QString description(void);
     QString SQL(void);
 private:
-    int m_version;
+    float m_version;
     QString m_description;
     QString m_sql;
 };
@@ -33,26 +33,18 @@ public:
     void Migrate(const QString);
     bool createTableVersion(void);
 
-    //void addMigrationsExecuted(void);
-    //void addVerifiedMigrations(void);
-    //void addPendingMigrations(void);
-
     void setProgressVisible(bool visible);
-
-    //void setVerifiedMigrations(int count);
-    //void setExecutedMigrations(int count);
-    //void setPendingMigrations(int count);
+    void setVerifiedMigrations(int count);
 
     bool progressVisible(void);
-    //QList<Migration*> MigrationsExecuted(void);
-    //QList<Migration*> PendingMigrations(void);
-    //int VerifiedMigrationsCount(void);
+    int VerifiedMigrationsCount(void);
 private:
     void InitXML(QString);
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
 
     bool writeMigrationLog(Migration&);
+    float getCurrentSchemaVersion(void);
 
     QString filePath;
     QDomDocument xml;

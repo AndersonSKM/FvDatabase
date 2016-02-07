@@ -129,7 +129,7 @@
   <SQL version="10" id="Update">
     <!--
       CREATE TABLE `fornecedores10` (
-          `ID` INT(11) NOT NULL UTO_INCREMENT,
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
           `NOME` VARCHAR(20) NULL DEFAULT NULL,
           `IDADE` INT(11) NULL DEFAULT NULL,
           `SEXO` VARCHAR(1) NULL DEFAULT NULL,

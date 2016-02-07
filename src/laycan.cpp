@@ -51,13 +51,21 @@ bool Laycan::writeMigrationLog(Migration &script)
     return query.exec();
 }
 
-bool Laycan::createTableVersion(void)
+float Laycan::getCurrentSchemaVersion()
 {
-    QSqlQuery q;
+    QSqlQuery query;
+    query.exec("select max(version) from schema_version");
+    query.next();
+    return query.value(0).toFloat();
+}
+
+bool Laycan::createTableVersion()
+{
+    QSqlQuery query;
     QSqlDatabase::database().transaction();
 
-    bool executed = q.exec("CREATE TABLE schema_version ("
-                           "   version INT NULL, "
+    bool executed = query.exec("CREATE TABLE schema_version ("
+                           "   version FLOAT NULL, "
                            "   description VARCHAR(200) NULL,"
                            "   script TEXT NULL"
                            ");");
@@ -67,7 +75,7 @@ bool Laycan::createTableVersion(void)
     } else {
         QSqlDatabase::database().rollback();
         qDebug() << "[Erro Ao Criar Tabela de Versão: "
-                 << q.lastError().text() << "]";
+                 << query.lastError().text() << "]";
     }
 
     return executed;
@@ -75,6 +83,8 @@ bool Laycan::createTableVersion(void)
 
 void Laycan::executeMigrations()
 {
+    QSqlQuery query;
+
     dlg = new MigrationProgress();
     dlg->setWindowFlags( Qt::CustomizeWindowHint );
     dlg->setMaximum(Migrations.count());
@@ -82,18 +92,13 @@ void Laycan::executeMigrations()
     if (progressVisible())
         dlg->show();
 
-
     if (!QSqlDatabase::database().tables().contains("schema_version")) {
         qDebug() << "[Criando tabela de versão]";
         if (!createTableVersion())
             return;
     }
 
-    QSqlQuery query;
-    query.exec("select max(version) from schema_version");
-    query.next();
-    int dbSchemaVersion = query.value(0).toInt();
-
+    float dbSchemaVersion = getCurrentSchemaVersion();
     qDebug() << "[Versão do schema atual: " << dbSchemaVersion << "]";
 
     Migration script;
@@ -149,7 +154,7 @@ void Laycan::loadMigrationsFromXML(void)
             QDomElement migration = migrationNode.toElement();
             QString version = migration.attribute("version");
 
-            script.setVersion(version.toInt());
+            script.setVersion(version.toFloat());
             script.setDescription(migration.attribute("id", "Update schema to version " + version));
         }
 
@@ -182,7 +187,7 @@ void Laycan::InitXML(QString xmlPath)
 
 /* End XML Functions */
 
-void Migration::setVersion(int version)
+void Migration::setVersion(float version)
 {
     m_version = version;
 }
@@ -197,7 +202,7 @@ void Migration::setSQL(QString sql)
     m_sql = sql;
 }
 
-int Migration::version(void)
+float Migration::version(void)
 {
     return m_version;
 }
