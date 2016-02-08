@@ -22,6 +22,8 @@ Database::~Database()
 
 bool Database::databaseError(QString erro)
 {
+    qDebug() << "[Conexao falhou:" << erro << "]";
+    
     const QString errorMessage = "O sistema não consegiu se conectar com o banco de dados"
                                  " por favor verifique-a o erro: "+erro;
     QMessageBox *msgBox = new QMessageBox;
@@ -35,7 +37,7 @@ bool Database::databaseError(QString erro)
     if(msgBox->clickedButton() == configButton)
         return true;
 
-return false;
+    return false;
 }
 
 bool Database::setConection(IniFile *parameters)
@@ -52,7 +54,6 @@ bool Database::setConection(IniFile *parameters)
 
    qDebug() << "[Verificando Banco de dados]";
    if (!db.open()) {
-       qDebug() << "[Conexao falhou:"+db.lastError().text()+"]";
        databaseError(db.lastError().text());
        return false;
    }
