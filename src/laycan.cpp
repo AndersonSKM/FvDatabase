@@ -92,7 +92,7 @@ void Laycan::executeMigrations()
         dlg->show();
 
     if (!QSqlDatabase::database().tables().contains("schema_version")) {
-        dlg->putLog() << "Criando Tabela de Versão";
+        dlg->putLog("Criando Tabela de Versão");
         if (!createTableVersion())
             return;
     }
