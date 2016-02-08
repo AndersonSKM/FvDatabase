@@ -23,7 +23,6 @@ Laycan::~Laycan()
 void Laycan::Migrate(const QString xmlPath)
 {
     InitXML(xmlPath);
-    loadMigrationsFromXML();
     executeMigrations();
 }
 
@@ -93,13 +92,14 @@ void Laycan::executeMigrations()
         dlg->show();
 
     if (!QSqlDatabase::database().tables().contains("schema_version")) {
-        qDebug() << "[Criando tabela de versão]";
+        dlg->putLog() << "Criando Tabela de Versão";
         if (!createTableVersion())
             return;
     }
 
     float dbSchemaVersion = getCurrentSchemaVersion();
-    qDebug() << "[Versão do schema atual: " << dbSchemaVersion << "]";
+
+    loadMigrationsFromXML();
 
     Migration script;
     foreach (script, Migrations) {

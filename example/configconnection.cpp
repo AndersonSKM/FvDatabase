@@ -46,7 +46,6 @@ void ConfigConnection::on_btnOk_clicked()
         if ( data.setConection(ini) ) {
             Laycan d;
             this->hide();
-
             d.Migrate(":/Migrations/note.xml");
 
             MainWindow *m = new MainWindow;

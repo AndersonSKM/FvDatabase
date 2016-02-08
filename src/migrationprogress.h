@@ -2,6 +2,8 @@
 #define MIGRATIONPROGRESS_H
 
 #include <QMainWindow>
+#include <QStringList>
+#include <QTextStream>
 
 namespace Ui {
 class MigrationProgress;
@@ -15,11 +17,13 @@ public:
 
     int progress();
 
+    void putLog operator <<(&out,"");
     void setProgress(int value);
     void setStatus(QString value, QString color = "blue");
     void setMaximum(int value);
 private:
     Ui::MigrationProgress *ui;
+    QTextStream ts;
 };
 
 #endif // MIGRATIONPROGRESS_H
