@@ -18,10 +18,6 @@ public:
 
     bool setConection(IniFile *parameters);
     bool databaseError(QString erro);
-signals:
-
-public slots:
-
 private:
    QSqlDatabase db;
 };
