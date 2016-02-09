@@ -31,34 +31,41 @@ public:
     ~Laycan();
 
     void Migrate(const QString);
-    void putLog(QString msg);
-    void putLogError(QString msg);
     bool createTableVersion(void);
+    void putLog(QString);
+    void putLogError(QString);
 
-    void setProgressVisible(bool visible);
-    void setVerifiedMigrations(int count);
+    void setLogFilePath(QString);
+    void setProgressVisible(bool);
+    void setVerifiedMigrations(int);
+    void setSaveLogFile(bool);
 
+    QString logFilePath(void);
+    bool saveLogFile(void);
     bool progressVisible(void);
     int VerifiedMigrationsCount(void);
 private:
-    void InitXML(QString);
+    void InitXML(void);
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
+    void flushLog(QString msg);
 
     bool writeMigrationLog(Migration&);
     float getCurrentSchemaVersion(void);
 
-    QString filePath;
+    MigrationProgress *dlg;
+    QString xmlFilePath;
     QDomDocument xml;
     QStringList log;
 
-    MigrationProgress *dlg;
     QList<Migration> Migrations;
     QList<Migration> m_ExecutedMigrations;
     QList<Migration> m_PendingMigrations;
-    int m_verifiedMigrations;
 
+    QString m_logFilePath;
+    int m_verifiedMigrations;
     bool m_progressVisible;
+    bool m_saveLogFile;
 };
 
 #endif // Laycan_H

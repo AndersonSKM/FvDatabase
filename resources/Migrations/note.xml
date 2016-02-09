@@ -140,4 +140,144 @@
       ENGINE=InnoDB;
     -->
   </SQL>
+  <SQL version="11" id="Criar primeira tabela">
+    <!--
+      CREATE TABLE `fornecedores11` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="12" id="Update">
+    <!--
+      CREATE TABLE `fornecedores12` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="13" id="Update">
+    <!--
+      CREATE TABLE `fornecedores13` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="14" id="Update">
+    <!--
+      CREATE TABLE `fornecedores14` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="15" id="Update">
+    <!--
+      CREATE TABLE `fornecedores15` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="16" id="Update">
+    <!--
+        CREATE TABLE `fornecedores16` (
+            `ID` INT(11) NOT NULL AUTO_INCREMENT,
+            `NOME` VARCHAR(20) NULL DEFAULT NULL,
+            `IDADE` INT(11) NULL DEFAULT NULL,
+            `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+            `ALTURA` FLOAT NULL DEFAULT NULL,
+            PRIMARY KEY (`ID`)
+        )
+        COLLATE='utf8_general_ci'
+        ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="17" id="Update">
+    <!--
+      CREATE TABLE `fornecedores17` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="18" id="Update">
+    <!--
+      CREATE TABLE `fornecedores18` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="19" id="Update">
+    <!--
+      CREATE TABLE `fornecedores19` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
+  <SQL version="20" id="Update">
+    <!--
+      CREATE TABLE `fornecedores20` (
+          `ID` INT(11) NOT NULL AUTO_INCREMENT,
+          `NOME` VARCHAR(20) NULL DEFAULT NULL,
+          `IDADE` INT(11) NULL DEFAULT NULL,
+          `SEXO` VARCHAR(1) NULL DEFAULT NULL,
+          `ALTURA` FLOAT NULL DEFAULT NULL,
+          PRIMARY KEY (`ID`)
+      )
+      COLLATE='utf8_general_ci'
+      ENGINE=InnoDB;
+    -->
+  </SQL>
 </Migrations>
