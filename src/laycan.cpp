@@ -22,8 +22,20 @@ Laycan::~Laycan()
 
 void Laycan::Migrate(const QString xmlPath)
 {
+    dlg = new MigrationProgress();
+    dlg->setWindowFlags(Qt::CustomizeWindowHint);
+    dlg->setMaximum(Migrations.count());
+
+    putLog("[Checking the connection to the database]");
+    if (!QSqlDatabase::database().isOpen()) {
+        putLogError("[Error to connect to the database] : " +
+                    QSqlDatabase::database().lastError().text());
+    }
+
     InitXML(xmlPath);
     executeMigrations();
+
+    delete dlg;
 }
 
 void Laycan::setProgressVisible(bool visible)
@@ -58,6 +70,22 @@ float Laycan::getCurrentSchemaVersion()
     return query.value(0).toFloat();
 }
 
+void Laycan::putLog(QString msg)
+{
+    if (dlg != NULL) {
+        dlg->putLog(msg,Qt::black);
+        log.append(msg);
+    }
+}
+
+void Laycan::putLogError(QString msg)
+{
+    if (dlg != NULL) {
+        dlg->putLog(msg,Qt::red);
+        log.append(msg);
+    }
+}
+
 bool Laycan::createTableVersion()
 {
     QSqlQuery query;
@@ -83,10 +111,6 @@ bool Laycan::createTableVersion()
 void Laycan::executeMigrations()
 {
     QSqlQuery query;
-
-    dlg = new MigrationProgress();
-    dlg->setWindowFlags( Qt::CustomizeWindowHint );
-    dlg->setMaximum(Migrations.count());
 
     if (progressVisible())
         dlg->show();
@@ -131,8 +155,6 @@ void Laycan::executeMigrations()
         dlg->setProgress(dlg->progress()+1);
     }
     qDebug() << "[Finalizando Migração]";
-
-    delete dlg;
 }
 
 /* XML Functions */

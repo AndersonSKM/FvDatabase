@@ -34,9 +34,9 @@ void MigrationProgress::setStatus(QString value, QString color)
     QApplication::processEvents();
 }
 
-void MigrationProgress::putLog(QString value,QString color)
+void MigrationProgress::putLog(QString value, QColor color)
 {
-    ui->memoLog->append("<font color='"+color+"'>"+value+"</font>");
+    ui->memoLog->append("<font color='"+color.name()+"'>"+value+"</font>");
     ui->memoLog->update();
     QApplication::processEvents();
 }

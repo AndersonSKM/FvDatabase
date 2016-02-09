@@ -31,6 +31,8 @@ public:
     ~Laycan();
 
     void Migrate(const QString);
+    void putLog(QString msg);
+    void putLogError(QString msg);
     bool createTableVersion(void);
 
     void setProgressVisible(bool visible);
@@ -48,6 +50,7 @@ private:
 
     QString filePath;
     QDomDocument xml;
+    QStringList log;
 
     MigrationProgress *dlg;
     QList<Migration> Migrations;

@@ -16,7 +16,7 @@ public:
 
     int progress();
 
-    void putLog(QString value, QString color = "black");
+    void putLog(QString value, QColor color = Qt::black);
     void setProgress(int value);
     void setStatus(QString value, QString color = "blue");
     void setMaximum(int value);
