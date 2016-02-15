@@ -1,7 +1,14 @@
 #ifndef Laycan_H
 #define Laycan_H
 
+#include <QTime>
 #include <QDomDocument>
+#include <QVariant>
+#include <QFile>
+#include <QApplication>
+#include <QDebug>
+#include <QTextStream>
+
 
 #include "migrationprogress.h"
 
@@ -32,23 +39,23 @@ public:
 
     void Migrate(const QString);
     bool createTableVersion(void);
-    void putLog(QString);
-    void putLogError(QString);
+    void put(QString);
+    void putError(QString);
 
     void setLogFilePath(QString);
     void setProgressVisible(bool);
     void setVerifiedMigrations(int);
-    void setSaveLogFile(bool);
 
     QString logFilePath(void);
-    bool saveLogFile(void);
     bool progressVisible(void);
-    int VerifiedMigrationsCount(void);
+    int verifiedMigrationsCount(void);
+    int executedMigrationsCount(void);
 private:
     void InitXML(void);
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
     void flushLog(QString msg);
+    void addExecuteMigration(Migration&);
 
     bool writeMigrationLog(Migration&);
     float getCurrentSchemaVersion(void);
@@ -56,7 +63,8 @@ private:
     MigrationProgress *dlg;
     QString xmlFilePath;
     QDomDocument xml;
-    QStringList log;
+
+    QFile *logFile;
 
     QList<Migration> Migrations;
     QList<Migration> m_ExecutedMigrations;
@@ -65,7 +73,6 @@ private:
     QString m_logFilePath;
     int m_verifiedMigrations;
     bool m_progressVisible;
-    bool m_saveLogFile;
 };
 
 #endif // Laycan_H

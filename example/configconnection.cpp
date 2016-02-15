@@ -45,7 +45,6 @@ void ConfigConnection::on_btnOk_clicked()
         Database data;
         if ( data.setConection(ini) ) {
             Laycan d;
-            d.setSaveLogFile(true);
             d.setLogFilePath("/Users/Anderson/Desktop/laycanlog.log");
 
             this->hide();

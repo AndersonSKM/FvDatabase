@@ -14,12 +14,12 @@
 Laycan::Laycan()
 {
     m_progressVisible = true;
-    m_saveLogFile = false;
+    logFile = nullptr;
 }
 
 Laycan::~Laycan()
 {
-
+    delete logFile;
 }
 
 void Laycan::Migrate(const QString xmlPath)
@@ -29,31 +29,27 @@ void Laycan::Migrate(const QString xmlPath)
     dlg->setWindowFlags(Qt::CustomizeWindowHint);
     dlg->setMaximum(Migrations.count());
 
-    putLog("[Checking the connection to the database]");
+    put("[Checking the connection to the database]");
     if (!QSqlDatabase::database().isOpen()) {
-        putLogError("[Error to connect to the database] : " +
+        putError("[Error to connect to the database] : " +
                     QSqlDatabase::database().lastError().text());
+    } else {
+        InitXML();
+        executeMigrations();
     }
-
-    InitXML();
-    executeMigrations();
 
     delete dlg;
 }
 
 void Laycan::flushLog(QString msg)
 {
-    if (!logFilePath().isEmpty()) {
-        QFile file(logFilePath());
-
-        if (!file.open(QIODevice::Append | QIODevice::Text)) {
-            qDebug() << "[Cannot write log file " << logFilePath() << "]";
-            return;
-        }
-
-        QTextStream out(&file);
-        out << "["+ QTime::currentTime().toString() +"]"  << msg << &endl;
-        file.close();
+    if (logFile != nullptr) {
+        QTextStream out(logFile);
+        QDateTime dateTime = QDateTime::currentDateTime();
+        QString logMessage = QString("[%1] : %3")
+                                .arg(dateTime.toString("dd/MM/yyyy - hh:mm:ss"))
+                                .arg(msg);
+        out << logMessage << &endl;
     }
 }
 
@@ -67,24 +63,31 @@ bool Laycan::progressVisible()
     return m_progressVisible;
 }
 
-void Laycan::setSaveLogFile(bool value)
+QString Laycan::logFilePath()
 {
-    m_saveLogFile = value;
-}
+    if (logFile != nullptr)
+        return logFile->fileName();
 
-bool Laycan::saveLogFile(void)
-{
-    return m_saveLogFile;
-}
-
-QString Laycan::logFilePath(void)
-{
-    return m_logFilePath;
+    return "";
 }
 
 void Laycan::setLogFilePath(QString path)
 {
-    m_logFilePath = path;
+    logFile =  new QFile(path);
+    if (!logFile->open(QIODevice::Append | QIODevice::Text)) {
+        qDebug() << "[Cannot write log file " << logFile->fileName() << "]";
+        return;
+    }
+}
+
+void Laycan::addExecuteMigration(Migration &m)
+{
+    m_ExecutedMigrations.append(m);
+}
+
+int Laycan::executedMigrationsCount()
+{
+    return m_ExecutedMigrations.count();
 }
 
 bool Laycan::writeMigrationLog(Migration &script)
@@ -109,7 +112,7 @@ float Laycan::getCurrentSchemaVersion()
     return query.value(0).toFloat();
 }
 
-void Laycan::putLog(QString msg)
+void Laycan::put(QString msg)
 {
     if (dlg != NULL) {
         dlg->putLog(msg,Qt::black);
@@ -117,7 +120,7 @@ void Laycan::putLog(QString msg)
     }
 }
 
-void Laycan::putLogError(QString msg)
+void Laycan::putError(QString msg)
 {
     if (dlg != NULL) {
         dlg->putLog(msg,Qt::red);
@@ -140,7 +143,7 @@ bool Laycan::createTableVersion()
         QSqlDatabase::database().commit();
     } else {
         QSqlDatabase::database().rollback();
-        putLogError("[Error creating version table: " +
+        putError("[Error creating version table: " +
                     query.lastError().text() + "]");
     }
 
@@ -155,7 +158,7 @@ void Laycan::executeMigrations()
         dlg->show();
 
     if (!QSqlDatabase::database().tables().contains("schema_version")) {
-        dlg->putLog("Creating versions table");
+        put("Creating versions table");
         if (!createTableVersion())
             return;
     }
@@ -167,7 +170,7 @@ void Laycan::executeMigrations()
     Migration script;
     foreach (script, Migrations) {
         if (script.version() > dbSchemaVersion) {
-            putLog("[Migrating version of the schema for: " + QString::number(script.version()) + "]");
+            put("[Migrating version of the schema for: " + QString::number(script.version()) + "]");
             dlg->setStatus("Verifying the Migration: " + script.description());
 
             QSqlDatabase::database().transaction();
@@ -181,29 +184,32 @@ void Laycan::executeMigrations()
 
             if (executed) {
                 QSqlDatabase::database().commit();
+                addExecuteMigration(script);
             } else {
-                putLogError("[ERRO] Error executing SQL: " + script.description()
+                putError("[ERRO] Error executing SQL: " + script.description()
                           + "Error: " + query.lastError().text()
                           + " SQL: "  + query.lastQuery());
                 QSqlDatabase::database().rollback();
 
-                putLog("[Última migração executada: " + script.description() + "]");
+                put("[Last executed SQL: " + script.description() + "]");
                 break;
             }
         }
         dlg->setProgress(dlg->progress()+1);
     }
-    putLog("[Finalizando Migração]");
+    put("[Finalizing the migration]");
+    put("[Performed migrations: "+ QString::number(executedMigrationsCount()) +"]");
+    put("[Pending migrations]");
 }
 
 /* XML Functions */
 void Laycan::loadMigrationsFromXML(void)
 {
-    putLog("[Loading File SQL scripts " + xmlFilePath + "]");
+    put("[Loading File SQL scripts " + xmlFilePath + "]");
     QDomNodeList root = xml.elementsByTagName("SQL");
 
     if (root.isEmpty()) {
-        putLogError("[No migration found in XML]");
+        putError("[No migration found in XML]");
         return;
     }
 
@@ -228,7 +234,7 @@ void Laycan::loadMigrationsFromXML(void)
         Migrations.append(script);
     }
 
-    putLog("[Loaded migrations: " + QString::number(root.count()) + "]");
+    put("[Loaded migrations: " + QString::number(root.count()) + "]");
 }
 
 void Laycan::InitXML()
