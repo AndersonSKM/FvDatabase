@@ -27,9 +27,9 @@ void MigrationProgress::setMaximum(int value)
     ui->progressBar->setMaximum(value);
 }
 
-void MigrationProgress::setStatus(QString value, QString color)
+void MigrationProgress::setStatus(QString value, QColor color)
 {
-    ui->lbStatus->setText("<font color='"+color+"'>"+value+"</font>");
+    ui->lbStatus->setText("<font color='"+color.name()+"'>"+value+"</font>");
     ui->label->update();
     QApplication::processEvents();
 }

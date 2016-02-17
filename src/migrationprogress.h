@@ -18,7 +18,7 @@ public:
 
     void putLog(QString value, QColor color = Qt::black);
     void setProgress(int value);
-    void setStatus(QString value, QString color = "blue");
+    void setStatus(QString value, QColor color = Qt::blue);
     void setMaximum(int value);
 private:
     Ui::MigrationProgress *ui;

@@ -31,6 +31,14 @@ private:
     QString m_sql;
 };
 
+enum LogLevel
+{
+    ERROR,
+    WARNING,
+    INFORMATION,
+    DEBUG
+};
+
 class Laycan
 {
 public:
@@ -39,8 +47,7 @@ public:
 
     void Migrate(const QString);
     bool createTableVersion(void);
-    void put(QString);
-    void putError(QString);
+    void log(QString,LogLevel = INFORMATION);
 
     void setLogFilePath(QString);
     void setProgressVisible(bool);
