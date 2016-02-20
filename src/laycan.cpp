@@ -81,7 +81,7 @@ void Laycan::setLogFilePath(QString path)
     }
 }
 
-void Laycan::addExecuteMigration(Migration &m)
+void Laycan::addExecutedMigration(Migration &m)
 {
     m_ExecutedMigrations.append(m);
 }
@@ -120,6 +120,11 @@ void Laycan::log(QString msg, LogLevel level)
         case INFORMATION:
             colorMsg = Qt::red;
             msg = "[" + msg + "]";
+        break;
+
+        case WARNING:
+            colorMsg = Qt::yellow;
+            msg = "[WARNING] :" + msg;
         break;
 
         case ERROR:
@@ -190,7 +195,7 @@ void Laycan::executeMigrations()
 
             if (executed) {
                 QSqlDatabase::database().commit();
-                addExecuteMigration(script);
+                addExecutedMigration(script);
             } else {
                 log("Error executing SQL: " + script.description()
                           + "Error: " + query.lastError().text()

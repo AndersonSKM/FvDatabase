@@ -18,6 +18,7 @@ IniFile::IniFile(QString PATH)
         m_passwd = settings.value("PASSWD").toString();
         m_database = settings.value("DATABASE").toString();
         m_port = settings.value("PORT").toInt();
+        m_logFilePath = settings.value("LOGFILE").toString();
     }
 }
 
@@ -51,6 +52,11 @@ int IniFile::port()
     return m_port;
 }
 
+QString IniFile::logFilePath()
+{
+    return m_logFilePath;
+}
+
 void IniFile::setDriverType(drivers value)
 {
     m_driverType = value;
@@ -81,6 +87,11 @@ void IniFile::setPort(int value)
     m_port = value;
 }
 
+void IniFile::setLogFilePath(QString value)
+{
+    m_logFilePath = value;
+}
+
 bool IniFile::verifyIniFile()
 {
     qDebug() << "[Verificando arquivo .ini]";
@@ -91,7 +102,7 @@ bool IniFile::verifyIniFile()
        return false;
     }
 
-return true;
+    return true;
 }
 
 void IniFile::save()
@@ -103,6 +114,7 @@ void IniFile::save()
     settings.setValue("CONEXAO/PASSWD",   m_passwd);
     settings.setValue("CONEXAO/DATABASE", m_database);
     settings.setValue("CONEXAO/PORT",     m_port);
+    settings.setValue("CONEXAO/LOGFILE",  m_logFilePath);
     settings.sync();
     qDebug() << "[Salvando em arquivo .ini]";
 }

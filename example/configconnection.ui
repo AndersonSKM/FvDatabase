@@ -38,7 +38,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Usuário:</string>
+    <string>User:</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="edtDatabase">
@@ -70,7 +70,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Banco de Dados:</string>
+    <string>Database:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -89,7 +89,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Porta:</string>
+    <string>Port:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -108,7 +108,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Senha:</string>
+    <string>Password:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnCancel">
@@ -176,7 +176,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Servidor / IP:</string>
+    <string>Server Name / IP:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -259,6 +259,38 @@
       <normaloff>:/icons/1444503647_mysql-2048-black.png</normaloff>:/icons/1444503647_mysql-2048-black.png</iconset>
     </property>
    </item>
+  </widget>
+  <widget class="QLineEdit" name="edtLogFilePath">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>199</y>
+     <width>241</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Normal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>200</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Tahoma</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Log File:</string>
+   </property>
   </widget>
  </widget>
  <tabstops>

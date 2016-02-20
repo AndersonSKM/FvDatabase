@@ -15,6 +15,7 @@ private:
     QString m_passwd;
     QString m_database;
     int m_port;
+    QString m_logFilePath;
 
     QString m_PATH;
 
@@ -27,6 +28,7 @@ public:
     QString passwd();
     QString database();
     int port();
+    QString logFilePath();
 
     void setDriverType(drivers);
     void setServer(QString);
@@ -34,6 +36,7 @@ public:
     void setPasswd(QString);
     void setDatabase(QString);
     void setPort(int);
+    void setLogFilePath(QString);
 
     void save();
 };

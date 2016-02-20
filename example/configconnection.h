@@ -21,6 +21,9 @@ private slots:
 
     void on_btnCancel_clicked();
 
+public slots:
+    void closeEvent(QCloseEvent *event);
+
 private:
     Ui::ConfigConnection *ui;
     IniFile *ini;

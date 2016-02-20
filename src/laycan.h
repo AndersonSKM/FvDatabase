@@ -36,7 +36,6 @@ enum LogLevel
     ERROR,
     WARNING,
     INFORMATION,
-    DEBUG
 };
 
 class Laycan
@@ -62,7 +61,7 @@ private:
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
     void flushLog(QString msg);
-    void addExecuteMigration(Migration&);
+    void addExecutedMigration(Migration&);
 
     bool writeMigrationLog(Migration&);
     float getCurrentSchemaVersion(void);
