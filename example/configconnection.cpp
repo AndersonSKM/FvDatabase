@@ -14,16 +14,7 @@ ConfigConnection::ConfigConnection(QWidget *parent) :
     ui(new Ui::ConfigConnection)
 {
     ui->setupUi(this);
-    QSettings setttings("Laycan","LaycanExemple");
-
-    setttings.beginGroup("CONNECTION");
-    ui->edtServer->setText(setttings.value("Server").toString());
-    ui->edtDatabase->setText(setttings.value("Database").toString());
-    ui->edtUsuario->setText(setttings.value("User").toString());
-    ui->edtSenha->setText(setttings.value("Passwd").toString());
-    ui->sbPorta->setValue(setttings.value("Port").toInt());
-    ui->edtLogFilePath->setText(setttings.value("LogFile").toString());
-    setttings.endGroup();
+    loadSettings();
 }
 
 ConfigConnection::~ConfigConnection()
@@ -33,25 +24,23 @@ ConfigConnection::~ConfigConnection()
 
 void ConfigConnection::on_btnOk_clicked()
 {
-    if (ui->edtServer->text().isEmpty())
-        Database::Menssage("Preencha o campo Servidor !");
-    else if (ui->edtUsuario->text().isEmpty())
-        Database::Menssage("Preencha o campo Usuário !");
-    else if (ui->edtDatabase->text().isEmpty())
-        Database::Menssage("Preencha o campo Banco de Dados !");
-    else {
-        ini->setDriverType(mysql);
-        ini->setServer(ui->edtServer->text().trimmed());
-        ini->setUserName(ui->edtUsuario->text().trimmed());
-        ini->setPasswd(ui->edtSenha->text().trimmed());
-        ini->setPort(ui->sbPorta->value());
-        ini->setDatabase(ui->edtDatabase->text().trimmed());
-        ini->save();
+    if (ui->edtServer->text().isEmpty()) {
+        Database::Menssage("The Server field can not be empty!");
+        ui->edtServer->setFocus();
+    } else if (ui->edtUsuario->text().isEmpty()) {
+        Database::Menssage("The User field can not be empty!");
+        ui->edtUsuario->setFocus();
+    } else if (ui->edtDatabase->text().isEmpty()) {
+        Database::Menssage("The Database field can not be empty!");
+        ui->edtDatabase->setFocus();
+    } else {
+        writeSettings();
 
         Database data;
-        if ( data.setConection(ini) ) {
+        if ( data.setConection() ) {
             Laycan d;
-            //d.setLogFilePath("/Users/Anderson/Desktop/laycanlog.log");
+            if (!ui->edtLogFilePath->text().isEmpty())
+                d.setLogFilePath(ui->edtLogFilePath->text());
 
             this->hide();
             d.Migrate(":/Migrations/note.xml");
@@ -62,7 +51,20 @@ void ConfigConnection::on_btnOk_clicked()
     }
 }
 
-void ConfigConnection::closeEvent(QCloseEvent *event)
+void ConfigConnection::loadSettings(void)
+{
+    QSettings setttings("Laycan","LaycanExemple");
+    setttings.beginGroup("CONNECTION");
+    ui->edtServer->setText(setttings.value("Server").toString());
+    ui->edtDatabase->setText(setttings.value("Database").toString());
+    ui->edtUsuario->setText(setttings.value("User").toString());
+    ui->edtSenha->setText(setttings.value("Passwd").toString());
+    ui->sbPorta->setValue(setttings.value("Port").toInt());
+    ui->edtLogFilePath->setText(setttings.value("LogFile").toString());
+    setttings.endGroup();
+}
+
+void ConfigConnection::writeSettings(void)
 {
     QSettings setttings("Laycan","LaycanExemple");
     setttings.beginGroup("CONNECTION");
@@ -75,7 +77,13 @@ void ConfigConnection::closeEvent(QCloseEvent *event)
     setttings.endGroup();
 }
 
+void ConfigConnection::closeEvent()
+{
+    writeSettings();
+}
+
 void ConfigConnection::on_btnCancel_clicked()
 {
+    closeEvent();
     QApplication::exit();
 }

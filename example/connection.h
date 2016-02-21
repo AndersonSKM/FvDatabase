@@ -6,8 +6,6 @@
 #include <QtSql>
 #include <QMessageBox>
 
-#include "inifile.h"
-
 class Database : public QWidget
 {
 public:
@@ -16,8 +14,8 @@ public:
 
     static void Menssage(QString text);
 
-    bool setConection(IniFile *parameters);
-    bool databaseError(QString erro);
+    bool setConection(void);
+    void databaseError(const QString);
 private:
    QSqlDatabase db;
 };

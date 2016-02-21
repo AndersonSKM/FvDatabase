@@ -2,7 +2,6 @@
 #define CONFIGCONNECTION_H
 
 #include <QDialog>
-#include "inifile.h"
 
 namespace Ui {
 class ConfigConnection;
@@ -22,11 +21,13 @@ private slots:
     void on_btnCancel_clicked();
 
 public slots:
-    void closeEvent(QCloseEvent *event);
+    void closeEvent();
 
 private:
+    void loadSettings(void);
+    void writeSettings(void);
+
     Ui::ConfigConnection *ui;
-    IniFile *ini;
 };
 
 #endif // CONFIGCONNECTION_H

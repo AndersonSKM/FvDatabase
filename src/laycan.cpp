@@ -77,6 +77,7 @@ void Laycan::setLogFilePath(QString path)
     logFile =  new QFile(path);
     if (!logFile->open(QIODevice::Append | QIODevice::Text)) {
         qDebug() << "[Cannot write log file " << logFile->fileName() << "]";
+        logFile = nullptr;
         return;
     }
 }
@@ -120,17 +121,15 @@ void Laycan::log(QString msg, LogLevel level)
         case INFORMATION:
             colorMsg = Qt::red;
             msg = "[" + msg + "]";
-        break;
-
+            break;
         case WARNING:
             colorMsg = Qt::yellow;
             msg = "[WARNING] :" + msg;
-        break;
-
+            break;
         case ERROR:
             colorMsg = Qt::black;
             msg = "[ERROR]: " + msg;
-        break;
+            break;
     }
 
     if (dlg != nullptr) {

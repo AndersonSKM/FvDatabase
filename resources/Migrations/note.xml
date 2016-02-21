@@ -280,4 +280,101 @@
       ENGINE=InnoDB;
     -->
   </SQL>
+  <SQL version="21" id="Create Procedure WriteData">
+    <!--
+        create procedure writedata()
+        begin
+                declare contage int default 0;
+                declare newID int;
+
+                while contage <> 100000 do
+                        select max(ID) + 1 into newID from fornecedores01;
+                        insert into fornecedores01
+                                (ID, NOME, SEXO, ALTURA)
+                        values
+                                (newID, "TEST", "M", 1.80);
+
+                        set contage = contage + 1;
+                end while;
+
+                insert into fornecedores02
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores01;
+
+                insert into fornecedores03
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores02;
+
+                insert into fornecedores04
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores03;
+
+                insert into fornecedores05
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores04;
+
+                insert into fornecedores06
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores05;
+
+                insert into fornecedores07
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores06;
+
+                insert into fornecedores08
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores07;
+
+                insert into fornecedores09
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores08;
+
+                insert into fornecedores10
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores09;
+
+                insert into fornecedores11
+                  (ID, NOME, SEXO, ALTURA)
+                select ID, NOME, SEXO, ALTURA from fornecedores10;
+
+        end;
+    -->
+  </SQL>
+  <SQL version="22" id="Call Procedure WriteData">
+    <!--
+      call writedata;
+    -->
+  </SQL>
+  <SQL version="23" id="Update">
+    <!--
+        insert into fornecedores12
+          (ID, NOME, SEXO, ALTURA)
+        select ID, NOME, SEXO, ALTURA from fornecedores11;
+    -->
+  </SQL>
+  <SQL version="24" id="Update">
+    <!--
+        insert into fornecedores13
+            (ID, NOME, SEXO, ALTURA)
+        select ID, NOME, SEXO, ALTURA from fornecedores12;
+    -->
+  </SQL>
+  <SQL version="25" id="Update">
+    <!--
+      delete from fornecedores01;
+      delete from fornecedores02;
+      delete from fornecedores03;
+      delete from fornecedores04;
+      delete from fornecedores05;
+      delete from fornecedores06;
+      delete from fornecedores07;
+      delete from fornecedores08;
+      delete from fornecedores09;
+      delete from fornecedores10;
+      delete from fornecedores11;
+      delete from fornecedores12;
+      delete from fornecedores13;
+      call writedata;
+    -->
+  </SQL>
 </Migrations>

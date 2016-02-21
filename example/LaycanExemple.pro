@@ -20,14 +20,11 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     connection.cpp \
-    inifile.cpp \
     mainwindow.cpp \
     configconnection.cpp
 
 HEADERS  += \
     connection.h \
-    inifile.h \
-    inifile.h \
     mainwindow.h \
     configconnection.h
 

@@ -20,44 +20,35 @@ Database::~Database()
 
 }
 
-bool Database::databaseError(QString erro)
+void Database::databaseError(const QString erro)
 {
-    qDebug() << "[Conexao falhou:" << erro << "]";
-    
-    const QString errorMessage = "O sistema não consegiu se conectar com o banco de dados"
-                                 " por favor verifique-a o erro: "+erro;
-    QMessageBox *msgBox = new QMessageBox;
-    QAbstractButton *configButton = msgBox->addButton(tr("Configurar Conecxão"), QMessageBox::YesRole);
-    msgBox->addButton(tr("Cancelar"), QMessageBox::NoRole);
-    msgBox->setText("Erro ao Conecar a Base de Dados");
-    msgBox->setInformativeText(errorMessage);
-    msgBox->setIcon(QMessageBox::Critical);
-    msgBox->exec();
-
-    if(msgBox->clickedButton() == configButton)
-        return true;
-
-    return false;
+    QString errorMessage = "The application was unable to connect to database, "
+                                 "please check the error connection: "+erro;
+    QMessageBox::critical(this,"Error connecting to database: ",errorMessage);
 }
 
-bool Database::setConection(IniFile *parameters)
+bool Database::setConection()
 {
-   qDebug() << "[Iniciando conexao]";
+   qDebug() << "[Starting connection]";
 
-   //Cria conexao apartir dos dados passados
+   QSettings setttings("Laycan","LaycanExemple");
+   setttings.beginGroup("CONNECTION");
+
+   //Cria conexao apartir dos das configurações
    db = QSqlDatabase::addDatabase("QMYSQL");
-   db.setHostName( parameters->server() );
-   db.setUserName( parameters->userName()) ;
-   db.setPassword( parameters->passwd() );
-   db.setDatabaseName( parameters->database() );
-   db.setPort( parameters->port() );
+   db.setHostName(setttings.value("Server").toString());
+   db.setUserName(setttings.value("User").toString()) ;
+   db.setPassword(setttings.value("Passwd").toString());
+   db.setDatabaseName(setttings.value("Database").toString());
+   db.setPort(setttings.value("Port").toInt());
+   setttings.endGroup();
 
-   qDebug() << "[Verificando Banco de dados]";
+   qDebug() << "[Validating connection]";
    if (!db.open()) {
        databaseError(db.lastError().text());
        return false;
    }
 
-   qDebug() << "[Conexao estabelecida com o banco " << db.databaseName() << "]";
+   qDebug() << "[Established connection with " << db.databaseName() << "database]";
    return true;
 }
