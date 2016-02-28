@@ -14,28 +14,27 @@
 Laycan::Laycan()
 {
     m_progressVisible = true;
-    logFile = nullptr;
+    m_logFile = nullptr;
+    m_xmlFile = nullptr;
     dlg = nullptr;
 }
 
 Laycan::~Laycan()
 {
-    delete logFile;
+    delete m_logFile;
 }
 
 void Laycan::Migrate(const QString xmlPath)
 {
-    xmlFilePath = xmlPath;
     dlg = new MigrationProgress();
     dlg->setWindowFlags(Qt::CustomizeWindowHint);
-    dlg->setMaximum(Migrations.count());
 
     log("Checking the connection to the database");
     if (!QSqlDatabase::database().isOpen()) {
         log("Error to connect to the database : " +
             QSqlDatabase::database().lastError().text(),ERROR);
     } else {
-        InitXML();
+        InitXML(xmlPath);
         executeMigrations();
     }
 
@@ -44,8 +43,8 @@ void Laycan::Migrate(const QString xmlPath)
 
 void Laycan::flushLog(QString msg)
 {
-    if (logFile != nullptr) {
-        QTextStream out(logFile);
+    if (m_logFile != nullptr) {
+        QTextStream out(m_logFile);
         QDateTime dateTime = QDateTime::currentDateTime();
         QString logMessage = QString("[%1] : %3")
                                 .arg(dateTime.toString("dd/MM/yyyy - hh:mm:ss"))
@@ -66,18 +65,18 @@ bool Laycan::progressVisible()
 
 QString Laycan::logFilePath()
 {
-    if (logFile != nullptr)
-        return logFile->fileName();
+    if (m_logFile != nullptr)
+        return m_logFile->fileName();
 
     return "";
 }
 
 void Laycan::setLogFilePath(QString path)
 {
-    logFile =  new QFile(path);
-    if (!logFile->open(QIODevice::Append | QIODevice::Text)) {
-        qDebug() << "[Cannot write log file " << logFile->fileName() << "]";
-        logFile = nullptr;
+    m_logFile = new QFile(path);
+    if (!m_logFile->open(QIODevice::Append | QIODevice::Text)) {
+        qDebug() << "[Cannot write log file " << m_logFile->fileName() << "]";
+        m_logFile = nullptr;
         return;
     }
 }
@@ -119,7 +118,7 @@ void Laycan::log(QString msg, LogLevel level)
     QColor colorMsg;
     switch(level) {
         case INFORMATION:
-            colorMsg = Qt::red;
+            colorMsg = Qt::black;
             msg = "[" + msg + "]";
             break;
         case WARNING:
@@ -127,7 +126,7 @@ void Laycan::log(QString msg, LogLevel level)
             msg = "[WARNING] :" + msg;
             break;
         case ERROR:
-            colorMsg = Qt::black;
+            colorMsg = Qt::red;
             msg = "[ERROR]: " + msg;
             break;
     }
@@ -177,18 +176,20 @@ void Laycan::executeMigrations()
 
     loadMigrationsFromXML();
 
+    dlg->setMaximum(Migrations.count());
+
     Migration script;
     foreach (script, Migrations) {
+        dlg->setStatus("Verifying the Migration: " + script.description());
         if (script.version() > dbSchemaVersion) {
             log("Migrating version of the schema for: " + QString::number(script.version()));
-            dlg->setStatus("Verifying the Migration: " + script.description());
 
             QSqlDatabase::database().transaction();
 
+            dlg->setStatus("Running SQL: " + script.description(),Qt::red);
             bool executed = query.exec(script.SQL());
             if (executed) {
-                dlg->setStatus("Running SQL: " + script.description(),Qt::red);
-
+                dlg->setStatus("Saving changes to the database",Qt::green);
                 executed = writeMigrationLog(script);
             }
 
@@ -197,7 +198,7 @@ void Laycan::executeMigrations()
                 addExecutedMigration(script);
             } else {
                 log("Error executing SQL: " + script.description()
-                          + "Error: " + query.lastError().text()
+                          + " Error: " + query.lastError().text()
                           + " SQL: "  + query.lastQuery(),ERROR);
                 QSqlDatabase::database().rollback();
 
@@ -215,8 +216,8 @@ void Laycan::executeMigrations()
 /* XML Functions */
 void Laycan::loadMigrationsFromXML(void)
 {
-    log("Loading File SQL scripts " + xmlFilePath + "");
-    QDomNodeList root = xml.elementsByTagName("SQL");
+    log("Loading File SQL scripts " + m_xmlFile->fileName() + "");
+    QDomNodeList root = m_xml.elementsByTagName("SQL");
 
     if (root.isEmpty()) {
         log("No migration found in XML",ERROR);
@@ -247,18 +248,18 @@ void Laycan::loadMigrationsFromXML(void)
     log("Loaded migrations: " + QString::number(root.count()));
 }
 
-void Laycan::InitXML()
+void Laycan::InitXML(QString path)
 {
-    QFile file(xmlFilePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    m_xmlFile = new QFile(path);
+    if (!m_xmlFile->open(QIODevice::ReadOnly | QIODevice::Text))
         log("Error opening XML file",ERROR);
 
-    if (!xml.setContent(&file)) {
-        file.close();
+    if (!m_xml.setContent(m_xmlFile)) {
+        m_xmlFile->close();
         log("Error when selecting XML file",ERROR);
     }
 
-    file.close();
+    m_xmlFile->close();
 }
 
 /* End XML Functions */

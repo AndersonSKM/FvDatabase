@@ -57,7 +57,7 @@ public:
     int verifiedMigrationsCount(void);
     int executedMigrationsCount(void);
 private:
-    void InitXML(void);
+    void InitXML(QString);
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
     void flushLog(QString msg);
@@ -67,16 +67,15 @@ private:
     float getCurrentSchemaVersion(void);
 
     MigrationProgress *dlg;
-    QString xmlFilePath;
-    QDomDocument xml;
 
-    QFile *logFile;
+    QFile *m_logFile;
+    QFile *m_xmlFile;
 
+    QDomDocument m_xml;
     QList<Migration> Migrations;
     QList<Migration> m_ExecutedMigrations;
     QList<Migration> m_PendingMigrations;
 
-    QString m_logFilePath;
     int m_verifiedMigrations;
     bool m_progressVisible;
 };

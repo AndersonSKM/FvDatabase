@@ -3,7 +3,7 @@
  <class>MigrationProgress</class>
  <widget class="QMainWindow" name="MigrationProgress">
   <property name="windowModality">
-   <enum>Qt::NonModal</enum>
+   <enum>Qt::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -64,7 +64,7 @@
      <rect>
       <x>11</x>
       <y>11</y>
-      <width>179</width>
+      <width>141</width>
       <height>16</height>
      </rect>
     </property>
