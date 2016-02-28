@@ -95,12 +95,14 @@ bool Laycan::writeMigrationLog(Migration &script)
 {
     QSqlQuery query;
     query.prepare("insert into schema_version"
-                  " (version, description, script) "
+                  " (version, description, script, datehour) "
                   "values "
-                  " (:v , :d, :s)");
+                  " (:v , :d, :s, :h)");
     query.bindValue(0, script.version());
     query.bindValue(1, script.description());
     query.bindValue(2, script.SQL());
+    query.bindValue(3, QDateTime::currentDateTime()
+                        .toString("dd-MM-yyyy - hh:mm:ss"));
 
     return query.exec();
 }
@@ -137,16 +139,18 @@ void Laycan::log(QString msg, LogLevel level)
     flushLog(msg);
 }
 
-bool Laycan::createTableVersion()
+bool Laycan::createVersionTable()
 {
     QSqlQuery query;
     QSqlDatabase::database().transaction();
 
-    bool executed = query.exec("CREATE TABLE schema_version ("
-                           "   version FLOAT NULL, "
-                           "   description VARCHAR(200) NULL,"
-                           "   script TEXT NULL"
-                           ");");
+    bool executed;
+    executed = query.exec("CREATE TABLE schema_version ("
+                          "   version FLOAT NULL, "
+                          "   description VARCHAR(200) NULL,"
+                          "   script TEXT NULL,"
+                          "   datehour VARCHAR(15) NULL"
+                          ");");
 
     if (executed) {
         QSqlDatabase::database().commit();
@@ -168,7 +172,7 @@ void Laycan::executeMigrations()
 
     if (!QSqlDatabase::database().tables().contains("schema_version")) {
         log("Creating versions table");
-        if (!createTableVersion())
+        if (!createVersionTable())
             return;
     }
 

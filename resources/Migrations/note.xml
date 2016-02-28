@@ -377,4 +377,33 @@
       call writedata;
     -->
   </SQL>
+  <SQL version="26" id="Recreate Versions Table">
+    <!--
+      CREATE TABLE old_schema_version (
+         version FLOAT NULL,
+         description VARCHAR(200) NULL,
+         script TEXT NULL,
+         datehour VARCHAR(15) NULL
+      );
+
+      insert into old_schema_version
+        (version, description, script)
+      select * from schema_version;
+
+      drop table schema_version;
+
+      CREATE TABLE schema_version (
+        version FLOAT NULL,
+        description VARCHAR(200) NULL,
+        script TEXT NULL,
+        datehour VARCHAR(15) NULL
+      );
+
+      insert into schema_version
+        (version, description, script)
+      select * from old_schema_version;
+
+      drop table old_schema_version;
+    -->
+  </SQL>
 </Migrations>

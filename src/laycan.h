@@ -45,7 +45,7 @@ public:
     ~Laycan();
 
     void Migrate(const QString);
-    bool createTableVersion(void);
+    bool createVersionTable(void);
     void log(QString,LogLevel = INFORMATION);
 
     void setLogFilePath(QString);
