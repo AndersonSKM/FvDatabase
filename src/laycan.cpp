@@ -1,13 +1,3 @@
-#include <QDialog>
-#include <QApplication>
-#include <QtGlobal>
-#include <QDomNode>
-#include <QDebug>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QFile>
-#include <QMessageBox>
-#include <QDateTime>
 
 #include "laycan.h"
 
@@ -16,19 +6,28 @@ Laycan::Laycan()
     m_progressVisible = true;
     m_logFile = nullptr;
     m_xmlFile = nullptr;
-    dlg = nullptr;
+    m_outLog = nullptr;
+    m_outStatus = nullptr;
 }
 
 Laycan::~Laycan()
 {
     delete m_logFile;
+    delete m_xmlFile;
+}
+
+void Laycan::setOutTextLog(QTextBrowser *textBrowser)
+{
+    m_outLog = textBrowser;
+}
+
+void Laycan::setOutStatus(QLabel *labelStatus)
+{
+    m_outStatus = labelStatus;
 }
 
 void Laycan::Migrate(const QString xmlPath)
 {
-    dlg = new MigrationProgress();
-    dlg->setWindowFlags(Qt::CustomizeWindowHint);
-
     log("Checking the connection to the database");
     if (!QSqlDatabase::database().isOpen()) {
         log("Error to connect to the database : " +
@@ -37,13 +36,11 @@ void Laycan::Migrate(const QString xmlPath)
         InitXML(xmlPath);
         executeMigrations();
     }
-
-    delete dlg;
 }
 
 void Laycan::flushLog(QString msg)
 {
-    if (m_logFile != nullptr) {
+    if (m_logFile) {
         QTextStream out(m_logFile);
         QDateTime dateTime = QDateTime::currentDateTime();
         QString logMessage = QString("[%1] : %3")
@@ -117,26 +114,36 @@ float Laycan::getCurrentSchemaVersion()
 
 void Laycan::log(QString msg, LogLevel level)
 {
-    QColor colorMsg;
+    QColor color;
     switch(level) {
         case INFORMATION:
-            colorMsg = Qt::black;
+            color = Qt::black;
             msg = "[" + msg + "]";
             break;
         case WARNING:
-            colorMsg = Qt::yellow;
+            color  = Qt::yellow;
             msg = "[WARNING] :" + msg;
             break;
         case ERROR:
-            colorMsg = Qt::red;
+            color  = Qt::red;
             msg = "[ERROR]: " + msg;
             break;
     }
 
-    if (dlg != nullptr) {
-        dlg->putLog(msg,colorMsg);
+    if (m_outLog) {
+        m_outLog->append("<font color='"+color.name()+"'>"+msg+"</font>");
+        m_outLog->update();
     }
+
     flushLog(msg);
+}
+
+void Laycan::setStatus(QString text, QColor color)
+{
+    if (m_outStatus) {
+        m_outStatus->setText("<font color='"+color.name()+"'>"+text+"</font>");
+        m_outStatus->update();
+    }
 }
 
 bool Laycan::createVersionTable()
@@ -167,9 +174,6 @@ void Laycan::executeMigrations()
 {
     QSqlQuery query;
 
-    if (progressVisible())
-        dlg->show();
-
     if (!QSqlDatabase::database().tables().contains("schema_version")) {
         log("Creating versions table");
         if (!createVersionTable())
@@ -180,20 +184,18 @@ void Laycan::executeMigrations()
 
     loadMigrationsFromXML();
 
-    dlg->setMaximum(Migrations.count());
-
     Migration script;
     foreach (script, Migrations) {
-        dlg->setStatus("Verifying the Migration: " + script.description());
+        setStatus("Verifying the Migration: " + script.description());
         if (script.version() > dbSchemaVersion) {
             log("Migrating version of the schema for: " + QString::number(script.version()));
 
             QSqlDatabase::database().transaction();
 
-            dlg->setStatus("Running SQL: " + script.description(),Qt::red);
+            setStatus("Running SQL: " + script.description(),Qt::red);
             bool executed = query.exec(script.SQL());
             if (executed) {
-                dlg->setStatus("Saving changes to the database",Qt::green);
+                setStatus("Saving changes to the database",Qt::green);
                 executed = writeMigrationLog(script);
             }
 
@@ -210,7 +212,7 @@ void Laycan::executeMigrations()
                 break;
             }
         }
-        dlg->setProgress(dlg->progress()+1);
+        QApplication::processEvents();
     }
     log("Finalizing the migration");
     log("Performed migrations: "+ QString::number(executedMigrationsCount()));

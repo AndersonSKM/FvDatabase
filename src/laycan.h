@@ -8,9 +8,18 @@
 #include <QApplication>
 #include <QDebug>
 #include <QTextStream>
-
-
-#include "migrationprogress.h"
+#include <QTextBrowser>
+#include <QLabel>
+#include <QPointer>
+#include <QDialog>
+#include <QtGlobal>
+#include <QDomNode>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QFile>
+#include <QMessageBox>
+#include <QDateTime>
 
 class Migration
 {
@@ -46,7 +55,6 @@ public:
 
     void Migrate(const QString);
     bool createVersionTable(void);
-    void log(QString,LogLevel = INFORMATION);
 
     void setLogFilePath(QString);
     void setProgressVisible(bool);
@@ -56,8 +64,13 @@ public:
     bool progressVisible(void);
     int verifiedMigrationsCount(void);
     int executedMigrationsCount(void);
+
+    void setOutTextLog(QTextBrowser*);
+    void setOutStatus(QLabel*);
 private:
     void InitXML(QString);
+    void log(QString,LogLevel = INFORMATION);
+    void setStatus(QString,QColor = Qt::black);
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
     void flushLog(QString msg);
@@ -66,10 +79,10 @@ private:
     bool writeMigrationLog(Migration&);
     float getCurrentSchemaVersion(void);
 
-    MigrationProgress *dlg;
-
     QFile *m_logFile;
     QFile *m_xmlFile;
+    QPointer<QTextBrowser> m_outLog;
+    QPointer<QLabel> m_outStatus;
 
     QDomDocument m_xml;
     QList<Migration> Migrations;
