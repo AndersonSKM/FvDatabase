@@ -70,6 +70,9 @@ QString Laycan::logFilePath()
 
 void Laycan::setLogFilePath(QString path)
 {
+    if (path.isEmpty())
+        return;
+
     m_logFile = new QFile(path);
     if (!m_logFile->open(QIODevice::Append | QIODevice::Text)) {
         qDebug() << "[Cannot write log file " << m_logFile->fileName() << "]";

@@ -23,7 +23,8 @@ Database::~Database()
 void Database::databaseError(const QString erro)
 {
     QString errorMessage = "The application was unable to connect to database, "
-                                 "please check the error connection: "+erro;
+                           "please check the error connection: "+erro;
+
     QMessageBox::critical(this,"Error connecting to database: ",errorMessage);
 }
 
@@ -34,7 +35,6 @@ bool Database::setConection()
    QSettings setttings("Laycan","LaycanExemple");
    setttings.beginGroup("CONNECTION");
 
-   //Cria conexao apartir dos das configurações
    db = QSqlDatabase::addDatabase("QMYSQL");
    db.setHostName(setttings.value("Server").toString());
    db.setUserName(setttings.value("User").toString()) ;

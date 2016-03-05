@@ -39,8 +39,9 @@ void ConfigConnection::on_btnOk_clicked()
         Database data;
         if ( data.setConection() ) {
             Laycan d;
-            if (!ui->edtLogFilePath->text().isEmpty())
-                d.setLogFilePath(ui->edtLogFilePath->text());
+
+            d.setOutStatus();
+            d.setLogFilePath(ui->edtLogFilePath->text());
 
             this->hide();
             d.Migrate(":/Migrations/note.xml");

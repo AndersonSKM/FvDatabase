@@ -81,8 +81,8 @@ private:
 
     QFile *m_logFile;
     QFile *m_xmlFile;
-    QPointer<QTextBrowser> m_outLog;
-    QPointer<QLabel> m_outStatus;
+    QTextBrowser *m_outLog;
+    QLabel *m_outStatus;
 
     QDomDocument m_xml;
     QList<Migration> Migrations;

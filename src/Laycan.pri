@@ -1,9 +1,9 @@
 INCLUDEPATH += $$PWD/
 
-HEADERS += $$PWD/laycan.h $$PWD/migrationprogress.h
+HEADERS += $$PWD/laycan.h
 		   
-SOURCES += $$PWD/laycan.cpp $$PWD/migrationprogress.cpp
+SOURCES += $$PWD/laycan.cpp
 		   
-FORMS += $$PWD/migrationprogress.ui
+FORMS +=
 
 QT += xml 
