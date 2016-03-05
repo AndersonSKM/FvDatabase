@@ -17,7 +17,7 @@ public:
     bool setConection(void);
     void databaseError(const QString);
 private:
-   QSqlDatabase db;
+    QSqlDatabase db;
 };
 
 

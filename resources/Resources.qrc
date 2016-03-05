@@ -5,6 +5,6 @@
         <file>icons/LogOut.png</file>
         <file>icons/Ok.png</file>
         <file>icons/package_settings.png</file>
-        <file>Migrations/note.xml</file>
+        <file>Migrations.xml</file>
     </qresource>
 </RCC>

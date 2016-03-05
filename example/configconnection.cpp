@@ -6,8 +6,8 @@
 #include "ui_configconnection.h"
 
 #include "laycan.h"
-#include "mainwindow.h"
 #include "connection.h"
+#include "dlgprogress.h"
 
 ConfigConnection::ConfigConnection(QWidget *parent) :
     QDialog(parent),
@@ -39,15 +39,14 @@ void ConfigConnection::on_btnOk_clicked()
         Database data;
         if ( data.setConection() ) {
             Laycan d;
-
-            d.setOutStatus();
             d.setLogFilePath(ui->edtLogFilePath->text());
 
             this->hide();
-            d.Migrate(":/Migrations/note.xml");
+            DlgProgress *dlg = new DlgProgress(0 , &d);
+            dlg->setAttribute(Qt::WA_DeleteOnClose);
+            dlg->show();
 
-            MainWindow *m = new MainWindow;
-            m->showMaximized();
+            this->close();
         }
     }
 }

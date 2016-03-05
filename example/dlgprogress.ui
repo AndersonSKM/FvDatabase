@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>DlgProgress</class>
  <widget class="QDialog" name="DlgProgress">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,6 +15,9 @@
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <widget class="QPushButton" name="btnOk">
    <property name="geometry">
@@ -60,7 +66,7 @@
     <rect>
      <x>11</x>
      <y>3</y>
-     <width>131</width>
+     <width>171</width>
      <height>16</height>
     </rect>
    </property>
