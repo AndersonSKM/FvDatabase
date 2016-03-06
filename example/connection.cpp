@@ -35,7 +35,7 @@ bool Database::setConection()
    QSettings setttings("Laycan","LaycanExemple");
    setttings.beginGroup("CONNECTION");
 
-   db = QSqlDatabase::addDatabase("QMYSQL");
+   db = QSqlDatabase::addDatabase(setttings.value("Driver").toString());
    db.setHostName(setttings.value("Server").toString());
    db.setUserName(setttings.value("User").toString()) ;
    db.setPassword(setttings.value("Passwd").toString());

@@ -21,19 +21,16 @@ CONFIG += c++11
 SOURCES += main.cpp \
     connection.cpp \
     mainwindow.cpp \
-    configconnection.cpp \
-    dlgprogress.cpp
+    configconnection.cpp
 
 HEADERS  += \
     connection.h \
     mainwindow.h \
-    configconnection.h \
-    dlgprogress.h
+    configconnection.h
 
 FORMS    += \
     mainwindow.ui \
-    configconnection.ui \
-    dlgprogress.ui
+    configconnection.ui
 
 RESOURCES += \
     ../resources/Resources.qrc

@@ -7,7 +7,6 @@
 
 #include "laycan.h"
 #include "connection.h"
-#include "dlgprogress.h"
 
 ConfigConnection::ConfigConnection(QWidget *parent) :
     QDialog(parent),
@@ -40,13 +39,13 @@ void ConfigConnection::on_btnOk_clicked()
         if ( data.setConection() ) {
             Laycan d;
             d.setLogFilePath(ui->edtLogFilePath->text());
+            d.setOutTextLog(ui->memoLog);
+            d.setOutStatus(ui->lbStatus);
 
-            this->hide();
-            DlgProgress *dlg = new DlgProgress(0 , &d);
-            dlg->setAttribute(Qt::WA_DeleteOnClose);
-            dlg->show();
+            ui->stackedWidget->setCurrentIndex(1);
 
-            this->close();
+            d.Migrate(":/Migrations.xml");
+
         }
     }
 }
@@ -55,6 +54,7 @@ void ConfigConnection::loadSettings(void)
 {
     QSettings setttings("Laycan","LaycanExemple");
     setttings.beginGroup("CONNECTION");
+    ui->cbDriver->setCurrentIndex(setttings.value("DriverIndex",0).toInt());
     ui->edtServer->setText(setttings.value("Server").toString());
     ui->edtDatabase->setText(setttings.value("Database").toString());
     ui->edtUsuario->setText(setttings.value("User").toString());
@@ -68,6 +68,17 @@ void ConfigConnection::writeSettings(void)
 {
     QSettings setttings("Laycan","LaycanExemple");
     setttings.beginGroup("CONNECTION");
+
+    switch (ui->cbDriver->currentIndex()) {
+    case 0:
+        setttings.setValue("Driver", "QMYSQL");
+        break;
+    case 1:
+        setttings.setValue("Driver", "QPSQL");
+        break;
+    }
+
+    setttings.setValue("DriverIndex",ui->cbDriver->currentIndex());
     setttings.setValue("Server", ui->edtServer->text());
     setttings.setValue("Database", ui->edtDatabase->text());
     setttings.setValue("User", ui->edtUsuario->text());

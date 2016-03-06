@@ -6,5 +6,6 @@
         <file>icons/Ok.png</file>
         <file>icons/package_settings.png</file>
         <file>Migrations.xml</file>
+        <file>icons/postgresql-96x96.png</file>
     </qresource>
 </RCC>
