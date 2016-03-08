@@ -1,6 +1,7 @@
 #ifndef Laycan_H
 #define Laycan_H
 
+#include <QObject>
 #include <QTime>
 #include <QDomDocument>
 #include <QVariant>
@@ -47,11 +48,12 @@ enum LogLevel
     INFORMATION,
 };
 
-class Laycan
+class Laycan : public QObject
 {
+    Q_OBJECT
 public:
-    explicit Laycan();
-    ~Laycan();
+    explicit Laycan(QObject* parent = nullptr );
+    virtual ~Laycan();
 
     void Migrate(const QString);
     bool createVersionTable(void);
@@ -59,18 +61,21 @@ public:
     void setLogFilePath(QString);
     void setProgressVisible(bool);
     void setVerifiedMigrations(int);
+    void setStatus(QString);
 
     QString logFilePath(void);
     bool progressVisible(void);
     int verifiedMigrationsCount(void);
     int executedMigrationsCount(void);
+    QString status(void);
 
-    void setOutTextLog(QTextBrowser*);
-    void setOutStatus(QLabel*);
+    void log(QString,LogLevel = INFORMATION);
+signals:
+    void logChanged(QString,LogLevel);
+    void statusChanged(QString);
+
 private:
     void InitXML(QString);
-    void log(QString,LogLevel = INFORMATION);
-    void setStatus(QString,QColor = Qt::black);
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
     void flushLog(QString msg);
@@ -81,8 +86,9 @@ private:
 
     QFile *m_logFile;
     QFile *m_xmlFile;
-    QTextBrowser *m_outLog;
-    QLabel *m_outStatus;
+
+    QString m_status;
+    QStringList m_outLog;
 
     QDomDocument m_xml;
     QList<Migration> Migrations;

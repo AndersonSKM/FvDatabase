@@ -1,29 +1,17 @@
 
 #include "laycan.h"
 
-Laycan::Laycan()
+Laycan::Laycan(QObject* parent) : QObject(parent)
 {
     m_progressVisible = true;
     m_logFile = nullptr;
     m_xmlFile = nullptr;
-    m_outLog = nullptr;
-    m_outStatus = nullptr;
 }
 
 Laycan::~Laycan()
 {
     delete m_logFile;
     delete m_xmlFile;
-}
-
-void Laycan::setOutTextLog(QTextBrowser *textBrowser)
-{
-    m_outLog = textBrowser;
-}
-
-void Laycan::setOutStatus(QLabel *labelStatus)
-{
-    m_outStatus = labelStatus;
 }
 
 void Laycan::Migrate(const QString xmlPath)
@@ -117,35 +105,27 @@ float Laycan::getCurrentSchemaVersion()
 
 void Laycan::log(QString msg, LogLevel level)
 {
-    QColor color;
     switch(level) {
         case INFORMATION:
-            color = Qt::black;
             msg = "[" + msg + "]";
             break;
         case WARNING:
-            color  = Qt::yellow;
             msg = "[WARNING] :" + msg;
             break;
         case ERROR:
-            color  = Qt::red;
             msg = "[ERROR]: " + msg;
             break;
     }
 
-    if (m_outLog) {
-        m_outLog->append("<font color='"+color.name()+"'>"+msg+"</font>");
-        m_outLog->update();
-    }
-
+    emit logChanged(msg,level);
     flushLog(msg);
 }
 
-void Laycan::setStatus(QString text, QColor color)
+void Laycan::setStatus(QString value)
 {
-    if (m_outStatus) {
-        m_outStatus->setText("<font color='"+color.name()+"'>"+text+"</font>");
-        m_outStatus->update();
+    if (m_status != value) {
+        m_status = value;
+        emit statusChanged(value);
     }
 }
 
@@ -189,16 +169,14 @@ void Laycan::executeMigrations()
 
     Migration script;
     foreach (script, Migrations) {
-        setStatus("Verifying the Migration: " + script.description());
         if (script.version() > dbSchemaVersion) {
             log("Migrating version of the schema for: " + QString::number(script.version()));
 
             QSqlDatabase::database().transaction();
 
-            setStatus("Running SQL: " + script.description(),Qt::red);
             bool executed = query.exec(script.SQL());
             if (executed) {
-                setStatus("Saving changes to the database",Qt::green);
+                setStatus("Runing Migration: " + script.description());
                 executed = writeMigrationLog(script);
             }
 

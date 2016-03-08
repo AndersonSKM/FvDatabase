@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "laycan.h"
+
 namespace Ui {
 class ConfigConnection;
 }
@@ -17,8 +19,9 @@ public:
 
 private slots:
     void on_btnOk_clicked();
-
     void on_btnCancel_clicked();
+    void updateOutput(QString msg, LogLevel l);
+    void updateStatus(QString status);
 
 public slots:
     void closeEvent();
@@ -26,6 +29,8 @@ public slots:
 private:
     void loadSettings(void);
     void writeSettings(void);
+
+    Laycan *laycan;
 
     Ui::ConfigConnection *ui;
 };

@@ -287,7 +287,7 @@
           declare contage int default 0;
           declare newID int;
 
-          while contage <> 10000 do
+          while contage <> 100000 do
                   select max(ID) + 1 into newID from fornecedores01;
                   insert into fornecedores01
                           (ID, NOME, SEXO, ALTURA)

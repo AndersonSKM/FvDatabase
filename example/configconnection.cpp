@@ -1,6 +1,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QCloseEvent>
+#include <QtCore>
 
 #include "configconnection.h"
 #include "ui_configconnection.h"
@@ -13,12 +14,18 @@ ConfigConnection::ConfigConnection(QWidget *parent) :
     ui(new Ui::ConfigConnection)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
     loadSettings();
+
+    laycan = new Laycan();
+    QObject::connect(laycan, &Laycan::logChanged, this, &ConfigConnection::updateOutput);
+    QObject::connect(laycan, &Laycan::statusChanged, this, &ConfigConnection::updateStatus);
 }
 
 ConfigConnection::~ConfigConnection()
 {
     delete ui;
+    delete laycan;
 }
 
 void ConfigConnection::on_btnOk_clicked()
@@ -37,17 +44,37 @@ void ConfigConnection::on_btnOk_clicked()
 
         Database data;
         if ( data.setConection() ) {
-            Laycan d;
-            d.setLogFilePath(ui->edtLogFilePath->text());
-            d.setOutTextLog(ui->memoLog);
-            d.setOutStatus(ui->lbStatus);
-
             ui->stackedWidget->setCurrentIndex(1);
 
-            d.Migrate(":/Migrations.xml");
-
+            laycan->setLogFilePath(ui->edtLogFilePath->text());
+            laycan->Migrate(":/Migrations.xml");
         }
     }
+}
+
+void ConfigConnection::updateOutput(QString msg, LogLevel level)
+{
+    QColor color;
+    switch(level) {
+        case INFORMATION:
+            color = Qt::blue;
+            break;
+        case WARNING:
+            color = Qt::yellow;
+            break;
+        case ERROR:
+            color = Qt::red;
+            break;
+    }
+
+    ui->memoLog->append("<font color='"+color.name()+"'>"+msg+"</font>");
+    ui->memoLog->update();
+}
+
+void ConfigConnection::updateStatus(QString status)
+{
+    ui->lbStatus->setText(status);
+    ui->lbStatus->update();
 }
 
 void ConfigConnection::loadSettings(void)
