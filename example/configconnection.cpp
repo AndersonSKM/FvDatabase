@@ -97,12 +97,12 @@ void ConfigConnection::writeSettings(void)
     setttings.beginGroup("CONNECTION");
 
     switch (ui->cbDriver->currentIndex()) {
-    case 0:
-        setttings.setValue("Driver", "QMYSQL");
-        break;
-    case 1:
-        setttings.setValue("Driver", "QPSQL");
-        break;
+        case 0:
+            setttings.setValue("Driver", "QMYSQL");
+            break;
+        case 1:
+            setttings.setValue("Driver", "QPSQL");
+            break;
     }
 
     setttings.setValue("DriverIndex",ui->cbDriver->currentIndex());
