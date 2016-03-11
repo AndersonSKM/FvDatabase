@@ -41,11 +41,16 @@ private:
     QString m_sql;
 };
 
-enum LogLevel
-{
+enum LogLevel {
     ERROR,
     WARNING,
     INFORMATION,
+};
+
+enum StatusLevel {
+    RUNING,
+    CHECKING,
+    SAVING,
 };
 
 class Laycan : public QObject
@@ -61,7 +66,7 @@ public:
     void setLogFilePath(QString);
     void setProgressVisible(bool);
     void setVerifiedMigrations(int);
-    void setStatus(QString);
+    void setStatus(QString, StatusLevel = RUNING);
 
     QString logFilePath(void);
     bool progressVisible(void);
@@ -72,7 +77,7 @@ public:
     void log(QString,LogLevel = INFORMATION);
 signals:
     void logChanged(QString,LogLevel);
-    void statusChanged(QString);
+    void statusChanged(QString,StatusLevel);
 
 private:
     void InitXML(QString);

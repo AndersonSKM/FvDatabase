@@ -71,9 +71,22 @@ void ConfigConnection::updateOutput(QString msg, LogLevel level)
     ui->memoLog->update();
 }
 
-void ConfigConnection::updateStatus(QString status)
+void ConfigConnection::updateStatus(QString status, StatusLevel level)
 {
-    ui->lbStatus->setText(status);
+    QColor color;
+    switch(level) {
+        case CHECKING:
+            color = Qt::blue;
+            break;
+        case SAVING:
+            color = Qt::green;
+            break;
+        case RUNING:
+            color = Qt::red;
+            break;
+    }
+
+    ui->lbStatus->setText("<font color='"+color.name()+"'>"+status+"</font>");
     ui->lbStatus->update();
 }
 
