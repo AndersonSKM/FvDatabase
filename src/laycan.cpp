@@ -3,7 +3,6 @@
 
 Laycan::Laycan(QObject* parent) : QObject(parent)
 {
-    m_progressVisible = true;
     m_logFile = nullptr;
     m_xmlFile = nullptr;
 }
@@ -36,16 +35,6 @@ void Laycan::flushLog(QString msg)
                                 .arg(msg);
         out << logMessage << &endl;
     }
-}
-
-void Laycan::setProgressVisible(bool visible)
-{
-    m_progressVisible = visible;
-}
-
-bool Laycan::progressVisible()
-{
-    return m_progressVisible;
 }
 
 QString Laycan::logFilePath()
@@ -180,7 +169,7 @@ void Laycan::executeMigrations()
 
             bool executed = query.exec(script.SQL());
             if (executed) {
-                setStatus("Runing Migration: " + script.description(),RUNING);
+                setStatus("Runing Migration: " + script.description());
                 executed = writeMigrationLog(script);
             }
 
@@ -188,10 +177,10 @@ void Laycan::executeMigrations()
                 QSqlDatabase::database().commit();
                 addExecutedMigration(script);
             } else {
+                QSqlDatabase::database().rollback();
                 log("Error executing SQL: " + script.description()
                           + " Error: " + query.lastError().text()
                           + " SQL: "  + query.lastQuery(),ERROR);
-                QSqlDatabase::database().rollback();
 
                 log("Last executed SQL: " + script.description());
                 break;
@@ -205,6 +194,7 @@ void Laycan::executeMigrations()
 }
 
 /* XML Functions */
+
 void Laycan::loadMigrationsFromXML(void)
 {
     log("Loading File SQL scripts " + m_xmlFile->fileName() + "");

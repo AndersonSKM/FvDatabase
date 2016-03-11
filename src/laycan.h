@@ -57,22 +57,20 @@ class Laycan : public QObject
 {
     Q_OBJECT
 public:
-    explicit Laycan(QObject* parent = nullptr );
+    explicit Laycan(QObject* parent = nullptr);
     virtual ~Laycan();
 
     void Migrate(const QString);
     bool createVersionTable(void);
 
     void setLogFilePath(QString);
-    void setProgressVisible(bool);
     void setVerifiedMigrations(int);
     void setStatus(QString, StatusLevel = RUNING);
 
     QString logFilePath(void);
-    bool progressVisible(void);
+    QString status(void);
     int verifiedMigrationsCount(void);
     int executedMigrationsCount(void);
-    QString status(void);
 
     void log(QString,LogLevel = INFORMATION);
 signals:
@@ -93,7 +91,6 @@ private:
     QFile *m_xmlFile;
 
     QString m_status;
-    QStringList m_outLog;
 
     QDomDocument m_xml;
     QList<Migration> Migrations;
@@ -101,7 +98,6 @@ private:
     QList<Migration> m_PendingMigrations;
 
     int m_verifiedMigrations;
-    bool m_progressVisible;
 };
 
 #endif // Laycan_H
