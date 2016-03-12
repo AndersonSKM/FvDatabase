@@ -81,7 +81,7 @@ bool Laycan::writeMigrationLog(Migration &script)
     query.bindValue(3, QDateTime::currentDateTime()
                         .toString("dd-MM-yyyy - hh:mm:ss"));
 
-    setStatus("Saving Updates",SAVING);
+    setStatus("Saving Updates");
     return query.exec();
 }
 
@@ -111,12 +111,15 @@ void Laycan::log(QString msg, LogLevel level)
     flushLog(msg);
 }
 
-void Laycan::setStatus(QString value,StatusLevel status)
+void Laycan::setStatus(QString value)
 {
-    if (m_status != value) {
-        m_status = value;
-        emit statusChanged(value,status);
-    }
+    m_status = value;
+    emit statusChanged(value);
+}
+
+QString Laycan::status()
+{
+    return m_status;
 }
 
 bool Laycan::createVersionTable()
@@ -160,7 +163,7 @@ void Laycan::executeMigrations()
     Migration script;
     foreach (script, Migrations) {
 
-        setStatus("Verifying versions",CHECKING);
+        setStatus("Verifying versions");
 
         if (script.version() > dbSchemaVersion) {
             log("Migrating version of the schema for: " + QString::number(script.version()));

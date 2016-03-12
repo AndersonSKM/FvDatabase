@@ -47,12 +47,6 @@ enum LogLevel {
     INFORMATION,
 };
 
-enum StatusLevel {
-    RUNING,
-    CHECKING,
-    SAVING,
-};
-
 class Laycan : public QObject
 {
     Q_OBJECT
@@ -65,17 +59,18 @@ public:
 
     void setLogFilePath(QString);
     void setVerifiedMigrations(int);
-    void setStatus(QString, StatusLevel = RUNING);
+    void setStatus(QString);
+    void log(QString,LogLevel = INFORMATION);
 
     QString logFilePath(void);
     QString status(void);
     int verifiedMigrationsCount(void);
     int executedMigrationsCount(void);
 
-    void log(QString,LogLevel = INFORMATION);
+
 signals:
     void logChanged(QString,LogLevel);
-    void statusChanged(QString,StatusLevel);
+    void statusChanged(QString);
 
 private:
     void InitXML(QString);

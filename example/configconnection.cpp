@@ -69,25 +69,15 @@ void ConfigConnection::updateOutput(QString msg, LogLevel level)
 
     ui->memoLog->append("<font color='"+color.name()+"'>"+msg+"</font>");
     ui->memoLog->update();
+    QApplication::processEvents();
 }
 
-void ConfigConnection::updateStatus(QString status, StatusLevel level)
+void ConfigConnection::updateStatus(QString status)
 {
-    QColor color;
-    switch(level) {
-        case CHECKING:
-            color = Qt::blue;
-            break;
-        case SAVING:
-            color = Qt::green;
-            break;
-        case RUNING:
-            color = Qt::red;
-            break;
-    }
-
-    ui->lbStatus->setText("<font color='"+color.name()+"'>"+status+"</font>");
+    QString msg = QString("<font color='red'>%1</font>").arg(status);
+    ui->lbStatus->setText(msg);
     ui->lbStatus->update();
+    QApplication::processEvents();
 }
 
 void ConfigConnection::loadSettings(void)
