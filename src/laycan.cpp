@@ -148,8 +148,6 @@ bool Laycan::createVersionTable()
 
 void Laycan::executeMigrations()
 {
-    QSqlQuery query;
-
     if (!QSqlDatabase::database().tables().contains("schema_version")) {
         log("Creating versions table");
         if (!createVersionTable())
@@ -163,16 +161,14 @@ void Laycan::executeMigrations()
     Migration script;
     foreach (script, Migrations) {
 
-        setStatus("Verifying versions");
-
         if (script.version() > dbSchemaVersion) {
             log("Migrating version of the schema for: " + QString::number(script.version()));
 
             QSqlDatabase::database().transaction();
+            QSqlQuery query;
 
             bool executed = query.exec(script.SQL());
             if (executed) {
-                setStatus("Runing Migration: " + script.description());
                 executed = writeMigrationLog(script);
             }
 
@@ -185,7 +181,6 @@ void Laycan::executeMigrations()
                           + " Error: " + query.lastError().text()
                           + " SQL: "  + query.lastQuery(),ERROR);
 
-                log("Last executed SQL: " + script.description());
                 break;
             }
         }

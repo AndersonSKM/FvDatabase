@@ -22,6 +22,8 @@
 #include <QMessageBox>
 #include <QDateTime>
 
+#include "schemaversion.h"
+
 class Migration
 {
 public:
@@ -66,7 +68,6 @@ public:
     QString status(void);
     int verifiedMigrationsCount(void);
     int executedMigrationsCount(void);
-
 
 signals:
     void logChanged(QString,LogLevel);
