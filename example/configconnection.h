@@ -21,7 +21,6 @@ private slots:
     void on_btnOk_clicked();
     void on_btnCancel_clicked();
     void updateOutput(QString msg, LogLevel l);
-    void updateStatus(QString status);
 
 public slots:
     void closeEvent();

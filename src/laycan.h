@@ -23,6 +23,7 @@
 #include <QDateTime>
 
 #include "schemaversion.h"
+#include "logger.h"
 
 class Migration
 {
@@ -43,12 +44,6 @@ private:
     QString m_sql;
 };
 
-enum LogLevel {
-    ERROR,
-    WARNING,
-    INFORMATION,
-};
-
 class Laycan : public QObject
 {
     Q_OBJECT
@@ -56,39 +51,40 @@ public:
     explicit Laycan(QObject* parent = nullptr);
     virtual ~Laycan();
 
-    void Migrate(const QString);
+    void Migrate(const QString &xmlPath);
     bool createVersionTable(void);
 
-    void setLogFilePath(QString);
-    void setVerifiedMigrations(int);
-    void setStatus(QString);
-    void log(QString,LogLevel = INFORMATION);
-
     QString logFilePath(void);
-    QString status(void);
-    int verifiedMigrationsCount(void);
-    int executedMigrationsCount(void);
+    void setLogFilePath(const QString &filePath);
+
+    int verifiedMigrationsCount(void) const;
+    void setVerifiedMigrations(const int value);
+
+    int executedMigrationsCount(void) const;
+
+    LaycanLogger *Logger();
+    void setLogger(LaycanLogger *logger);
+
+    QDomDocument *getXml();
+    void setXml(QDomDocument *xml);
 
 signals:
     void logChanged(QString,LogLevel);
-    void statusChanged(QString);
 
 private:
-    void InitXML(QString);
     void loadMigrationsFromXML(void);
     void executeMigrations(void);
     void flushLog(QString msg);
     void addExecutedMigration(Migration&);
+    void log(LogLevel level, const QString &msg);
+    void log(const QString &msg);
 
     bool writeMigrationLog(Migration&);
     float getCurrentSchemaVersion(void);
 
-    QFile *m_logFile;
-    QFile *m_xmlFile;
+    LaycanLogger *m_logger;
+    QDomDocument *m_xml;
 
-    QString m_status;
-
-    QDomDocument m_xml;
     QList<Migration> Migrations;
     QList<Migration> m_ExecutedMigrations;
     QList<Migration> m_PendingMigrations;

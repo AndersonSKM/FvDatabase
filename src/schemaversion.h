@@ -36,9 +36,14 @@ public:
     QString script() const;
     void setScript(const QString &script);
 
+    QString lastError() const;
+    void setLastError(const QString &lastError);
+
 private:
     bool createVersionTable();
     void loadCurrentVersion();
+
+    QString m_lastError;
 
     QString m_tableName;
     float m_version;

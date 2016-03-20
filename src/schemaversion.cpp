@@ -83,6 +83,7 @@ bool SchemaVersion::createVersionTable()
         QSqlDatabase::database().commit();
     } else {
         QSqlDatabase::database().rollback();
+        setLastError(query.lastError().text());
     }
 
     return executed;
@@ -104,12 +105,22 @@ void SchemaVersion::loadCurrentVersion()
         m_executionTime = query.value("executed_time").toInt();
     }
 }
+QString SchemaVersion::lastError() const
+{
+    return m_lastError;
+}
+
+void SchemaVersion::setLastError(const QString &lastError)
+{
+    m_lastError = lastError;
+}
+
 
 bool SchemaVersion::checkVersionTable()
 {
     if (!QSqlDatabase::database().tables().contains(tableName()))
         return createVersionTable();
-
+    
     loadCurrentVersion();
     return true;
 }
@@ -127,7 +138,12 @@ bool SchemaVersion::writeDbChanges(Migration &migration)
     query.bindValue(3, migration.SQL());
     query.bindValue(4, QDateTime::currentDateTime().toString());
 
-    return query.exec();
+    if (!query.exec()) {
+        setLastError(query.lastError().text());
+        return false;
+    }
+
+    return true;
 }
 
 

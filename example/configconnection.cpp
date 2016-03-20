@@ -19,7 +19,6 @@ ConfigConnection::ConfigConnection(QWidget *parent) :
 
     laycan = new Laycan();
     QObject::connect(laycan, &Laycan::logChanged, this, &ConfigConnection::updateOutput);
-    QObject::connect(laycan, &Laycan::statusChanged, this, &ConfigConnection::updateStatus);
 }
 
 ConfigConnection::~ConfigConnection()
@@ -69,14 +68,6 @@ void ConfigConnection::updateOutput(QString msg, LogLevel level)
 
     ui->memoLog->append("<font color='"+color.name()+"'>"+msg+"</font>");
     ui->memoLog->update();
-    QApplication::processEvents();
-}
-
-void ConfigConnection::updateStatus(QString status)
-{
-    QString msg = QString("<font color='red'>%1</font>").arg(status);
-    ui->lbStatus->setText(msg);
-    ui->lbStatus->update();
     QApplication::processEvents();
 }
 

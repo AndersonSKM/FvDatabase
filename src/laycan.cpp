@@ -1,61 +1,60 @@
-
 #include "laycan.h"
+#include "logger.h"
 
 Laycan::Laycan(QObject* parent) : QObject(parent)
 {
-    m_logFile = nullptr;
-    m_xmlFile = nullptr;
+    m_xml = nullptr;
+    m_logger = nullptr;
 }
 
 Laycan::~Laycan()
 {
-    delete m_logFile;
-    delete m_xmlFile;
+    delete m_logger;
+    delete m_xml;
 }
 
-void Laycan::Migrate(const QString xmlPath)
+void Laycan::Migrate(const QString &xmlPath)
 {
     log("Checking the connection to the database");
     if (!QSqlDatabase::database().isOpen()) {
-        log("Error to connect to the database : " +
-            QSqlDatabase::database().lastError().text(),ERROR);
+        log(ERROR,"Error to connect to the database : " +
+            QSqlDatabase::database().lastError().text());
     } else {
-        InitXML(xmlPath);
-        executeMigrations();
-    }
-}
 
-void Laycan::flushLog(QString msg)
-{
-    if (m_logFile) {
-        QTextStream out(m_logFile);
-        QDateTime dateTime = QDateTime::currentDateTime();
-        QString logMessage = QString("[%1] : %3")
-                                .arg(dateTime.toString("dd/MM/yyyy - hh:mm:ss"))
-                                .arg(msg);
-        out << logMessage << &endl;
+        QFile xmlFile(xmlPath);
+        if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            log(ERROR,"Error opening XML file");
+            return;
+        }
+
+        if (!getXml()->setContent(&xmlFile)) {
+            log(ERROR,"Error when selecting XML file");
+            xmlFile.close();
+            return;
+        }
+
+        xmlFile.close();
+        executeMigrations();
     }
 }
 
 QString Laycan::logFilePath()
 {
-    if (m_logFile != nullptr)
-        return m_logFile->fileName();
-
-    return "";
+    return Logger()->file().fileName();
 }
 
-void Laycan::setLogFilePath(QString path)
+void Laycan::setLogFilePath(const QString &filePath)
 {
-    if (path.isEmpty())
+    if (filePath.isEmpty())
         return;
 
-    m_logFile = new QFile(path);
-    if (!m_logFile->open(QIODevice::Append | QIODevice::Text)) {
-        qDebug() << "[Cannot write log file " << m_logFile->fileName() << "]";
-        m_logFile = nullptr;
+    QFile logFile(filePath);
+    if (!logFile.open(QIODevice::Append | QIODevice::Text)) {
+        qDebug() << "[Cannot write log file " << logFile.fileName() << "]";
         return;
     }
+
+    Logger()->setFile(logFile);
 }
 
 void Laycan::addExecutedMigration(Migration &m)
@@ -63,7 +62,7 @@ void Laycan::addExecutedMigration(Migration &m)
     m_ExecutedMigrations.append(m);
 }
 
-int Laycan::executedMigrationsCount()
+int Laycan::executedMigrationsCount() const
 {
     return m_ExecutedMigrations.count();
 }
@@ -81,7 +80,6 @@ bool Laycan::writeMigrationLog(Migration &script)
     query.bindValue(3, QDateTime::currentDateTime()
                         .toString("dd-MM-yyyy - hh:mm:ss"));
 
-    setStatus("Saving Updates");
     return query.exec();
 }
 
@@ -93,33 +91,43 @@ float Laycan::getCurrentSchemaVersion()
     return query.value(0).toFloat();
 }
 
-void Laycan::log(QString msg, LogLevel level)
+QDomDocument *Laycan::getXml()
 {
-    switch(level) {
-        case INFORMATION:
-            msg = "[" + msg + "]";
-            break;
-        case WARNING:
-            msg = "[WARNING] :" + msg;
-            break;
-        case ERROR:
-            msg = "[ERROR]: " + msg;
-            break;
+    if (!m_xml) {
+        m_xml = new QDomDocument;
     }
 
+    return m_xml;
+}
+
+void Laycan::setXml(QDomDocument *xml)
+{
+    m_xml = xml;
+}
+
+LaycanLogger *Laycan::Logger()
+{
+    if (!m_logger) {
+        m_logger = new LaycanLogger();
+    }
+
+    return m_logger;
+}
+
+void Laycan::setLogger(LaycanLogger *logger)
+{
+    m_logger = logger;
+}
+
+void Laycan::log(LogLevel level, const QString &msg)
+{
+    Logger()->write(level,msg);
     emit logChanged(msg,level);
-    flushLog(msg);
 }
 
-void Laycan::setStatus(QString value)
+void Laycan::log(const QString &msg)
 {
-    m_status = value;
-    emit statusChanged(value);
-}
-
-QString Laycan::status()
-{
-    return m_status;
+    log(INFORMATION,msg);
 }
 
 bool Laycan::createVersionTable()
@@ -139,8 +147,8 @@ bool Laycan::createVersionTable()
         QSqlDatabase::database().commit();
     } else {
         QSqlDatabase::database().rollback();
-        log("Error creating version table: " +
-                    query.lastError().text() + "]",ERROR);
+        log(ERROR,"Error creating version table: " +
+                    query.lastError().text() + "]");
     }
 
     return executed;
@@ -177,9 +185,9 @@ void Laycan::executeMigrations()
                 addExecutedMigration(script);
             } else {
                 QSqlDatabase::database().rollback();
-                log("Error executing SQL: " + script.description()
+                log(ERROR,"Error executing SQL: " + script.description()
                           + " Error: " + query.lastError().text()
-                          + " SQL: "  + query.lastQuery(),ERROR);
+                          + " SQL: "  + query.lastQuery());
 
                 break;
             }
@@ -195,11 +203,11 @@ void Laycan::executeMigrations()
 
 void Laycan::loadMigrationsFromXML(void)
 {
-    log("Loading File SQL scripts " + m_xmlFile->fileName() + "");
-    QDomNodeList root = m_xml.elementsByTagName("SQL");
+    log("Loading File SQL scripts ");
+    QDomNodeList root = getXml()->elementsByTagName("SQL");
 
     if (root.isEmpty()) {
-        log("No migration found in XML",ERROR);
+        log(ERROR,"No migration found in XML");
         return;
     }
 
@@ -225,20 +233,6 @@ void Laycan::loadMigrationsFromXML(void)
     }
 
     log("Loaded migrations: " + QString::number(root.count()));
-}
-
-void Laycan::InitXML(QString path)
-{
-    m_xmlFile = new QFile(path);
-    if (!m_xmlFile->open(QIODevice::ReadOnly | QIODevice::Text))
-        log("Error opening XML file",ERROR);
-
-    if (!m_xml.setContent(m_xmlFile)) {
-        m_xmlFile->close();
-        log("Error when selecting XML file",ERROR);
-    }
-
-    m_xmlFile->close();
 }
 
 /* End XML Functions */
