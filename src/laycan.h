@@ -62,11 +62,11 @@ public:
 
     int executedMigrationsCount(void) const;
 
-    LaycanLogger *Logger();
-    void setLogger(LaycanLogger *logger);
+    LaycanLogger* Logger();
+    void setLogger(LaycanLogger &logger);
 
-    QDomDocument *getXml();
-    void setXml(QDomDocument *xml);
+    QDomDocument& getXml();
+    void setXml(QDomDocument &xml);
 
 signals:
     void logChanged(QString,LogLevel);
@@ -83,7 +83,7 @@ private:
     float getCurrentSchemaVersion(void);
 
     LaycanLogger *m_logger;
-    QDomDocument *m_xml;
+    QDomDocument m_xml;
 
     QList<Migration> Migrations;
     QList<Migration> m_ExecutedMigrations;

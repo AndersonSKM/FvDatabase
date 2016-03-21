@@ -3,14 +3,12 @@
 
 Laycan::Laycan(QObject* parent) : QObject(parent)
 {
-    m_xml = nullptr;
-    m_logger = nullptr;
+    m_logger = new LaycanLogger;
 }
 
 Laycan::~Laycan()
 {
     delete m_logger;
-    delete m_xml;
 }
 
 void Laycan::Migrate(const QString &xmlPath)
@@ -27,7 +25,7 @@ void Laycan::Migrate(const QString &xmlPath)
             return;
         }
 
-        if (!getXml()->setContent(&xmlFile)) {
+        if (!getXml().setContent(&xmlFile)) {
             log(ERROR,"Error when selecting XML file");
             xmlFile.close();
             return;
@@ -40,7 +38,7 @@ void Laycan::Migrate(const QString &xmlPath)
 
 QString Laycan::logFilePath()
 {
-    return Logger()->file().fileName();
+    return Logger()->fileName();
 }
 
 void Laycan::setLogFilePath(const QString &filePath)
@@ -48,13 +46,7 @@ void Laycan::setLogFilePath(const QString &filePath)
     if (filePath.isEmpty())
         return;
 
-    QFile logFile(filePath);
-    if (!logFile.open(QIODevice::Append | QIODevice::Text)) {
-        qDebug() << "[Cannot write log file " << logFile.fileName() << "]";
-        return;
-    }
-
-    Logger()->setFile(logFile);
+    Logger()->setFile(filePath);
 }
 
 void Laycan::addExecutedMigration(Migration &m)
@@ -91,32 +83,24 @@ float Laycan::getCurrentSchemaVersion()
     return query.value(0).toFloat();
 }
 
-QDomDocument *Laycan::getXml()
+QDomDocument& Laycan::getXml()
 {
-    if (!m_xml) {
-        m_xml = new QDomDocument;
-    }
-
     return m_xml;
 }
 
-void Laycan::setXml(QDomDocument *xml)
+void Laycan::setXml(QDomDocument &xml)
 {
     m_xml = xml;
 }
 
 LaycanLogger *Laycan::Logger()
 {
-    if (!m_logger) {
-        m_logger = new LaycanLogger();
-    }
-
     return m_logger;
 }
 
-void Laycan::setLogger(LaycanLogger *logger)
+void Laycan::setLogger(LaycanLogger &logger)
 {
-    m_logger = logger;
+    m_logger = &logger;
 }
 
 void Laycan::log(LogLevel level, const QString &msg)
@@ -204,7 +188,7 @@ void Laycan::executeMigrations()
 void Laycan::loadMigrationsFromXML(void)
 {
     log("Loading File SQL scripts ");
-    QDomNodeList root = getXml()->elementsByTagName("SQL");
+    QDomNodeList root = getXml().elementsByTagName("SQL");
 
     if (root.isEmpty()) {
         log(ERROR,"No migration found in XML");

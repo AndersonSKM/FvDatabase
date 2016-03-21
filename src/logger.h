@@ -13,13 +13,13 @@ enum LogLevel {
 class LaycanLogger
 {
 public:
-    LaycanLogger();
+    LaycanLogger(QFile *file = nullptr);
+    ~LaycanLogger();
 
-    QFile file();
-    void setFile(QFile &file);
+    QString fileName() const;
+    void setFile(const QString &fileName);
 
-    void write(LogLevel level = INFORMATION, const QString& log = "");
-
+    void write(LogLevel level, const QString& log);
 private:
     QFile m_file;
 };

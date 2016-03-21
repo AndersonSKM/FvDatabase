@@ -42,7 +42,7 @@ void ConfigConnection::on_btnOk_clicked()
         writeSettings();
 
         Database data;
-        if ( data.setConection() ) {
+        if (data.setConection()) {
             ui->stackedWidget->setCurrentIndex(1);
 
             laycan->setLogFilePath(ui->edtLogFilePath->text());

@@ -2,19 +2,29 @@
 
 #include <QTextStream>
 #include <QDateTime>
+#include <QDebug>
 
-LaycanLogger::LaycanLogger()
+LaycanLogger::LaycanLogger(QFile *file) : m_file(file)
 {
 
 }
 
-void LaycanLogger::setFile(QFile &file)
+LaycanLogger::~LaycanLogger()
 {
-    m_file(file);
+
 }
 
 void LaycanLogger::write(LogLevel level, const QString &log)
 {
+    if (m_file.fileName().isEmpty())
+        return;
+
+    if (!m_file.open(QIODevice::Append | QIODevice::Text)) {
+        qDebug() << "[Cannot write log file " << m_file.fileName() << "]";
+        m_file.close();
+        return;
+    }
+
     QString msg(log);
     switch(level) {
         case INFORMATION:
@@ -28,17 +38,21 @@ void LaycanLogger::write(LogLevel level, const QString &log)
             break;
     }
 
-    if (m_file) {
-        QTextStream out(m_file);
-        QDateTime dateTime = QDateTime::currentDateTime();
-        QString logMessage = QString("[%1] : %3")
-                                .arg(dateTime.toString("dd/MM/yyyy - hh:mm:ss"))
-                                .arg(msg);
-        out << logMessage << &endl;
-    }
+    QTextStream out(&m_file);
+    QDateTime dateTime = QDateTime::currentDateTime();
+    QString logMessage = QString("[%1] : %3")
+                            .arg(dateTime.toString("dd/MM/yyyy - hh:mm:ss"))
+                            .arg(msg);
+    out << logMessage << &endl;
+    m_file.close();
 }
 
-QFile LaycanLogger::file()
+void LaycanLogger::setFile(const QString &fileName)
 {
-    return m_file;
+    m_file.setFileName(fileName);
+}
+
+QString LaycanLogger::fileName() const
+{
+   return m_file.fileName();
 }
