@@ -1,6 +1,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QVariant>
+#include <QSqlError>
 
 #include "schemaversion.h"
 

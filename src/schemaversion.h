@@ -5,7 +5,7 @@
 #include <QDateTime>
 #include <QSqlDatabase>
 
-#include "laycan.h"
+#include "migration.h"
 
 class Migration;
 

@@ -24,25 +24,8 @@
 
 #include "schemaversion.h"
 #include "logger.h"
+#include "migration.h"
 
-class Migration
-{
-public:
-    inline Migration() {}
-    inline ~Migration() {}
-
-    void setVersion(float);
-    void setDescription(QString);
-    void setSQL(QString);
-
-    float version(void);
-    QString description(void);
-    QString SQL(void);
-private:
-    float m_version;
-    QString m_description;
-    QString m_sql;
-};
 
 class Laycan : public QObject
 {
@@ -84,6 +67,7 @@ private:
 
     LaycanLogger *m_logger;
     QDomDocument m_xml;
+    SchemaVersion m_schemaversion;
 
     QList<Migration> Migrations;
     QList<Migration> m_ExecutedMigrations;

@@ -140,13 +140,13 @@ bool Laycan::createVersionTable()
 
 void Laycan::executeMigrations()
 {
-    if (!QSqlDatabase::database().tables().contains("schema_version")) {
-        log("Creating versions table");
-        if (!createVersionTable())
-            return;
+    log("Checking versions table");
+    if (!m_schemaversion.checkVersionTable()) {
+        log("Error creating version table :" + m_schemaversion.lastError());
+        return;
     }
 
-    float dbSchemaVersion = getCurrentSchemaVersion();
+    float dbSchemaVersion = m_schemaversion.version();
 
     loadMigrationsFromXML();
 
@@ -161,7 +161,7 @@ void Laycan::executeMigrations()
 
             bool executed = query.exec(script.SQL());
             if (executed) {
-                executed = writeMigrationLog(script);
+                executed = m_schemaversion.writeDbChanges(script);
             }
 
             if (executed) {
@@ -220,34 +220,3 @@ void Laycan::loadMigrationsFromXML(void)
 }
 
 /* End XML Functions */
-
-void Migration::setVersion(float version)
-{
-    m_version = version;
-}
-
-void Migration::setDescription(QString description)
-{
-    m_description = description;
-}
-
-void Migration::setSQL(QString sql)
-{
-    m_sql = sql;
-}
-
-float Migration::version(void)
-{
-    return m_version;
-}
-
-QString Migration::description(void)
-{
-    return m_description;
-}
-
-QString Migration::SQL(void)
-{
-    return m_sql;
-}
-
