@@ -39,11 +39,15 @@ public:
     QString lastError() const;
     void setLastError(const QString &lastError);
 
+    QString lastSqlInsert() const;
+    void setLastSqlInsert(const QString &lastSqlInsert);
+
 private:
     bool createVersionTable();
     void loadCurrentVersion();
 
     QString m_lastError;
+    QString m_lastSqlInsert;
 
     QString m_tableName;
     float m_version;

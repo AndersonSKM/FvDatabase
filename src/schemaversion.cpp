@@ -75,8 +75,8 @@ bool SchemaVersion::createVersionTable()
     executed = query.exec("CREATE TABLE "+tableName()+" ("
                           "   version FLOAT NULL, "
                           "   description VARCHAR(200) NULL,"
-                          "   script VARCHAR(1000) NULL,"
-                          "   executed_on VARCHAR(15) NULL,"
+                          "   script VARCHAR(10000) NULL,"
+                          "   executed_on VARCHAR(25) NULL,"
                           "   executed_time INT NULL"
                           ");");
 
@@ -106,6 +106,16 @@ void SchemaVersion::loadCurrentVersion()
         m_executionTime = query.value("executed_time").toInt();
     }
 }
+QString SchemaVersion::lastSqlInsert() const
+{
+    return m_lastSqlInsert;
+}
+
+void SchemaVersion::setLastSqlInsert(const QString &lastSqlInsert)
+{
+    m_lastSqlInsert = lastSqlInsert;
+}
+
 QString SchemaVersion::lastError() const
 {
     return m_lastError;
@@ -119,7 +129,7 @@ void SchemaVersion::setLastError(const QString &lastError)
 
 bool SchemaVersion::checkVersionTable()
 {
-    if (!QSqlDatabase::database().tables().contains(tableName()))
+    if (!QSqlDatabase::database().tables().contains(tableName()),Qt::CaseInsensitive)
         return createVersionTable();
     
     loadCurrentVersion();
@@ -129,18 +139,18 @@ bool SchemaVersion::checkVersionTable()
 bool SchemaVersion::writeDbChanges(Migration &migration)
 {
     QSqlQuery query;
-    query.prepare("insert into :tableName "
-                  " (version, description, script, datehour) "
+    query.prepare("insert into " + tableName() +
+                  " (version, description, script, executed_on) "
                   "values "
                   " (:v , :d, :s, :h)");
-    query.bindValue(0, tableName());
-    query.bindValue(1, migration.version());
-    query.bindValue(2, migration.description());
-    query.bindValue(3, migration.SQL());
-    query.bindValue(4, QDateTime::currentDateTime().toString());
+    query.bindValue(0, migration.version());
+    query.bindValue(1, migration.description());
+    query.bindValue(2, migration.SQL());
+    query.bindValue(3, QDateTime::currentDateTime().toString());
 
     if (!query.exec()) {
         setLastError(query.lastError().text());
+        setLastSqlInsert(query.lastQuery());
         return false;
     }
 

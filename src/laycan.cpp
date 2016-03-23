@@ -162,6 +162,11 @@ void Laycan::executeMigrations()
             bool executed = query.exec(script.SQL());
             if (executed) {
                 executed = m_schemaversion.writeDbChanges(script);
+                if (!executed) {
+                    log(ERROR,"Error executing SQL: " + script.description()
+                              + " Error: " + m_schemaversion.lastError()
+                              + " SQL: "  + m_schemaversion.lastSqlInsert());
+                }
             }
 
             if (executed) {
