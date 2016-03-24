@@ -20,7 +20,7 @@ void LaycanLogger::write(LogLevel level, const QString &log)
         return;
 
     if (!m_file.open(QIODevice::Append | QIODevice::Text)) {
-        qDebug() << "[Cannot write log file " << m_file.fileName() << "]";
+        qDebug() << "[Cannot write log in file " << m_file.fileName() << "]";
         m_file.close();
         return;
     }

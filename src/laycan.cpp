@@ -109,9 +109,29 @@ void Laycan::log(LogLevel level, const QString &msg)
     emit logChanged(msg,level);
 }
 
+void Laycan::logList(const QStringList &list)
+{
+    for (auto it = list.begin(); it != list.end(); ++it) {
+            QString current = *it;
+            log(current);
+    }
+}
+
 void Laycan::log(const QString &msg)
 {
     log(INFORMATION,msg);
+}
+
+void Laycan::execMigration(QSqlQuery *q)
+{
+    if (!q->exec())
+        throw MigrateException();
+}
+
+void Laycan::saveMigration(Migration m)
+{
+    if (!m_schemaversion.writeDbChanges(m))
+        throw SaveMigrationException();
 }
 
 bool Laycan::createVersionTable()
@@ -150,35 +170,43 @@ void Laycan::executeMigrations()
 
     loadMigrationsFromXML();
 
-    Migration script;
-    foreach (script, Migrations) {
+    foreach (Migration script, Migrations) {
 
         if (script.version() > dbSchemaVersion) {
             log("Migrating version of the schema for: " + QString::number(script.version()));
 
             QSqlDatabase::database().transaction();
             QSqlQuery query;
+            query.prepare(script.SQL());
+
+            try {
+
+                execMigration(&query);
+                saveMigration(script);
+
+            } catch (MigrateException &e) {
+                QSqlDatabase::database().rollback();
+                log(ERROR,"Error executing SQL: " + script.description()
+                          + " Error: " + query.lastError().text()
+                          + " SQL: "  + query.lastQuery());
+                break;
+            } catch (SaveMigrationException &e) {
+                QSqlDatabase::database().rollback();
+                log(ERROR,m_schemaversion.lastError());
+                break;
+            }
+
+            QSqlDatabase::database().commit();
+            addExecutedMigration(script);
 
             bool executed = query.exec(script.SQL());
             if (executed) {
                 executed = m_schemaversion.writeDbChanges(script);
                 if (!executed) {
-                    log(ERROR,"Error executing SQL: " + script.description()
-                              + " Error: " + m_schemaversion.lastError()
-                              + " SQL: "  + m_schemaversion.lastSqlInsert());
+                    log(ERROR,m_schemaversion.lastError());
+                } else {
+                    logList(m_schemaversion.lastSqlInsert());
                 }
-            }
-
-            if (executed) {
-                QSqlDatabase::database().commit();
-                addExecutedMigration(script);
-            } else {
-                QSqlDatabase::database().rollback();
-                log(ERROR,"Error executing SQL: " + script.description()
-                          + " Error: " + query.lastError().text()
-                          + " SQL: "  + query.lastQuery());
-
-                break;
             }
         }
         QApplication::processEvents();

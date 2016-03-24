@@ -5,13 +5,10 @@
 #include <QTime>
 #include <QDomDocument>
 #include <QVariant>
-#include <QFile>
 #include <QApplication>
 #include <QDebug>
 #include <QTextStream>
-#include <QTextBrowser>
 #include <QLabel>
-#include <QPointer>
 #include <QDialog>
 #include <QtGlobal>
 #include <QDomNode>
@@ -21,11 +18,25 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QException>
 
 #include "schemaversion.h"
 #include "logger.h"
 #include "migration.h"
 
+class MigrateException : public QException
+{
+public:
+    void raise() const { throw *this; }
+    MigrateException *clone() const { return new MigrateException(*this); }
+};
+
+class SaveMigrationException : public QException
+{
+public:
+    void raise() const { throw *this; }
+    SaveMigrationException *clone() const { return new SaveMigrationException(*this); }
+};
 
 class Laycan : public QObject
 {
@@ -60,7 +71,10 @@ private:
     void flushLog(QString msg);
     void addExecutedMigration(Migration&);
     void log(LogLevel level, const QString &msg);
+    void logList(const QStringList &list);
     void log(const QString &msg);
+    void execMigration(QSqlQuery *q);
+    void saveMigration(Migration m);
 
     bool writeMigrationLog(Migration&);
     float getCurrentSchemaVersion(void);

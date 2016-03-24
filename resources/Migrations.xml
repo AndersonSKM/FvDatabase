@@ -82,6 +82,8 @@
         )
         COLLATE='utf8_general_ci'
         ENGINE=InnoDB;
+
+        drop table schema_version;
     -->
   </SQL>
   <SQL version="7" id="Update">
@@ -296,47 +298,6 @@
 
                   set contage = contage + 1;
           end while;
-
-          insert into fornecedores02
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores01;
-
-          insert into fornecedores03
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores02;
-
-          insert into fornecedores04
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores03;
-
-          insert into fornecedores05
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores04;
-
-          insert into fornecedores06
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores05;
-
-          insert into fornecedores07
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores06;
-
-          insert into fornecedores08
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores07;
-
-          insert into fornecedores09
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores08;
-
-          insert into fornecedores10
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores09;
-
-          insert into fornecedores11
-            (ID, NOME, SEXO, ALTURA)
-          select ID, NOME, SEXO, ALTURA from fornecedores10;
-
         end;
     -->
   </SQL>

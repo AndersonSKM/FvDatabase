@@ -8,7 +8,7 @@
 SchemaVersion::SchemaVersion()
 {
     m_version = 0;
-    m_tableName = QString("SCHEMA_VERSION");
+    m_tableName = QString("schema_version");
 }
 
 SchemaVersion::~SchemaVersion()
@@ -106,12 +106,30 @@ void SchemaVersion::loadCurrentVersion()
         m_executionTime = query.value("executed_time").toInt();
     }
 }
-QString SchemaVersion::lastSqlInsert() const
+
+QStringList SchemaVersion::makeSQLFormat(const QSqlQuery &q)
+{
+    QStringList list;
+    list << "Parameters: ";
+
+    QMapIterator<QString, QVariant> i(q.boundValues());
+    while (i.hasNext()) {
+        i.next();
+        list << QString("%1 = %2").arg(i.key().toUtf8().data())
+                                  .arg(i.value().toString().toUtf8().data());
+    }
+
+    list << "---------------------";
+    list << q.lastQuery();
+    return list;
+}
+
+QStringList& SchemaVersion::lastSqlInsert()
 {
     return m_lastSqlInsert;
 }
 
-void SchemaVersion::setLastSqlInsert(const QString &lastSqlInsert)
+void SchemaVersion::setLastSqlInsert(const QStringList &lastSqlInsert)
 {
     m_lastSqlInsert = lastSqlInsert;
 }
@@ -129,7 +147,7 @@ void SchemaVersion::setLastError(const QString &lastError)
 
 bool SchemaVersion::checkVersionTable()
 {
-    if (!QSqlDatabase::database().tables().contains(tableName()),Qt::CaseInsensitive)
+    if (!QSqlDatabase::database().tables().contains(tableName()))
         return createVersionTable();
     
     loadCurrentVersion();
@@ -149,11 +167,11 @@ bool SchemaVersion::writeDbChanges(Migration &migration)
     query.bindValue(3, QDateTime::currentDateTime().toString());
 
     if (!query.exec()) {
-        setLastError(query.lastError().text());
-        setLastSqlInsert(query.lastQuery());
+        setLastError("Erro on saving log changes: " + query.lastError().text());
         return false;
     }
 
+    setLastSqlInsert(makeSQLFormat(query));
     return true;
 }
 
