@@ -29,5 +29,14 @@ QString Migration::SQL(void)
 {
     return m_sql;
 }
+int Migration::executionTime() const
+{
+    return m_executionTime;
+}
+
+void Migration::setExecutionTime(int executionTime)
+{
+    m_executionTime = executionTime;
+}
 
 

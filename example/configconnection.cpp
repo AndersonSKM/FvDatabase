@@ -8,6 +8,7 @@
 
 #include "laycan.h"
 #include "connection.h"
+#include "mainwindow.h"
 
 ConfigConnection::ConfigConnection(QWidget *parent) :
     QDialog(parent),
@@ -46,7 +47,15 @@ void ConfigConnection::on_btnOk_clicked()
             ui->stackedWidget->setCurrentIndex(1);
 
             laycan->setLogFilePath(ui->edtLogFilePath->text());
-            laycan->Migrate(":/Migrations.xml");
+            if (!laycan->Migrate(":/Migrations.xml")) {
+                Database::Menssage(QString("Error: %1").arg(laycan->LastError()));
+                return;
+            }
+
+            MainWindow *m = new MainWindow();
+            m->setAttribute(Qt::WA_DeleteOnClose);
+            m->showMaximized();
+            this->close();
         }
     }
 }

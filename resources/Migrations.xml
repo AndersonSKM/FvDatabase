@@ -82,8 +82,6 @@
         )
         COLLATE='utf8_general_ci'
         ENGINE=InnoDB;
-
-        drop table schema_version;
     -->
   </SQL>
   <SQL version="7" id="Update">
@@ -338,33 +336,19 @@
       call writedata;
     -->
   </SQL>
-  <SQL version="26" id="Recreate Versions Table">
+  <SQL version="26" id="Create users table">
     <!--
-      CREATE TABLE old_schema_version (
-         version FLOAT NULL,
-         description VARCHAR(200) NULL,
-         script TEXT NULL,
-         datehour VARCHAR(15) NULL
-      );
-
-      insert into old_schema_version
-        (version, description, script)
-      select * from schema_version;
-
-      drop table schema_version;
-
-      CREATE TABLE schema_version (
-        version FLOAT NULL,
-        description VARCHAR(200) NULL,
-        script TEXT NULL,
-        datehour VARCHAR(15) NULL
-      );
-
-      insert into schema_version
-        (version, description, script)
-      select * from old_schema_version;
-
-      drop table old_schema_version;
+    CREATE TABLE `users` (
+        `ID` INT(11) NOT NULL AUTO_INCREMENT,
+        `NOME` VARCHAR(20) NULL DEFAULT NULL,
+        `LOGIN` VARCHAR(14) NULL DEFAULT NULL,
+        `PASSWD` VARCHAR(10) NULL DEFAULT NULL,
+        `ADMIN` TINYINT(1) NULL DEFAULT NULL,
+        PRIMARY KEY (`ID`)
+    )
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB
+    AUTO_INCREMENT=2qasdasd;
     -->
   </SQL>
 </Migrations>

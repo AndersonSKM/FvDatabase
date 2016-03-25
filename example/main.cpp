@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QDebug>
 
 #include "configconnection.h"
 
@@ -10,8 +11,21 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationDomain("www.github.com/AndersonSKM/Laycan");
     QApplication::setApplicationVersion("1.0");
 
-    ConfigConnection w;
-    w.show();
+    int returnCode = EXIT_FAILURE;
 
-    return a.exec();
+    try {
+
+        ConfigConnection w;
+        w.show();
+
+        returnCode = a.exec();
+    } catch (std::exception &e) {
+        qDebug() << e.what();
+    } catch (...) {
+        qDebug() << "An unhandled exception has been thrown.";
+    }
+
+    qDebug() << QString("Application terminated with return code %1.").arg(returnCode);
+
+    return returnCode;
 }

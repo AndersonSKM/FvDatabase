@@ -84,7 +84,8 @@ bool SchemaVersion::createVersionTable()
         QSqlDatabase::database().commit();
     } else {
         QSqlDatabase::database().rollback();
-        setLastError(query.lastError().text());
+        setLastError(QString("Error creating version table: %1")
+                        .arg(query.lastError().text()));
     }
 
     return executed;
@@ -158,13 +159,14 @@ bool SchemaVersion::writeDbChanges(Migration &migration)
 {
     QSqlQuery query;
     query.prepare("insert into " + tableName() +
-                  " (version, description, script, executed_on) "
+                  " (version, description, script, executed_on, executed_time) "
                   "values "
-                  " (:v , :d, :s, :h)");
+                  " (:v , :d, :s, :h, :t)");
     query.bindValue(0, migration.version());
     query.bindValue(1, migration.description());
     query.bindValue(2, migration.SQL());
     query.bindValue(3, QDateTime::currentDateTime().toString());
+    query.bindValue(4, migration.executionTime());
 
     if (!query.exec()) {
         setLastError("Erro on saving log changes: " + query.lastError().text());

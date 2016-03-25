@@ -24,20 +24,6 @@
 #include "logger.h"
 #include "migration.h"
 
-class MigrateException : public QException
-{
-public:
-    void raise() const { throw *this; }
-    MigrateException *clone() const { return new MigrateException(*this); }
-};
-
-class SaveMigrationException : public QException
-{
-public:
-    void raise() const { throw *this; }
-    SaveMigrationException *clone() const { return new SaveMigrationException(*this); }
-};
-
 class Laycan : public QObject
 {
     Q_OBJECT
@@ -45,8 +31,7 @@ public:
     explicit Laycan(QObject* parent = nullptr);
     virtual ~Laycan();
 
-    void Migrate(const QString &xmlPath);
-    bool createVersionTable(void);
+    bool Migrate(const QString &xmlPath);
 
     QString logFilePath(void);
     void setLogFilePath(const QString &filePath);
@@ -62,28 +47,28 @@ public:
     QDomDocument& getXml();
     void setXml(QDomDocument &xml);
 
+    QString LastError() const;
+    void setLastError(const QString &lastError);
+
 signals:
     void logChanged(QString,LogLevel);
 
 private:
-    void loadMigrationsFromXML(void);
-    void executeMigrations(void);
-    void flushLog(QString msg);
+    bool assingXml(void);
+    bool executeMigrations(void);
     void addExecutedMigration(Migration&);
+
     void log(LogLevel level, const QString &msg);
     void logList(const QStringList &list);
     void log(const QString &msg);
-    void execMigration(QSqlQuery *q);
-    void saveMigration(Migration m);
 
-    bool writeMigrationLog(Migration&);
-    float getCurrentSchemaVersion(void);
+    QString m_lastError;
 
     LaycanLogger *m_logger;
     QDomDocument m_xml;
     SchemaVersion m_schemaversion;
 
-    QList<Migration> Migrations;
+    QList<Migration> m_migrations;
     QList<Migration> m_ExecutedMigrations;
     QList<Migration> m_PendingMigrations;
 

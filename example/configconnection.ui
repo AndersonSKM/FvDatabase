@@ -35,33 +35,29 @@
     <number>0</number>
    </property>
    <widget class="QWidget" name="page">
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
       <rect>
-       <x>6</x>
-       <y>7</y>
-       <width>356</width>
-       <height>297</height>
+       <x>7</x>
+       <y>8</y>
+       <width>354</width>
+       <height>271</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <property name="spacing">
-       <number>-1</number>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>331</width>
+        <height>251</height>
+       </rect>
       </property>
-      <property name="bottomMargin">
-       <number>22</number>
-      </property>
-      <item>
-       <widget class="QWidget" name="" native="true">
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <widget class="QLabel" name="label">
              <property name="font">
@@ -76,32 +72,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cbDriver">
-             <item>
-              <property name="text">
-               <string>MySQL </string>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources/Resources.qrc">
-                <normaloff>:/icons/1444503647_mysql-2048-black.png</normaloff>:/icons/1444503647_mysql-2048-black.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>PostgreSQL</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources/Resources.qrc">
-                <normaloff>:/icons/postgresql-96x96.png</normaloff>:/icons/postgresql-96x96.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
             <widget class="QLabel" name="label_2">
              <property name="font">
               <font>
@@ -114,16 +84,6 @@
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLineEdit" name="edtServer"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <property name="spacing">
-            <number>57</number>
-           </property>
            <item>
             <widget class="QLabel" name="label_3">
              <property name="font">
@@ -138,16 +98,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="edtUsuario"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <property name="spacing">
-            <number>37</number>
-           </property>
-           <item>
             <widget class="QLabel" name="label_4">
              <property name="font">
               <font>
@@ -160,23 +110,6 @@
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLineEdit" name="edtSenha">
-             <property name="echoMode">
-              <enum>QLineEdit::PasswordEchoOnEdit</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <property name="spacing">
-            <number>37</number>
-           </property>
-           <property name="leftMargin">
-            <number>1</number>
-           </property>
            <item>
             <widget class="QLabel" name="label_6">
              <property name="font">
@@ -191,23 +124,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="edtDatabase">
-             <property name="echoMode">
-              <enum>QLineEdit::Normal</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>176</number>
-           </property>
-           <item>
             <widget class="QLabel" name="label_5">
              <property name="font">
               <font>
@@ -221,23 +137,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="sbPorta">
-             <property name="maximum">
-              <number>50000</number>
-             </property>
-             <property name="value">
-              <number>3306</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
-           <property name="spacing">
-            <number>45</number>
-           </property>
-           <item>
             <widget class="QLabel" name="label_7">
              <property name="font">
               <font>
@@ -250,86 +149,175 @@
              </property>
             </widget>
            </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QLineEdit" name="edtLogFilePath">
-             <property name="echoMode">
-              <enum>QLineEdit::Normal</enum>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QComboBox" name="cbDriver">
+               <item>
+                <property name="text">
+                 <string>MySQL </string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/Resources.qrc">
+                  <normaloff>:/icons/1444503647_mysql-2048-black.png</normaloff>:/icons/1444503647_mysql-2048-black.png</iconset>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>PostgreSQL</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/Resources.qrc">
+                  <normaloff>:/icons/postgresql-96x96.png</normaloff>:/icons/postgresql-96x96.png</iconset>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLineEdit" name="edtServer"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="edtUsuario"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="edtSenha">
+               <property name="echoMode">
+                <enum>QLineEdit::PasswordEchoOnEdit</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="edtDatabase">
+               <property name="echoMode">
+                <enum>QLineEdit::Normal</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QSpinBox" name="sbPorta">
+                 <property name="maximum">
+                  <number>50000</number>
+                 </property>
+                 <property name="value">
+                  <number>3306</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="edtLogFilePath">
+               <property name="echoMode">
+                <enum>QLineEdit::Normal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>118</width>
-            <height>17</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnOk">
-          <property name="text">
-           <string>Migrate</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../resources/Resources.qrc">
-            <normaloff>:/icons/Ok.png</normaloff>:/icons/Ok.png</iconset>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnCancel">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string>Cancel</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../resources/Resources.qrc">
-            <normaloff>:/icons/Cancel.png</normaloff>:/icons/Cancel.png</iconset>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnCancel">
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/Resources.qrc">
+             <normaloff>:/icons/Cancel.png</normaloff>:/icons/Cancel.png</iconset>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnOk">
+           <property name="text">
+            <string>Migrate</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/Resources.qrc">
+             <normaloff>:/icons/Ok.png</normaloff>:/icons/Ok.png</iconset>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </widget>
-    <zorder>label_3</zorder>
-    <zorder>label_4</zorder>
-    <zorder>edtLogFilePath</zorder>
-    <zorder>label_6</zorder>
-    <zorder>edtSenha</zorder>
-    <zorder>label_2</zorder>
-    <zorder>label_7</zorder>
-    <zorder>sbPorta</zorder>
-    <zorder>label</zorder>
-    <zorder>edtServer</zorder>
-    <zorder>label_5</zorder>
-    <zorder>cbDriver</zorder>
-    <zorder>edtUsuario</zorder>
-    <zorder>edtDatabase</zorder>
-    <zorder>layoutWidget</zorder>
-    <zorder>horizontalSpacer</zorder>
-    <zorder>horizontalSpacer</zorder>
-    <zorder></zorder>
    </widget>
    <widget class="QWidget" name="page_2">
     <widget class="QWidget" name="layoutWidget">
@@ -364,13 +352,6 @@
          <widget class="QTextBrowser" name="memoLog"/>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="lbStatus">
-        <property name="text">
-         <string>Status</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>

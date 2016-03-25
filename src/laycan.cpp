@@ -11,29 +11,35 @@ Laycan::~Laycan()
     delete m_logger;
 }
 
-void Laycan::Migrate(const QString &xmlPath)
+bool Laycan::Migrate(const QString &xmlPath)
 {
     log("Checking the connection to the database");
     if (!QSqlDatabase::database().isOpen()) {
-        log(ERROR,"Error to connect to the database : " +
-            QSqlDatabase::database().lastError().text());
-    } else {
-
-        QFile xmlFile(xmlPath);
-        if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            log(ERROR,"Error opening XML file");
-            return;
-        }
-
-        if (!getXml().setContent(&xmlFile)) {
-            log(ERROR,"Error when selecting XML file");
-            xmlFile.close();
-            return;
-        }
-
-        xmlFile.close();
-        executeMigrations();
+        log(ERROR,QString("Error to connect to the database : %1")
+                    .arg(QSqlDatabase::database().lastError().text()));
+        return false;
     }
+
+    QFile xmlFile(xmlPath);
+    if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        log(ERROR,"Error opening XML file");
+        return false;
+    }
+
+    if (!getXml().setContent(&xmlFile)) {
+        log(ERROR,"Error when selecting XML file");
+        xmlFile.close();
+        return false;
+    }
+
+    if (!assingXml()) {
+        log(ERROR,"No migration found in XML");
+        xmlFile.close();
+        return false;
+    }
+
+    xmlFile.close();
+    return executeMigrations();
 }
 
 QString Laycan::logFilePath()
@@ -57,30 +63,6 @@ void Laycan::addExecutedMigration(Migration &m)
 int Laycan::executedMigrationsCount() const
 {
     return m_ExecutedMigrations.count();
-}
-
-bool Laycan::writeMigrationLog(Migration &script)
-{
-    QSqlQuery query;
-    query.prepare("insert into schema_version"
-                  " (version, description, script, datehour) "
-                  "values "
-                  " (:v , :d, :s, :h)");
-    query.bindValue(0, script.version());
-    query.bindValue(1, script.description());
-    query.bindValue(2, script.SQL());
-    query.bindValue(3, QDateTime::currentDateTime()
-                        .toString("dd-MM-yyyy - hh:mm:ss"));
-
-    return query.exec();
-}
-
-float Laycan::getCurrentSchemaVersion()
-{
-    QSqlQuery query;
-    query.exec("select max(version) from schema_version");
-    query.next();
-    return query.value(0).toFloat();
 }
 
 QDomDocument& Laycan::getXml()
@@ -107,13 +89,15 @@ void Laycan::log(LogLevel level, const QString &msg)
 {
     Logger()->write(level,msg);
     emit logChanged(msg,level);
+
+    if (level == ERROR) setLastError(msg);
 }
 
 void Laycan::logList(const QStringList &list)
 {
     for (auto it = list.begin(); it != list.end(); ++it) {
-            QString current = *it;
-            log(current);
+        QString current = *it;
+        log(current);
     }
 }
 
@@ -122,111 +106,76 @@ void Laycan::log(const QString &msg)
     log(INFORMATION,msg);
 }
 
-void Laycan::execMigration(QSqlQuery *q)
+QString Laycan::LastError() const
 {
-    if (!q->exec())
-        throw MigrateException();
+    return m_lastError;
 }
 
-void Laycan::saveMigration(Migration m)
+void Laycan::setLastError(const QString &lastError)
 {
-    if (!m_schemaversion.writeDbChanges(m))
-        throw SaveMigrationException();
+    m_lastError = lastError;
 }
 
-bool Laycan::createVersionTable()
-{
-    QSqlQuery query;
-    QSqlDatabase::database().transaction();
 
-    bool executed;
-    executed = query.exec("CREATE TABLE schema_version ("
-                          "   version FLOAT NULL, "
-                          "   description VARCHAR(200) NULL,"
-                          "   script TEXT NULL,"
-                          "   datehour VARCHAR(15) NULL"
-                          ");");
-
-    if (executed) {
-        QSqlDatabase::database().commit();
-    } else {
-        QSqlDatabase::database().rollback();
-        log(ERROR,"Error creating version table: " +
-                    query.lastError().text() + "]");
-    }
-
-    return executed;
-}
-
-void Laycan::executeMigrations()
+bool Laycan::executeMigrations()
 {
     log("Checking versions table");
     if (!m_schemaversion.checkVersionTable()) {
-        log("Error creating version table :" + m_schemaversion.lastError());
-        return;
+        log(m_schemaversion.lastError());
+        return false;
     }
 
     float dbSchemaVersion = m_schemaversion.version();
 
-    loadMigrationsFromXML();
-
-    foreach (Migration script, Migrations) {
+    foreach (Migration script, m_migrations) {
 
         if (script.version() > dbSchemaVersion) {
-            log("Migrating version of the schema for: " + QString::number(script.version()));
+            log(QString("Migrating version of the schema for: %1")
+                    .arg(script.version()));
 
             QSqlDatabase::database().transaction();
             QSqlQuery query;
-            query.prepare(script.SQL());
+            QTime timer;
 
-            try {
+            log(QString("Executing migration: %1").arg(script.description()));
+            timer.start();
 
-                execMigration(&query);
-                saveMigration(script);
-
-            } catch (MigrateException &e) {
+            if (!query.exec(script.SQL())) {
                 QSqlDatabase::database().rollback();
-                log(ERROR,"Error executing SQL: " + script.description()
-                          + " Error: " + query.lastError().text()
-                          + " SQL: "  + query.lastQuery());
-                break;
-            } catch (SaveMigrationException &e) {
+                log(ERROR,QString("Error executing SQL: %1 Error: %2 SQL: %3")
+                            .arg(script.description())
+                            .arg(query.lastError().text())
+                            .arg(query.lastQuery()));
+                return false;
+            }
+
+            script.setExecutionTime(timer.elapsed());
+            log(QString("Saving database changes, execution time: %1").arg(script.executionTime()));
+
+            if (!m_schemaversion.writeDbChanges(script)) {
                 QSqlDatabase::database().rollback();
                 log(ERROR,m_schemaversion.lastError());
-                break;
+                return false;
             }
 
             QSqlDatabase::database().commit();
             addExecutedMigration(script);
-
-            bool executed = query.exec(script.SQL());
-            if (executed) {
-                executed = m_schemaversion.writeDbChanges(script);
-                if (!executed) {
-                    log(ERROR,m_schemaversion.lastError());
-                } else {
-                    logList(m_schemaversion.lastSqlInsert());
-                }
-            }
         }
         QApplication::processEvents();
     }
     log("Finalizing the migration");
-    log("Performed migrations: "+ QString::number(executedMigrationsCount()));
+    log(QString("Performed migrations: %1").arg(executedMigrationsCount()));
     log("Pending migrations");
+    return true;
 }
 
-/* XML Functions */
-
-void Laycan::loadMigrationsFromXML(void)
+bool Laycan::assingXml()
 {
     log("Loading File SQL scripts ");
     QDomNodeList root = getXml().elementsByTagName("SQL");
 
-    if (root.isEmpty()) {
-        log(ERROR,"No migration found in XML");
-        return;
-    }
+    if (root.isEmpty())
+        return false;
 
     for (int i = 0; i != root.count(); i++) {
         QDomNode migrationNode = root.at(i);
@@ -246,10 +195,9 @@ void Laycan::loadMigrationsFromXML(void)
             script.setSQL(sql.nodeValue());
         }
 
-        Migrations.append(script);
+        m_migrations.append(script);
     }
 
     log("Loaded migrations: " + QString::number(root.count()));
+    return true;
 }
-
-/* End XML Functions */
