@@ -8,6 +8,7 @@
 SchemaVersion::SchemaVersion()
 {
     m_version = 0;
+    m_isExecuted = false;
     m_tableName = QString("schema_version");
 }
 
@@ -96,16 +97,40 @@ void SchemaVersion::loadCurrentVersion()
     QSqlQuery query;
     query.exec("select * from " + tableName());
 
-    if (query.size() == 0)
-        return;
-
     if (query.last()) {
         m_version = query.value("version").toFloat();
         m_description = query.value("description").toString();
         m_script = query.value("script").toString();
         m_executedOn = query.value("executed_on").toDateTime();
         m_executionTime = query.value("executed_time").toInt();
+        m_isExecuted = true;
     }
+}
+
+bool SchemaVersion::loadVersion(const float version)
+{
+    QSqlQuery query;
+    QString sql = QString("select * from %1 where version = %2")
+                    .arg(tableName())
+                    .arg(version);
+
+    if (!query.exec(sql)) {
+        setLastError(query.lastError().text());
+        return false;
+    }
+
+    m_isExecuted = false;
+
+    if (query.next()) {
+        m_version = query.value("version").toFloat();
+        m_description = query.value("description").toString();
+        m_script = query.value("script").toString();
+        m_executedOn = query.value("executed_on").toDateTime();
+        m_executionTime = query.value("executed_time").toInt();
+        m_isExecuted = true;
+    }
+
+    return m_isExecuted;
 }
 
 QStringList SchemaVersion::makeSQLFormat(const QSqlQuery &q)
@@ -116,13 +141,24 @@ QStringList SchemaVersion::makeSQLFormat(const QSqlQuery &q)
     QMapIterator<QString, QVariant> i(q.boundValues());
     while (i.hasNext()) {
         i.next();
-        list << QString("%1 = %2").arg(i.key().toUtf8().data())
-                                  .arg(i.value().toString().toUtf8().data());
+        list << QString("%1 = %2")
+                    .arg(i.key().toUtf8().data())
+                    .arg(i.value().toString().toUtf8().data());
     }
 
     list << "---------------------";
     list << q.lastQuery();
     return list;
+}
+
+bool SchemaVersion::isExecuted() const
+{
+    return m_isExecuted;
+}
+
+void SchemaVersion::setIsExecuted(bool isExecuted)
+{
+    m_isExecuted = isExecuted;
 }
 
 QStringList& SchemaVersion::lastSqlInsert()
@@ -145,13 +181,11 @@ void SchemaVersion::setLastError(const QString &lastError)
     m_lastError = lastError;
 }
 
-
 bool SchemaVersion::checkVersionTable()
 {
     if (!QSqlDatabase::database().tables().contains(tableName()))
         return createVersionTable();
-    
-    loadCurrentVersion();
+
     return true;
 }
 

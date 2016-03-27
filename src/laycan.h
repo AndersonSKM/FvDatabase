@@ -53,14 +53,14 @@ public:
     QString tableVersionName() const;
     void setTableVersionName(const QString &name);
 
-    float schemaVersion();
+    float currentVersion();
 
 signals:
     void logChanged(QString,LogLevel);
 
 private:
-    bool assingXml(void);
     bool executeMigrations(void);
+    bool assingXml(void);
     void addExecutedMigration(Migration&);
 
     void log(LogLevel level, const QString &msg);
@@ -71,7 +71,7 @@ private:
 
     LaycanLogger *m_logger;
     QDomDocument m_xml;
-    SchemaVersion m_schemaversion;
+    SchemaVersion m_dbVersion;
 
     QList<Migration> m_migrations;
     QList<Migration> m_ExecutedMigrations;

@@ -118,33 +118,33 @@ void Laycan::setLastError(const QString &lastError)
 
 QString Laycan::tableVersionName() const
 {
-    return m_schemaversion.tableName();
+    return m_dbVersion.tableName();
 }
 
 void Laycan::setTableVersionName(const QString &name)
 {
-    m_schemaversion.setTableName(name);
+    m_dbVersion.setTableName(name);
 }
 
-float Laycan::schemaVersion()
+float Laycan::currentVersion()
 {
-    m_schemaversion.loadCurrentVersion();
-    return m_schemaversion.version();
+    m_dbVersion.loadCurrentVersion();
+    return m_dbVersion.version();
 }
 
 bool Laycan::executeMigrations()
 {
     log("Checking versions table");
-    if (!m_schemaversion.checkVersionTable()) {
-        log(ERROR,m_schemaversion.lastError());
+    if (!m_dbVersion.checkVersionTable()) {
+        log(ERROR,m_dbVersion.lastError());
         return false;
     }
 
-    float dbSchemaVersion = m_schemaversion.version();
-
     foreach (Migration script, m_migrations) {
+        m_dbVersion.loadVersion(script.version());
 
-        if (script.version() > dbSchemaVersion) {
+        if (!m_dbVersion.isExecuted()) {
+
             log(QString("Migrating version of the schema for: %1")
                     .arg(script.version()));
 
@@ -168,9 +168,9 @@ bool Laycan::executeMigrations()
             log(QString("Saving database changes, execution time: %1")
                   .arg(script.executionTime()));
 
-            if (!m_schemaversion.writeDbChanges(script)) {
+            if (!m_dbVersion.writeDbChanges(script)) {
                 QSqlDatabase::database().rollback();
-                log(ERROR,m_schemaversion.lastError());
+                log(ERROR,m_dbVersion.lastError());
                 return false;
             }
 

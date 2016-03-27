@@ -351,4 +351,138 @@
     AUTO_INCREMENT=2;
     -->
   </SQL>
+  <SQL version="27" id="Insert admin user">
+    <!--
+    INSERT INTO users
+      (ID,NOME,LOGIN,PASSWD,ADMIN)
+    VALUES
+      (1,'ADMIN','ROOT','123456',1);
+    -->
+  </SQL>
+  <SQL version="28" id="Create city table">
+    <!--
+    CREATE TABLE `City` (
+      `ID` int(11) NOT NULL AUTO_INCREMENT,
+      `Name` char(35) NOT NULL DEFAULT '',
+      `CountryCode` char(3) NOT NULL DEFAULT '',
+      `District` char(20) NOT NULL DEFAULT '',
+      `Population` int(11) NOT NULL DEFAULT '0',
+      PRIMARY KEY (`ID`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=4080 COLLATE='utf8_unicode_ci';
+  -->
+  </SQL>
+  <SQL version="29" id="Insert some citys">
+  <!--
+    INSERT INTO `City` VALUES (1,'Kabul','AFG','Kabol',1780000);
+    INSERT INTO `City` VALUES (2,'Qandahar','AFG','Qandahar',237500);
+    INSERT INTO `City` VALUES (3,'Herat','AFG','Herat',186800);
+    INSERT INTO `City` VALUES (4,'Mazar-e-Sharif','AFG','Balkh',127800);
+    INSERT INTO `City` VALUES (5,'Amsterdam','NLD','Noord-Holland',731200);
+    INSERT INTO `City` VALUES (6,'Rotterdam','NLD','Zuid-Holland',593321);
+    INSERT INTO `City` VALUES (7,'Haag','NLD','Zuid-Holland',440900);
+    INSERT INTO `City` VALUES (8,'Utrecht','NLD','Utrecht',234323);
+    INSERT INTO `City` VALUES (9,'Eindhoven','NLD','Noord-Brabant',201843);
+    INSERT INTO `City` VALUES (10,'Tilburg','NLD','Noord-Brabant',193238);
+  -->
+  </SQL>
+  <SQL version="30" id="Create county table">
+  <!--
+    CREATE TABLE `Country` (
+    `Code` char(3) NOT NULL DEFAULT '',
+    `Name` char(52) NOT NULL DEFAULT '',
+    `Continent` enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') NOT NULL DEFAULT 'Asia',
+    `Region` char(26) NOT NULL DEFAULT '',
+    `SurfaceArea` float(10,2) NOT NULL DEFAULT '0.00',
+    `IndepYear` smallint(6) DEFAULT NULL,
+    `Population` int(11) NOT NULL DEFAULT '0',
+    `LifeExpectancy` float(3,1) DEFAULT NULL,
+    `GNP` float(10,2) DEFAULT NULL,
+    `GNPOld` float(10,2) DEFAULT NULL,
+    `LocalName` char(45) NOT NULL DEFAULT '',
+    `GovernmentForm` char(45) NOT NULL DEFAULT '',
+    `HeadOfState` char(60) DEFAULT NULL,
+    `Capital` int(11) DEFAULT NULL,
+    `Code2` char(2) NOT NULL DEFAULT '',
+    PRIMARY KEY (`Code`)
+    ) ENGINE=InnoDB COLLATE='utf8_unicode_ci';
+  -->
+  </SQL>
+  <SQL version="31" id="Insert some countys">
+  <!--
+    INSERT INTO `Country` VALUES ('ABW','Aruba','North America','Caribbean',193.00,NULL,103000,78.4,828.00,793.00,'Aruba','Nonmetropolitan Territory of The Netherlands','Beatrix',129,'AW');
+    INSERT INTO `Country` VALUES ('AFG','Afghanistan','Asia','Southern and Central Asia',652090.00,1919,22720000,45.9,5976.00,NULL,'Afganistan/Afqanestan','Islamic Emirate','Mohammad Omar',1,'AF');
+    INSERT INTO `Country` VALUES ('AGO','Angola','Africa','Central Africa',1246700.00,1975,12878000,38.3,6648.00,7984.00,'Angola','Republic','José Eduardo dos Santos',56,'AO');
+    INSERT INTO `Country` VALUES ('AIA','Anguilla','North America','Caribbean',96.00,NULL,8000,76.1,63.20,NULL,'Anguilla','Dependent Territory of the UK','Elisabeth II',62,'AI');
+    INSERT INTO `Country` VALUES ('ALB','Albania','Europe','Southern Europe',28748.00,1912,3401200,71.6,3205.00,2500.00,'Shqipëria','Republic','Rexhep Mejdani',34,'AL');
+    INSERT INTO `Country` VALUES ('AND','Andorra','Europe','Southern Europe',468.00,1278,78000,83.5,1630.00,NULL,'Andorra','Parliamentary Coprincipality','',55,'AD');
+    INSERT INTO `Country` VALUES ('ANT','Netherlands Antilles','North America','Caribbean',800.00,NULL,217000,74.7,1941.00,NULL,'Nederlandse Antillen','Nonmetropolitan Territory of The Netherlands','Beatrix',33,'AN');
+    INSERT INTO `Country` VALUES ('ARE','United Arab Emirates','Asia','Middle East',83600.00,1971,2441000,74.1,37966.00,36846.00,'Al-Imarat al-´Arabiya al-Muttahida','Emirate Federation','Zayid bin Sultan al-Nahayan',65,'AE');
+    INSERT INTO `Country` VALUES ('ARG','Argentina','South America','South America',2780400.00,1816,37032000,75.1,340238.00,323310.00,'Argentina','Federal Republic','Fernando de la Rúa',69,'AR');
+    INSERT INTO `Country` VALUES ('ARM','Armenia','Asia','Middle East',29800.00,1991,3520000,66.4,1813.00,1627.00,'Hajastan','Republic','Robert Kotšarjan',126,'AM');
+    INSERT INTO `Country` VALUES ('ASM','American Samoa','Oceania','Polynesia',199.00,NULL,68000,75.1,334.00,NULL,'Amerika Samoa','US Territory','George W. Bush',54,'AS');
+    INSERT INTO `Country` VALUES ('ATA','Antarctica','Antarctica','Antarctica',13120000.00,NULL,0,NULL,0.00,NULL,'–','Co-administrated','',NULL,'AQ');
+    INSERT INTO `Country` VALUES ('ATF','French Southern territories','Antarctica','Antarctica',7780.00,NULL,0,NULL,0.00,NULL,'Terres australes françaises','Nonmetropolitan Territory of France','Jacques Chirac',NULL,'TF');
+    INSERT INTO `Country` VALUES ('ATG','Antigua and Barbuda','North America','Caribbean',442.00,1981,68000,70.5,612.00,584.00,'Antigua and Barbuda','Constitutional Monarchy','Elisabeth II',63,'AG');
+    INSERT INTO `Country` VALUES ('AUS','Australia','Oceania','Australia and New Zealand',7741220.00,1901,18886000,79.8,351182.00,392911.00,'Australia','Constitutional Monarchy, Federation','Elisabeth II',135,'AU');
+    INSERT INTO `Country` VALUES ('AUT','Austria','Europe','Western Europe',83859.00,1918,8091800,77.7,211860.00,206025.00,'Österreich','Federal Republic','Thomas Klestil',1523,'AT');
+    INSERT INTO `Country` VALUES ('AZE','Azerbaijan','Asia','Middle East',86600.00,1991,7734000,62.9,4127.00,4100.00,'Azärbaycan','Federal Republic','Heydär Äliyev',144,'AZ');
+    INSERT INTO `Country` VALUES ('BDI','Burundi','Africa','Eastern Africa',27834.00,1962,6695000,46.2,903.00,982.00,'Burundi/Uburundi','Republic','Pierre Buyoya',552,'BI');
+    INSERT INTO `Country` VALUES ('BEL','Belgium','Europe','Western Europe',30518.00,1830,10239000,77.8,249704.00,243948.00,'België/Belgique','Constitutional Monarchy, Federation','Albert II',179,'BE');
+    INSERT INTO `Country` VALUES ('BEN','Benin','Africa','Western Africa',112622.00,1960,6097000,50.2,2357.00,2141.00,'Bénin','Republic','Mathieu Kérékou',187,'BJ');
+    INSERT INTO `Country` VALUES ('BFA','Burkina Faso','Africa','Western Africa',274000.00,1960,11937000,46.7,2425.00,2201.00,'Burkina Faso','Republic','Blaise Compaoré',549,'BF');
+    INSERT INTO `Country` VALUES ('BGD','Bangladesh','Asia','Southern and Central Asia',143998.00,1971,129155000,60.2,32852.00,31966.00,'Bangladesh','Republic','Shahabuddin Ahmad',150,'BD');
+    INSERT INTO `Country` VALUES ('BGR','Bulgaria','Europe','Eastern Europe',110994.00,1908,8190900,70.9,12178.00,10169.00,'Balgarija','Republic','Petar Stojanov',539,'BG');
+  -->
+  </SQL>
+  <SQL version="32" id="Create county language table">
+  <!--
+    CREATE TABLE `CountryLanguage` (
+    `CountryCode` char(3) NOT NULL DEFAULT '',
+    `Language` char(30) NOT NULL DEFAULT '',
+    `IsOfficial` enum('T','F') NOT NULL DEFAULT 'F',
+    `Percentage` float(4,1) NOT NULL DEFAULT '0.0',
+    PRIMARY KEY (`CountryCode`,`Language`)
+    ) ENGINE=InnoDB COLLATE='utf8_unicode_ci';
+  -->
+  </SQL>
+  <SQL version="32" id="Insert some county languages">
+  <!--
+    INSERT INTO `CountryLanguage` VALUES ('ABW','Dutch','T',5.3);
+    INSERT INTO `CountryLanguage` VALUES ('ABW','English','F',9.5);
+    INSERT INTO `CountryLanguage` VALUES ('ABW','Papiamento','F',76.7);
+    INSERT INTO `CountryLanguage` VALUES ('ABW','Spanish','F',7.4);
+    INSERT INTO `CountryLanguage` VALUES ('AFG','Balochi','F',0.9);
+    INSERT INTO `CountryLanguage` VALUES ('AFG','Dari','T',32.1);
+    INSERT INTO `CountryLanguage` VALUES ('AFG','Pashto','T',52.4);
+    INSERT INTO `CountryLanguage` VALUES ('AFG','Turkmenian','F',1.9);
+    INSERT INTO `CountryLanguage` VALUES ('AFG','Uzbek','F',8.8);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Ambo','F',2.4);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Chokwe','F',4.2);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Kongo','F',13.2);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Luchazi','F',2.4);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Luimbe-nganguela','F',5.4);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Luvale','F',3.6);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Mbundu','F',21.6);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Nyaneka-nkhumbi','F',5.4);
+    INSERT INTO `CountryLanguage` VALUES ('AGO','Ovimbundu','F',37.2);
+    INSERT INTO `CountryLanguage` VALUES ('AIA','English','T',0.0);
+    INSERT INTO `CountryLanguage` VALUES ('ALB','Albaniana','T',97.9);
+    INSERT INTO `CountryLanguage` VALUES ('ALB','Greek','F',1.8);
+    INSERT INTO `CountryLanguage` VALUES ('ALB','Macedonian','F',0.1);
+    INSERT INTO `CountryLanguage` VALUES ('AND','Catalan','T',32.3);
+    INSERT INTO `CountryLanguage` VALUES ('AND','French','F',6.2);
+    INSERT INTO `CountryLanguage` VALUES ('AND','Portuguese','F',10.8);
+    INSERT INTO `CountryLanguage` VALUES ('AND','Spanish','F',44.6);
+    INSERT INTO `CountryLanguage` VALUES ('ANT','Dutch','T',0.0);
+    INSERT INTO `CountryLanguage` VALUES ('ANT','English','F',7.8);
+    INSERT INTO `CountryLanguage` VALUES ('ANT','Papiamento','T',86.2);
+    INSERT INTO `CountryLanguage` VALUES ('ARE','Arabic','T',42.0);
+    INSERT INTO `CountryLanguage` VALUES ('ARE','Hindi','F',0.0);
+    INSERT INTO `CountryLanguage` VALUES ('ARG','Indian Languages','F',0.3);
+    INSERT INTO `CountryLanguage` VALUES ('ARG','Italian','F',1.7);
+    INSERT INTO `CountryLanguage` VALUES ('ARG','Spanish','T',96.8);
+    INSERT INTO `CountryLanguage` VALUES ('ARM','Armenian','T',93.4);
+    INSERT INTO `CountryLanguage` VALUES ('ARM','Azerbaijani','F',2.6);
+  -->
+  </SQL>
 </Migrations>

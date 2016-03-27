@@ -17,7 +17,9 @@ public:
 
     bool checkVersionTable();
     bool writeDbChanges(Migration &migration);
+    //bool isExecuted(const float versionNumber);
     void loadCurrentVersion();
+    bool loadVersion(const float version);
 
     QString tableName() const;
     void setTableName(const QString &tableName);
@@ -40,8 +42,11 @@ public:
     QString lastError() const;
     void setLastError(const QString &lastError);
 
-    QStringList &lastSqlInsert();
+    QStringList& lastSqlInsert();
     void setLastSqlInsert(const QStringList &lastSqlInsert);
+
+    void setIsExecuted(bool isExecuted);
+    bool isExecuted() const;
 
 private:
     bool createVersionTable();
@@ -56,6 +61,7 @@ private:
     QString m_script;
     QDateTime m_executedOn;
     int m_executionTime;
+    bool m_isExecuted;
 };
 
 #endif // SCHEMAVERSION_H
