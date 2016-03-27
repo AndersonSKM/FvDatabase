@@ -48,7 +48,7 @@ void ConfigConnection::on_btnOk_clicked()
 
             laycan->setLogFilePath(ui->edtLogFilePath->text());
             if (!laycan->Migrate(":/Migrations.xml")) {
-                Database::Menssage(QString("Error: %1").arg(laycan->LastError()));
+                QMessageBox::critical(this,"",laycan->lastError());
                 return;
             }
 

@@ -14,6 +14,7 @@ Laycan::~Laycan()
 bool Laycan::Migrate(const QString &xmlPath)
 {
     log("Checking the connection to the database");
+
     if (!QSqlDatabase::database().isOpen()) {
         log(ERROR,QString("Error to connect to the database : %1")
                     .arg(QSqlDatabase::database().lastError().text()));
@@ -95,9 +96,8 @@ void Laycan::log(LogLevel level, const QString &msg)
 
 void Laycan::logList(const QStringList &list)
 {
-    for (auto it = list.begin(); it != list.end(); ++it) {
-        QString current = *it;
-        log(current);
+    foreach (const QString &s, list) {
+        log(s);
     }
 }
 
@@ -106,7 +106,7 @@ void Laycan::log(const QString &msg)
     log(INFORMATION,msg);
 }
 
-QString Laycan::LastError() const
+QString Laycan::lastError() const
 {
     return m_lastError;
 }
@@ -116,12 +116,27 @@ void Laycan::setLastError(const QString &lastError)
     m_lastError = lastError;
 }
 
+QString Laycan::tableVersionName() const
+{
+    return m_schemaversion.tableName();
+}
+
+void Laycan::setTableVersionName(const QString &name)
+{
+    m_schemaversion.setTableName(name);
+}
+
+float Laycan::schemaVersion()
+{
+    m_schemaversion.loadCurrentVersion();
+    return m_schemaversion.version();
+}
 
 bool Laycan::executeMigrations()
 {
     log("Checking versions table");
     if (!m_schemaversion.checkVersionTable()) {
-        log(m_schemaversion.lastError());
+        log(ERROR,m_schemaversion.lastError());
         return false;
     }
 
@@ -150,7 +165,8 @@ bool Laycan::executeMigrations()
             }
 
             script.setExecutionTime(timer.elapsed());
-            log(QString("Saving database changes, execution time: %1").arg(script.executionTime()));
+            log(QString("Saving database changes, execution time: %1")
+                  .arg(script.executionTime()));
 
             if (!m_schemaversion.writeDbChanges(script)) {
                 QSqlDatabase::database().rollback();
@@ -164,7 +180,10 @@ bool Laycan::executeMigrations()
         QApplication::processEvents();
     }
     log("Finalizing the migration");
-    log(QString("Performed migrations: %1").arg(executedMigrationsCount()));
+
+    log(QString("Performed migrations: %1")
+          .arg(executedMigrationsCount()));
+
     log("Pending migrations");
     return true;
 }

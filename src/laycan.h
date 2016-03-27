@@ -47,8 +47,13 @@ public:
     QDomDocument& getXml();
     void setXml(QDomDocument &xml);
 
-    QString LastError() const;
+    QString lastError() const;
     void setLastError(const QString &lastError);
+
+    QString tableVersionName() const;
+    void setTableVersionName(const QString &name);
+
+    float schemaVersion();
 
 signals:
     void logChanged(QString,LogLevel);

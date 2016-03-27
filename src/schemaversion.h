@@ -17,6 +17,7 @@ public:
 
     bool checkVersionTable();
     bool writeDbChanges(Migration &migration);
+    void loadCurrentVersion();
 
     QString tableName() const;
     void setTableName(const QString &tableName);
@@ -44,8 +45,6 @@ public:
 
 private:
     bool createVersionTable();
-    void loadCurrentVersion();
-
     QStringList makeSQLFormat(const QSqlQuery &q);
 
     QString m_lastError;
