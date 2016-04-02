@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,8 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        laycaneditor.cpp
+        laycaneditor.cpp \
+    dlgopenfile.cpp
 
-HEADERS  += laycaneditor.h
+HEADERS  += laycaneditor.h \
+    dlgopenfile.h
 
-FORMS    += laycaneditor.ui
+FORMS    += laycaneditor.ui \
+    dlgopenfile.ui

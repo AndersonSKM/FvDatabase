@@ -17,3 +17,20 @@ void LaycanEditor::on_btnClose_clicked()
 {
     this->close();
 }
+
+void LaycanEditor::filterList()
+{
+
+}
+QDomDocument LaycanEditor::xml() const
+{
+    return m_xml;
+}
+
+void LaycanEditor::setXml(const QDomDocument &xml)
+{
+    m_xml = xml;
+}
+
+
+
