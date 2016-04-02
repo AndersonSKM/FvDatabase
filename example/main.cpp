@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
         w.show();
 
         returnCode = a.exec();
+
     } catch (std::exception &e) {
         qDebug() << e.what();
     } catch (...) {
