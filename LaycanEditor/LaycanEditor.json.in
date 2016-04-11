@@ -1,0 +1,12 @@
+{
+    \"Name\" : \"LaycanEditor\",
+    \"Version\" : \"0.0.1\",
+    \"CompatVersion\" : \"0.0.1\",
+    \"Vendor\" : \"Laycan\",
+    \"Copyright\" : \"(C) Laycan\",
+    \"License\" : \"GPL\",
+    \"Description\" : \"Manage your laycan migrations\",
+    \"Url\" : \"https://github.com/AndersonSKM/Laycan\",
+    $$dependencyList
+}
+
