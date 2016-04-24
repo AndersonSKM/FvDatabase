@@ -2,6 +2,9 @@ DEFINES += LAYCANEDITOR_LIBRARY
 
 # LaycanEditor files
 
+#LaycanEditor View
+include(View/View.pri)
+
 SOURCES += laycaneditorplugin.cpp
 
 HEADERS += laycaneditorplugin.h \
@@ -43,4 +46,7 @@ QTC_PLUGIN_RECOMMENDS += \
 ###### End _dependencies.pri contents ######
 
 include($$QTCREATOR_SOURCES/src/qtcreatorplugin.pri)
+
+RESOURCES += \
+    ../resources/Resources.qrc
 

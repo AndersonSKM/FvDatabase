@@ -20,12 +20,14 @@ using namespace LaycanEditor::Internal;
 LaycanEditorPlugin::LaycanEditorPlugin()
 {
     // Create your members
+    view = nullptr;
 }
 
 LaycanEditorPlugin::~LaycanEditorPlugin()
 {
     // Unregister objects from the plugin manager's object pool
     // Delete members
+    delete view;
 }
 
 bool LaycanEditorPlugin::initialize(const QStringList &arguments, QString *errorString)
@@ -47,7 +49,7 @@ bool LaycanEditorPlugin::initialize(const QStringList &arguments, QString *error
     connect(action, SIGNAL(triggered()), this, SLOT(triggerAction()));
 
     Core::ActionContainer *menu = Core::ActionManager::createMenu(Constants::MENU_ID);
-    menu->menu()->setTitle(tr("LaycanEditor"));
+    menu->menu()->setTitle(tr("Laycan Editor"));
     menu->addAction(cmd);
     Core::ActionManager::actionContainer(Core::Constants::M_TOOLS)->addMenu(menu);
 
@@ -71,8 +73,17 @@ ExtensionSystem::IPlugin::ShutdownFlag LaycanEditorPlugin::aboutToShutdown()
 
 void LaycanEditorPlugin::triggerAction()
 {
-    QMessageBox::information(Core::ICore::mainWindow(),
-                             tr("Action triggered"),
-                             tr("This is an action from LaycanEditor."));
+    if (view == nullptr) {
+        view = new LaycanEditorView;
+        view->setWindowFlags(
+            Qt::WindowTitleHint |
+            Qt::CustomizeWindowHint |
+            Qt::WindowCloseButtonHint |
+            Qt::WindowMinimizeButtonHint);
+    }
+
+    view->show();
+    view->activateWindow();
+    view->raise();
 }
 

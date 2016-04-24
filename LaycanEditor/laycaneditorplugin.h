@@ -5,6 +5,8 @@
 
 #include <extensionsystem/iplugin.h>
 
+#include "laycaneditorview.h"
+
 namespace LaycanEditor {
 namespace Internal {
 
@@ -23,6 +25,9 @@ public:
 
 private slots:
     void triggerAction();
+
+private:
+    LaycanEditorView *view;
 };
 
 } // namespace Internal

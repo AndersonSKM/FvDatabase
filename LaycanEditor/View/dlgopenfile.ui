@@ -3,7 +3,7 @@
  <class>DlgOpenFile</class>
  <widget class="QDialog" name="DlgOpenFile">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -16,7 +16,7 @@
   <property name="windowTitle">
    <string>Select Your Migration Xml File</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>

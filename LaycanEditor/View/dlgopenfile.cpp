@@ -1,6 +1,5 @@
 #include "dlgopenfile.h"
 #include "ui_dlgopenfile.h"
-#include "laycaneditor.h"
 
 #include <QSettings>
 #include <QFileDialog>
@@ -31,7 +30,6 @@ void DlgOpenFile::closeEvent()
 void DlgOpenFile::on_btnCancel_clicked()
 {
     closeEvent();
-    QApplication::exit();
 }
 
 void DlgOpenFile::on_pushButton_clicked()
@@ -61,10 +59,5 @@ void DlgOpenFile::on_btnOpen_clicked()
         return;
     }
 
-    LaycanEditor *laycanEditor = new LaycanEditor;
-    laycanEditor->setAttribute(Qt::WA_DeleteOnClose);
-    laycanEditor->setFixedSize(laycanEditor->width(), laycanEditor->height());
-    laycanEditor->setXml(xml);
-    laycanEditor->show();
     this->close();
 }

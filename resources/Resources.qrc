@@ -7,5 +7,7 @@
         <file>icons/package_settings.png</file>
         <file>Migrations.xml</file>
         <file>icons/postgresql-96x96.png</file>
+        <file>icons/cross.png</file>
+        <file>icons/trash.png</file>
     </qresource>
 </RCC>
