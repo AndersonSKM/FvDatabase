@@ -58,6 +58,9 @@ MakeFile
 resources/Migrations/note1.xml
 
 *.stash
+*.moc
+*.rcc
+*.ui
 
 Makefile
 src/dictionary.cpp.autosave
