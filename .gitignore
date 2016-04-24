@@ -61,3 +61,7 @@ resources/Migrations/note1.xml
 
 Makefile
 src/dictionary.cpp.autosave
+LaycanEditor/*.moc
+LaycanEditor/*.ui
+LaycanEditor/*.rcc
+

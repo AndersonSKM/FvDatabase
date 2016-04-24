@@ -56,3 +56,12 @@ MakeFile
 *.sh
 
 resources/Migrations/note1.xml
+
+*.stash
+
+Makefile
+src/dictionary.cpp.autosave
+LaycanEditor/.moc
+LaycanEditor/.ui
+LaycanEditor/.rcc
+
