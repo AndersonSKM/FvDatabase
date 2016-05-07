@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Migrations>
-  <SQL version="1" id="Criar primeira tabela">
+  <SQL version="1" id="Create first Table">
     <!--
       CREATE TABLE fornecedores01 (
           ID INT(11) NOT NULL AUTO_INCREMENT,

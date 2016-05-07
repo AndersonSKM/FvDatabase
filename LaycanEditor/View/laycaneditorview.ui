@@ -3,7 +3,7 @@
  <class>laycaneditorview</class>
  <widget class="QMainWindow" name="laycaneditorview">
   <property name="windowModality">
-   <enum>Qt::NonModal</enum>
+   <enum>Qt::WindowModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -132,16 +132,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTreeWidget" name="treeMigrations">
-       <attribute name="headerVisible">
-        <bool>false</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string notr="true">1</string>
-        </property>
-       </column>
-      </widget>
+      <widget class="QTreeView" name="treeMigrations"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">

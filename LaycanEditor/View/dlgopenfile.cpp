@@ -11,6 +11,7 @@ DlgOpenFile::DlgOpenFile(QWidget *parent) :
     ui(new Ui::DlgOpenFile)
 {
     ui->setupUi(this);
+    this->setResult(QDialog::Rejected);
 
     settings = new QSettings("Laycan","LaycanEditor");
     ui->edtFile->setText(settings->value("MigrationFile").toString());
@@ -22,14 +23,15 @@ DlgOpenFile::~DlgOpenFile()
     delete settings;
 }
 
-void DlgOpenFile::closeEvent()
+void DlgOpenFile::closeEvent(QCloseEvent *event)
 {
+    QDialog::closeEvent(event);
     settings->setValue("MigrationFile", ui->edtFile->text());
 }
 
 void DlgOpenFile::on_btnCancel_clicked()
 {
-    closeEvent();
+    this->reject();
 }
 
 void DlgOpenFile::on_pushButton_clicked()
@@ -59,5 +61,17 @@ void DlgOpenFile::on_btnOpen_clicked()
         return;
     }
 
-    this->close();
+    this->setXml(xml);
+    this->accept();
 }
+void DlgOpenFile::setXml(const QDomDocument xml)
+{
+    m_xml = xml;
+}
+
+QDomDocument DlgOpenFile::getXml()
+{
+    return m_xml;
+}
+
+

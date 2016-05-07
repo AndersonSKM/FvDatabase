@@ -20,14 +20,14 @@ using namespace LaycanEditor::Internal;
 LaycanEditorPlugin::LaycanEditorPlugin()
 {
     // Create your members
-    view = nullptr;
+
 }
 
 LaycanEditorPlugin::~LaycanEditorPlugin()
 {
     // Unregister objects from the plugin manager's object pool
     // Delete members
-    delete view;
+    //delete view;
 }
 
 bool LaycanEditorPlugin::initialize(const QStringList &arguments, QString *errorString)
@@ -46,7 +46,7 @@ bool LaycanEditorPlugin::initialize(const QStringList &arguments, QString *error
     Core::Command *cmd = Core::ActionManager::registerAction(action, Constants::ACTION_ID,
                                                              Core::Context(Core::Constants::C_GLOBAL));
     cmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+Alt+L")));
-    connect(action, SIGNAL(triggered()), this, SLOT(triggerAction()));
+    connect(action, SIGNAL(triggered()), this, SLOT(callWindow()));
 
     Core::ActionContainer *menu = Core::ActionManager::createMenu(Constants::MENU_ID);
     menu->menu()->setTitle(tr("Laycan Editor"));
@@ -71,19 +71,15 @@ ExtensionSystem::IPlugin::ShutdownFlag LaycanEditorPlugin::aboutToShutdown()
     return SynchronousShutdown;
 }
 
-void LaycanEditorPlugin::triggerAction()
+void LaycanEditorPlugin::callWindow()
 {
-    if (view == nullptr) {
-        view = new LaycanEditorView;
-        view->setWindowFlags(
-            Qt::WindowTitleHint |
-            Qt::CustomizeWindowHint |
-            Qt::WindowCloseButtonHint |
-            Qt::WindowMinimizeButtonHint);
-    }
-
+    view = new LaycanEditorView;
+    view->setWindowFlags(
+        Qt::WindowTitleHint |
+        Qt::CustomizeWindowHint |
+        Qt::WindowCloseButtonHint |
+        Qt::WindowMinimizeButtonHint);
+    view->setAttribute(Qt::WA_DeleteOnClose);
     view->show();
-    view->activateWindow();
-    view->raise();
 }
 

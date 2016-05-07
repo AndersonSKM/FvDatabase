@@ -24,7 +24,7 @@ public:
     ShutdownFlag aboutToShutdown();
 
 private slots:
-    void triggerAction();
+    void callWindow();
 
 private:
     LaycanEditorView *view;
