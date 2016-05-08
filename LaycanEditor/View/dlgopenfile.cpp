@@ -38,7 +38,9 @@ void DlgOpenFile::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open Migration File"), QDir::homePath(), tr("Laycan file (*.xml)"));
-    ui->edtFile->setText(fileName);
+
+    if (!fileName.isEmpty())
+        ui->edtFile->setText(fileName);
 }
 
 void DlgOpenFile::on_btnOpen_clicked()
@@ -49,7 +51,7 @@ void DlgOpenFile::on_btnOpen_clicked()
     }
 
     QFile xmlFile(ui->edtFile->text());
-    if (!xmlFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
+    if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(this,"","Error opening XML file");
         return;
     }
@@ -64,6 +66,7 @@ void DlgOpenFile::on_btnOpen_clicked()
     this->setXml(xml);
     this->accept();
 }
+
 void DlgOpenFile::setXml(const QDomDocument xml)
 {
     m_xml = xml;
