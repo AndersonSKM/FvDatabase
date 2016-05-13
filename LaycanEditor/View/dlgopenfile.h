@@ -17,24 +17,16 @@ public:
     explicit DlgOpenFile(QWidget *parent = 0);
     ~DlgOpenFile();
 
-    QDomDocument getXml();
-    void setXml(const QDomDocument xml);
-
-public slots:
-    void closeEvent(QCloseEvent *event);
-
-signals:
-    void dialogResult(const bool value);
+    QString xml() const;
+    void setXml(const QString &xml);
 
 private slots:
     void on_btnCancel_clicked();
-
-    void on_pushButton_clicked();
-
     void on_btnOpen_clicked();
+    void on_btnGetFile_clicked();
 
 private:
-    QDomDocument m_xml;
+    QString m_xml;
     QSettings *settings;
     Ui::DlgOpenFile *ui;
 };

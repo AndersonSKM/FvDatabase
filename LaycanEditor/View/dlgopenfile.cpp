@@ -23,24 +23,30 @@ DlgOpenFile::~DlgOpenFile()
     delete settings;
 }
 
-void DlgOpenFile::closeEvent(QCloseEvent *event)
-{
-    QDialog::closeEvent(event);
-    settings->setValue("MigrationFile", ui->edtFile->text());
-}
-
 void DlgOpenFile::on_btnCancel_clicked()
 {
     this->reject();
 }
 
-void DlgOpenFile::on_pushButton_clicked()
+QString DlgOpenFile::xml() const
+{
+    return m_xml;
+}
+
+void DlgOpenFile::setXml(const QString &xml)
+{
+    m_xml = xml;
+    settings->setValue("MigrationFile", m_xml);
+}
+
+void DlgOpenFile::on_btnGetFile_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open Migration File"), QDir::homePath(), tr("Laycan file (*.xml)"));
 
-    if (!fileName.isEmpty())
+    if (!fileName.isEmpty()) {
         ui->edtFile->setText(fileName);
+    }
 }
 
 void DlgOpenFile::on_btnOpen_clicked()
@@ -50,31 +56,6 @@ void DlgOpenFile::on_btnOpen_clicked()
         return;
     }
 
-    QFile xmlFile(ui->edtFile->text());
-    if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(this,"","Error opening XML file");
-        return;
-    }
-
-    QDomDocument xml;
-    if (!xml.setContent(&xmlFile)) {
-        QMessageBox::critical(this,"","Invalid XML file");
-        xmlFile.close();
-        return;
-    }
-
-    this->setXml(xml);
+    this->setXml(ui->edtFile->text());
     this->accept();
 }
-
-void DlgOpenFile::setXml(const QDomDocument xml)
-{
-    m_xml = xml;
-}
-
-QDomDocument DlgOpenFile::getXml()
-{
-    return m_xml;
-}
-
-

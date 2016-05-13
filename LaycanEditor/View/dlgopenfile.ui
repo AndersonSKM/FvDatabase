@@ -34,7 +34,7 @@
          <widget class="QLineEdit" name="edtFile"/>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="btnGetFile">
           <property name="text">
            <string>&amp;Choose...</string>
           </property>

@@ -31,8 +31,11 @@ public slots:
     void showEvent(QShowEvent* event);
 
 private:
-    void parseXml(QDomDocument &xml);
+    void readFile(const QDomDocument &document);
+    void writeFile();
+    void abort(const QString &msg = "");
 
+    QFile m_xmlFile;
     QStandardItemModel *model;
     Ui::laycaneditorview *ui;
     bool m_initialized;

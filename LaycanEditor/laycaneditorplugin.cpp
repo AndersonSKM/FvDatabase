@@ -20,7 +20,6 @@ using namespace LaycanEditor::Internal;
 LaycanEditorPlugin::LaycanEditorPlugin()
 {
     // Create your members
-
 }
 
 LaycanEditorPlugin::~LaycanEditorPlugin()
