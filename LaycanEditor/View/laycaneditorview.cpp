@@ -30,21 +30,18 @@ void LaycanEditorView::showEvent(QShowEvent *event)
     //Create a dialog to get Migration file
     DlgOpenFile dlg;
     if (dlg.exec() == QDialog::Rejected) {
-        abort();
-        return;
+        return abort();
     }
 
     m_xmlFile.setFileName(dlg.xml());
     if (!m_xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        abort(m_xmlFile.errorString());
-        return;
+        return abort(m_xmlFile.errorString());
     }
 
     QDomDocument document;
     if (!document.setContent(&m_xmlFile)) {
         m_xmlFile.close();
-        abort("Invalid XML file");
-        return;
+        return abort("Invalid XML file");
     }
 
     readFile(document);
