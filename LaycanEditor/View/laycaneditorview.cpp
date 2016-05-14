@@ -53,6 +53,9 @@ void LaycanEditorView::showEvent(QShowEvent *event)
     ui->treeMigrations->sortByColumn(0,Qt::AscendingOrder);
     ui->treeMigrations->expandAll();
     ui->treeMigrations->header()->resizeSection(0,85);
+
+    //Filter shortcut keys
+    ui->treeMigrations->installEventFilter(this);
     m_initialized = true;
 }
 
@@ -89,26 +92,18 @@ void LaycanEditorView::readFile(const QDomDocument &document)
         items.append(new QStandardItem(migration.attribute("version")));
         items.append(new QStandardItem(migration.attribute("id","Update version")));
 
-        QDomNodeList scripts;
-
-        scripts = migration.elementsByTagName("UpVersion");
-        for (auto j = 0; j < scripts.count(); j++) {
-            QDomElement upVersion = scripts.at(j).toElement();
-
-            //SQL UpVersion in Comment Node
-            if (upVersion.nodeType() == 8) {
-                 items.append(new QStandardItem(upVersion.nodeValue()));
-            }
+        //Up SQL in comment node
+        QDomElement upVersion = migration.firstChildElement("UpVersion");
+        QDomNode sqlUp = upVersion.firstChild();
+        if (sqlUp.nodeType() == 8) {
+            items.append(new QStandardItem(sqlUp.nodeValue()));
         }
 
-        scripts = migration.elementsByTagName("DownVersion");
-        for (auto h = 0; h < scripts.count(); h++) {
-            QDomElement downVersion = scripts.at(h).toElement();
-
-            //SQL DownVersion in Comment Node
-            if (downVersion.nodeType() == 8) {
-                 items.append(new QStandardItem(downVersion.nodeValue()));
-            }
+        //Down SQL in comment node
+        QDomElement downVersion = migration.firstChildElement("DownVersion");
+        QDomNode sqlDown = downVersion.firstChild();
+        if (sqlDown.nodeType() == 8) {
+            items.append(new QStandardItem(sqlDown.nodeValue()));
         }
 
         //Append row in all migrations
@@ -126,3 +121,46 @@ void LaycanEditorView::setInitialized(bool initialized)
     m_initialized = initialized;
 }
 
+void LaycanEditorView::on_treeMigrations_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    QModelIndex parent = index.parent();
+    QString version = model->data(model->index(row, 0, parent), Qt::EditRole).toString();
+    QString description = model->data(model->index(row, 1, parent), Qt::EditRole).toString();
+    QString upVersionSQL = model->data(model->index(row, 2, parent), Qt::EditRole).toString();
+    QString downVersionSQL = model->data(model->index(row, 3, parent), Qt::EditRole).toString();
+
+    ui->edVersion->setText(version);
+    ui->edDescription->setText(description);
+    ui->tbUpVersion->setText(upVersionSQL);
+    ui->tbDownVersion->setText(downVersionSQL);
+}
+
+bool LaycanEditorView::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        QTreeView *tree = static_cast<QTreeView *>(obj);
+
+        if (keyEvent->key() == Qt::Key_Up) {
+            QModelIndex index = tree->indexAbove(tree->currentIndex());
+            if (index.isValid()) {
+                tree->setCurrentIndex(index);
+                tree->clicked(index);
+            }
+        }
+
+        if (keyEvent->key() == Qt::Key_Down) {
+            QModelIndex index = tree->indexBelow(tree->currentIndex());
+            if (index.isValid()) {
+                tree->setCurrentIndex(index);
+                tree->clicked(index);
+            }
+        }
+
+        return true;
+    }
+
+    // standard event processing
+    return QObject::eventFilter(obj, event);
+}

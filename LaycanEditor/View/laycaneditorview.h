@@ -30,6 +30,12 @@ public:
 public slots:
     void showEvent(QShowEvent* event);
 
+private slots:
+    void on_treeMigrations_clicked(const QModelIndex &index);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+
 private:
     void readFile(const QDomDocument &document);
     void writeFile();
