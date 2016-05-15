@@ -21,18 +21,18 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>10</y>
+      <y>60</y>
       <width>591</width>
-      <height>531</height>
+      <height>481</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="layOutEdits">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="lbVersion">
            <property name="text">
             <string>Version</string>
            </property>
@@ -42,7 +42,7 @@
           <widget class="QLineEdit" name="edVersion">
            <property name="maximumSize">
             <size>
-             <width>16777215</width>
+             <width>16777199</width>
              <height>16777204</height>
             </size>
            </property>
@@ -60,7 +60,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
+           <width>40</width>
            <height>20</height>
           </size>
          </property>
@@ -69,7 +69,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="lbDescription">
            <property name="text">
             <string>Description</string>
            </property>
@@ -85,11 +85,15 @@
      <item>
       <widget class="QTabWidget" name="tabScripts">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabUpVersion">
+        <attribute name="icon">
+         <iconset resource="../../resources/Resources.qrc">
+          <normaloff>:/icons/up.png</normaloff>:/icons/up.png</iconset>
+        </attribute>
         <attribute name="title">
-         <string>Up Version</string>
+         <string>&amp;Up Version</string>
         </attribute>
         <widget class="QTextBrowser" name="tbUpVersion">
          <property name="geometry">
@@ -106,8 +110,12 @@
         </widget>
        </widget>
        <widget class="QWidget" name="tabDownVersion">
+        <attribute name="icon">
+         <iconset resource="../../resources/Resources.qrc">
+          <normaloff>:/icons/down.png</normaloff>:/icons/down.png</iconset>
+        </attribute>
         <attribute name="title">
-         <string>Down Version</string>
+         <string>&amp;Down Version</string>
         </attribute>
         <widget class="QTextBrowser" name="tbDownVersion">
          <property name="geometry">
@@ -168,52 +176,115 @@
        </attribute>
       </widget>
      </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../../resources/Resources.qrc">
-           <normaloff>:/icons/cross.png</normaloff>:/icons/cross.png</iconset>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../../resources/Resources.qrc">
-           <normaloff>:/icons/trash.png</normaloff>:/icons/trash.png</iconset>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
     </layout>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>20</y>
+      <width>591</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>571</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <item>
+       <widget class="QPushButton" name="btnNew">
+        <property name="text">
+         <string>&amp;New</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/Resources.qrc">
+          <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnDelete">
+        <property name="text">
+         <string>&amp;Delete</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/Resources.qrc">
+          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnEdit">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&amp;Edit</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/Resources.qrc">
+          <normaloff>:/icons/edit.png</normaloff>:/icons/edit.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>308</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnSave">
+        <property name="text">
+         <string>&amp;Save</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/Resources.qrc">
+          <normaloff>:/icons/done.png</normaloff>:/icons/done.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnCancel">
+        <property name="text">
+         <string>&amp;Cancel</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/Resources.qrc">
+          <normaloff>:/icons/calcel.png</normaloff>:/icons/calcel.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -9,5 +9,12 @@
         <file>icons/postgresql-96x96.png</file>
         <file>icons/cross.png</file>
         <file>icons/trash.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/done.png</file>
+        <file>icons/calcel.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/add.png</file>
+        <file>icons/up.png</file>
+        <file>icons/down.png</file>
     </qresource>
 </RCC>
