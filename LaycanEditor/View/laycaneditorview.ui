@@ -10,134 +10,13 @@
     <x>0</x>
     <y>0</y>
     <width>867</width>
-    <height>570</height>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Laycan Editor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>60</y>
-      <width>591</width>
-      <height>481</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="layOutEdits">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="lbVersion">
-           <property name="text">
-            <string>Version</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="edVersion">
-           <property name="maximumSize">
-            <size>
-             <width>16777199</width>
-             <height>16777204</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="lbDescription">
-           <property name="text">
-            <string>Description</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="edDescription"/>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QTabWidget" name="tabScripts">
-       <property name="currentIndex">
-        <number>1</number>
-       </property>
-       <widget class="QWidget" name="tabUpVersion">
-        <attribute name="icon">
-         <iconset resource="../../resources/Resources.qrc">
-          <normaloff>:/icons/up.png</normaloff>:/icons/up.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>&amp;Up Version</string>
-        </attribute>
-        <widget class="QTextBrowser" name="tbUpVersion">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>581</width>
-           <height>471</height>
-          </rect>
-         </property>
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="tabDownVersion">
-        <attribute name="icon">
-         <iconset resource="../../resources/Resources.qrc">
-          <normaloff>:/icons/down.png</normaloff>:/icons/down.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>&amp;Down Version</string>
-        </attribute>
-        <widget class="QTextBrowser" name="tbDownVersion">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>581</width>
-           <height>471</height>
-          </rect>
-         </property>
-         <property name="documentTitle">
-          <string/>
-         </property>
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </widget>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
@@ -169,7 +48,7 @@
         <bool>true</bool>
        </property>
        <attribute name="headerVisible">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
        <attribute name="headerMinimumSectionSize">
         <number>10</number>
@@ -196,7 +75,7 @@
     <property name="flat">
      <bool>false</bool>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -286,6 +165,123 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QTabWidget" name="tabScripts">
+    <property name="geometry">
+     <rect>
+      <x>261</x>
+      <y>100</y>
+      <width>591</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="tabUpVersion">
+     <attribute name="icon">
+      <iconset resource="../../resources/Resources.qrc">
+       <normaloff>:/icons/up.png</normaloff>:/icons/up.png</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>&amp;Up Version</string>
+     </attribute>
+     <widget class="QTextBrowser" name="tbUpVersion">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>581</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>false</bool>
+      </property>
+      <property name="tabStopWidth">
+       <number>30</number>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tabDownVersion">
+     <attribute name="icon">
+      <iconset resource="../../resources/Resources.qrc">
+       <normaloff>:/icons/down.png</normaloff>:/icons/down.png</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>&amp;Down Version</string>
+     </attribute>
+     <widget class="QTextBrowser" name="tbDownVersion">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>581</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="documentTitle">
+       <string/>
+      </property>
+      <property name="readOnly">
+       <bool>false</bool>
+      </property>
+      <property name="tabStopWidth">
+       <number>30</number>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>265</x>
+      <y>65</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="lbVersion">
+       <property name="text">
+        <string>Version</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="edVersion">
+       <property name="maximumSize">
+        <size>
+         <width>12777185</width>
+         <height>16777204</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>411</x>
+      <y>65</y>
+      <width>441</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="lbDescription">
+       <property name="text">
+        <string>Description</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="edDescription"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -297,6 +293,7 @@
     </rect>
    </property>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <resources>
   <include location="../../resources/Resources.qrc"/>

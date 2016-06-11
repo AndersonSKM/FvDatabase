@@ -26,7 +26,6 @@ LaycanEditorPlugin::~LaycanEditorPlugin()
 {
     // Unregister objects from the plugin manager's object pool
     // Delete members
-    //delete view;
 }
 
 bool LaycanEditorPlugin::initialize(const QStringList &arguments, QString *errorString)
@@ -72,7 +71,7 @@ ExtensionSystem::IPlugin::ShutdownFlag LaycanEditorPlugin::aboutToShutdown()
 
 void LaycanEditorPlugin::callWindow()
 {
-    view = new LaycanEditorView;
+    LaycanEditorView *view = new LaycanEditorView;
     view->setWindowFlags(
         Qt::WindowTitleHint |
         Qt::CustomizeWindowHint |

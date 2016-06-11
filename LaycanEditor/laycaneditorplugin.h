@@ -27,7 +27,7 @@ private slots:
     void callWindow();
 
 private:
-    LaycanEditorView *view;
+
 };
 
 } // namespace Internal

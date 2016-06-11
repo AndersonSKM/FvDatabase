@@ -1,0 +1,37 @@
+{
+    "Migrations": [
+        {
+            "Description": "Create First Table",
+            "DownVersion": [
+                "DROP TABLE USERS;"
+            ],
+            "UpVersion": [
+                "CREATE TABLE USERS (",
+                "    ID INT(11) NOT NULL AUTO_INCREMENT,",
+                "    NAME VARCHAR(30) NULL DEFAULT NULL,",
+                "    EMAIL VARCHAR(30) NULL DEFAULT NULL,",
+                "    LOGIN VARCHAR(20) NULL DEFAULT NULL,",
+                "    PASSWORD VARCHAR(10) NULL DEFAULT NULL,",
+                "    PRIMARY KEY (ID)",
+                ")",
+                "COLLATE='utf8_general_ci'",
+                "ENGINE=InnoDB;"
+            ],
+            "Version": "1"
+        },
+        {
+            "Description": "Insert First User",
+            "DownVersion": [
+                "DELETE FROM USERS",
+                "WHERE ID = 1;"
+            ],
+            "UpVersion": [
+                "INSERT INTO USERS",
+                "   (ID, NAME, EMAIL, LOGIN; PASSWORD)",
+                "VALUES",
+                "   (1, 'ADMIN','admin@admin.com'; 'admin'; 'admin');"
+            ],
+            "Version": "2"
+        }
+    ]
+}

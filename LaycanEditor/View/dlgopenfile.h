@@ -17,8 +17,8 @@ public:
     explicit DlgOpenFile(QWidget *parent = 0);
     ~DlgOpenFile();
 
-    QString xml() const;
-    void setXml(const QString &xml);
+    QString fileName() const;
+    void setFileName(const QString &fileName);
 
 private slots:
     void on_btnCancel_clicked();
@@ -26,7 +26,7 @@ private slots:
     void on_btnGetFile_clicked();
 
 private:
-    QString m_xml;
+    QString m_fileName;
     QSettings *settings;
     Ui::DlgOpenFile *ui;
 };

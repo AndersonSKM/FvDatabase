@@ -7,7 +7,6 @@
         <file>icons/package_settings.png</file>
         <file>Migrations.xml</file>
         <file>icons/postgresql-96x96.png</file>
-        <file>icons/cross.png</file>
         <file>icons/trash.png</file>
         <file>icons/delete.png</file>
         <file>icons/done.png</file>
@@ -16,5 +15,7 @@
         <file>icons/add.png</file>
         <file>icons/up.png</file>
         <file>icons/down.png</file>
+        <file>Migrations.json</file>
+        <file>icons/config.png</file>
     </qresource>
 </RCC>

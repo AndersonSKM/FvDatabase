@@ -28,21 +28,21 @@ void DlgOpenFile::on_btnCancel_clicked()
     this->reject();
 }
 
-QString DlgOpenFile::xml() const
+QString DlgOpenFile::fileName() const
 {
-    return m_xml;
+    return m_fileName;
 }
 
-void DlgOpenFile::setXml(const QString &xml)
+void DlgOpenFile::setFileName(const QString &fileName)
 {
-    m_xml = xml;
-    settings->setValue("MigrationFile", m_xml);
+    m_fileName = fileName;
+    settings->setValue("MigrationFile", m_fileName);
 }
 
 void DlgOpenFile::on_btnGetFile_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Migration File"), QDir::homePath(), tr("Laycan file (*.xml)"));
+        tr("Open Migration File"), QDir::homePath(), tr("Laycan file (*.json)"));
 
     if (!fileName.isEmpty()) {
         ui->edtFile->setText(fileName);
@@ -56,6 +56,6 @@ void DlgOpenFile::on_btnOpen_clicked()
         return;
     }
 
-    this->setXml(ui->edtFile->text());
+    this->setFileName(ui->edtFile->text());
     this->accept();
 }

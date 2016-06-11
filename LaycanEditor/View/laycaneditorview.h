@@ -11,6 +11,7 @@
 #include <QMessageBox>
 
 #include "dlgopenfile.h"
+#include "SQLHighlighter.h"
 
 namespace Ui {
 class laycaneditorview;
@@ -41,27 +42,37 @@ public slots:
 
 private slots:
     void on_treeMigrations_clicked(const QModelIndex &index);
-
     void on_btnEdit_clicked();
-
     void on_btnCancel_clicked();
+    void on_btnSave_clicked();
+    void on_btnNew_clicked();
+
+    void on_btnDelete_clicked();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-    void readFile(const QDomDocument &document);
     void writeFile();
+
+    void read(const QJsonObject &json);
+    void write(const QJsonObject &json);
+
     void abort(const QString &msg = "");
     void setEditsEnabled(const bool value);
-    void setActionsButtonsEnabled(const bool value);
+    void setActionsButtonsEnabled(const bool value, const bool onlyNew = false);
     void setEditButtonsEnabled(const bool value);
+    void setupEditors();
 
     bool m_initialized;
+    QModelIndex m_currentIndex;
     EditorModes m_mode;
-    QFile m_xmlFile;
+    QString m_jsonFileName;
     QStandardItemModel *model;
+    QStandardItem *root;
     Ui::laycaneditorview *ui;
+    SQLHighlighter *highlighterUp;
+    SQLHighlighter *highlighterDown;
 };
 
 #endif // LAYCANEDITORVIEW_H
