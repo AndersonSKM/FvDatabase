@@ -11,7 +11,7 @@ Laycan::~Laycan()
     delete m_logger;
 }
 
-bool Laycan::Migrate(const QString &xmlPath)
+bool Laycan::Migrate(const QString &jsonFilePath)
 {
     log("Checking the connection to the database");
 
@@ -21,25 +21,43 @@ bool Laycan::Migrate(const QString &xmlPath)
         return false;
     }
 
-    QFile xmlFile(xmlPath);
-    if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        log(ERROR,"Error opening XML file");
+    log("Validating json file");
+
+    QFile file(jsonFilePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        log(ERROR,"Error opening Json file");
         return false;
     }
 
-    if (!getXml().setContent(&xmlFile)) {
-        log(ERROR,"Error when selecting XML file");
-        xmlFile.close();
+    QByteArray jsonData = file.readAll();
+    file.close();
+    if (file.error() != QFile::NoError) {
+        log(ERROR,file.errorString());
         return false;
     }
 
-    if (!assingXml()) {
-        log(ERROR,"No migration found in XML");
-        xmlFile.close();
+    if (jsonData.isEmpty()) {
+        log(ERROR,"No data was currently available for reading from file");
         return false;
     }
 
-    xmlFile.close();
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(jsonData,&parseError));
+    if (parseError.error != QJsonParseError::NoError) {
+        log(ERROR,parseError.errorString());
+        return false;
+    }
+
+    if (!jsonDoc.isObject()) {
+        log(ERROR,"Document is not an object");
+        return false;
+    }
+
+    if (! parseJson(jsonDoc.object()) ) {
+        log(ERROR, "Filed to parse json file");
+        return false;
+    }
+
     return executeMigrations();
 }
 
@@ -61,19 +79,18 @@ void Laycan::addExecutedMigration(Migration &m)
     m_ExecutedMigrations.append(m);
 }
 
+void Laycan::rollbackMigration(const Migration &m)
+{
+    log("Executing rollback sql");
+    QSqlQuery query;
+    if (!query.exec(m.DownSql())) {
+        log(ERROR,query.lastError().text());
+    }
+}
+
 int Laycan::executedMigrationsCount() const
 {
     return m_ExecutedMigrations.count();
-}
-
-QDomDocument& Laycan::getXml()
-{
-    return m_xml;
-}
-
-void Laycan::setXml(QDomDocument &xml)
-{
-    m_xml = xml;
 }
 
 LaycanLogger *Laycan::Logger()
@@ -140,6 +157,12 @@ bool Laycan::executeMigrations()
         return false;
     }
 
+    bool inTransaction;
+    //bool hasTransactions = QSqlDatabase::database().
+    //                            driver()->hasFeature(QSqlDriver::Transactions);
+
+    bool hasTransactions = false;
+
     foreach (Migration script, m_migrations) {
         m_dbVersion.loadVersion(script.version());
 
@@ -148,33 +171,54 @@ bool Laycan::executeMigrations()
             log(QString("Migrating version of the schema for: %1")
                     .arg(script.version()));
 
-            QSqlDatabase::database().transaction();
+            if (hasTransactions) {
+                inTransaction = QSqlDatabase::database().transaction();
+            } else {
+                inTransaction = false;
+            }
+
             QSqlQuery query;
             QTime timer;
 
             log(QString("Executing migration: %1").arg(script.description()));
             timer.start();
 
-            if (!query.exec(script.SQL())) {
-                QSqlDatabase::database().rollback();
+            if (!query.exec(script.UpSql())) {
                 log(ERROR,QString("Error executing SQL: %1 Error: %2 SQL: %3")
                             .arg(script.description())
                             .arg(query.lastError().text())
                             .arg(query.lastQuery()));
+
+                if (inTransaction) {
+                    QSqlDatabase::database().rollback();
+                } else {
+                    rollbackMigration(script);
+                }
+
                 return false;
             }
 
             script.setExecutionTime(timer.elapsed());
+
             log(QString("Saving database changes, execution time: %1")
                   .arg(script.executionTime()));
 
             if (!m_dbVersion.writeDbChanges(script)) {
-                QSqlDatabase::database().rollback();
                 log(ERROR,m_dbVersion.lastError());
+
+                if (inTransaction) {
+                    QSqlDatabase::database().rollback();
+                } else {
+                    rollbackMigration(script);
+                }
+
                 return false;
             }
 
-            QSqlDatabase::database().commit();
+            if (inTransaction) {
+                QSqlDatabase::database().commit();
+            }
+
             addExecutedMigration(script);
         }
         QApplication::processEvents();
@@ -188,35 +232,44 @@ bool Laycan::executeMigrations()
     return true;
 }
 
-bool Laycan::assingXml()
+bool Laycan::parseJson(const QJsonObject &json)
 {
-    log("Loading File SQL scripts ");
-    QDomNodeList root = getXml().elementsByTagName("SQL");
+    log("Parse json to Migration Object");
 
-    if (root.isEmpty())
-        return false;
+    QJsonArray migrations = json["Migrations"].toArray();
 
-    for (int i = 0; i != root.count(); i++) {
-        QDomNode migrationNode = root.at(i);
+    //Read all migrations
+    foreach (const QJsonValue &v, migrations) {
+        QJsonObject migration = v.toObject();
         Migration script;
 
-        if (migrationNode.isElement()) {
-            QDomElement migration = migrationNode.toElement();
-            QString version = migration.attribute("version");
+        //Add all propertys of migration
+        script.setVersion(migration["Version"].toString().toFloat());
+        script.setDescription(migration["Description"].toString());
 
-            script.setVersion(version.toFloat());
-            script.setDescription(migration.attribute("id", "Update schema to version " + version));
+        QStringList sql;
+
+        //UpVersion SQL
+        QJsonArray upVersionArray = migration["UpVersion"].toArray();
+        foreach (const QJsonValue &u, upVersionArray) {
+            sql.append(u.toString());
         }
 
-        // SQL in comment node
-        QDomNode sql = migrationNode.firstChild();
-        if (sql.nodeType() == 8) {
-            script.setSQL(sql.nodeValue());
+        script.setUpSql(sql.join("\n"));
+        sql.clear();
+
+        //DownVersion SQL
+        QJsonArray downVersionArray = migration["DownVersion"].toArray();
+        foreach (const QJsonValue &d, downVersionArray) {
+            sql.append(d.toString());
         }
 
+        script.setDownSql(sql.join('\n'));
+
+        //Append migration on list
         m_migrations.append(script);
     }
 
-    log("Loaded migrations: " + QString::number(root.count()));
+    log("Loaded migrations: " + QString::number(migrations.count()));
     return true;
 }

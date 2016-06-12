@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QTime>
-#include <QDomDocument>
 #include <QVariant>
 #include <QApplication>
 #include <QDebug>
@@ -11,14 +10,17 @@
 #include <QLabel>
 #include <QDialog>
 #include <QtGlobal>
-#include <QDomNode>
 #include <QDebug>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QFile>
 #include <QMessageBox>
 #include <QDateTime>
-#include <QException>
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QSqlDriver>
 
 #include "schemaversion.h"
 #include "logger.h"
@@ -31,7 +33,7 @@ public:
     explicit Laycan(QObject* parent = nullptr);
     virtual ~Laycan();
 
-    bool Migrate(const QString &xmlPath);
+    bool Migrate(const QString &jsonFilePath);
 
     QString logFilePath(void);
     void setLogFilePath(const QString &filePath);
@@ -43,9 +45,6 @@ public:
 
     LaycanLogger* Logger();
     void setLogger(LaycanLogger &logger);
-
-    QDomDocument& getXml();
-    void setXml(QDomDocument &xml);
 
     QString lastError() const;
     void setLastError(const QString &lastError);
@@ -60,8 +59,9 @@ signals:
 
 private:
     bool executeMigrations(void);
-    bool assingXml(void);
-    void addExecutedMigration(Migration&);
+    bool parseJson(const QJsonObject &json);
+    void addExecutedMigration(Migration &);
+    void rollbackMigration(const Migration &m);
 
     void log(LogLevel level, const QString &msg);
     void logList(const QStringList &list);
@@ -70,7 +70,6 @@ private:
     QString m_lastError;
 
     LaycanLogger *m_logger;
-    QDomDocument m_xml;
     SchemaVersion m_dbVersion;
 
     QList<Migration> m_migrations;

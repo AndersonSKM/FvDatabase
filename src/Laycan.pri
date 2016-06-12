@@ -12,4 +12,3 @@ SOURCES += $$PWD/laycan.cpp \
 		   
 FORMS +=
 
-QT += xml 

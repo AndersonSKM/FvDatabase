@@ -10,11 +10,6 @@ void Migration::setDescription(QString description)
     m_description = description;
 }
 
-void Migration::setSQL(QString sql)
-{
-    m_sql = sql;
-}
-
 float Migration::version(void)
 {
     return m_version;
@@ -25,10 +20,6 @@ QString Migration::description(void)
     return m_description;
 }
 
-QString Migration::SQL(void)
-{
-    return m_sql;
-}
 int Migration::executionTime() const
 {
     return m_executionTime;
@@ -38,5 +29,26 @@ void Migration::setExecutionTime(int executionTime)
 {
     m_executionTime = executionTime;
 }
+
+QString Migration::DownSql() const
+{
+    return m_DownSql;
+}
+
+void Migration::setDownSql(const QString &DownSql)
+{
+    m_DownSql = DownSql;
+}
+QString Migration::UpSql() const
+{
+    return m_UpSql;
+}
+
+void Migration::setUpSql(const QString &UpSql)
+{
+    m_UpSql = UpSql;
+}
+
+
 
 

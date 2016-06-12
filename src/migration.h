@@ -2,7 +2,6 @@
 #define MIGRATION_H
 
 #include <QString>
-#include <QDomDocument>
 
 class Migration
 {
@@ -10,20 +9,26 @@ public:
     inline Migration() {}
     inline ~Migration() {}
 
-    void setVersion(float);
-    void setDescription(QString);
-    void setSQL(QString);
-
     float version(void);
+    void setVersion(float);
+
     QString description(void);
-    QString SQL(void);
+    void setDescription(QString);
+
     int executionTime() const;
     void setExecutionTime(int executionTime);
+
+    QString DownSql() const;
+    void setDownSql(const QString &DownSql);
+
+    QString UpSql() const;
+    void setUpSql(const QString &UpSql);
 
 private:
     float m_version;
     QString m_description;
-    QString m_sql;
+    QString m_UpSql;
+    QString m_DownSql;
     int m_executionTime;
 };
 

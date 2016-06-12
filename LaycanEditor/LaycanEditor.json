@@ -1,7 +1,7 @@
 {
     "Name" : "LaycanEditor",
-    "Version" : "1.0.1",
-    "CompatVersion" : "1.0.1",
+    "Version" : "0.0.1",
+    "CompatVersion" : "0.0.1",
     "Vendor" : "Laycan",
     "Copyright" : "(C) Laycan",
     "License" : "GPL",
@@ -11,3 +11,4 @@
         { "Name" : "Core", "Version" : "4.0.82" }
     ]
 }
+

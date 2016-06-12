@@ -19,12 +19,10 @@ TEMPLATE = app
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    connection.cpp \
     mainwindow.cpp \
     configconnection.cpp
 
 HEADERS  += \
-    connection.h \
     mainwindow.h \
     configconnection.h
 

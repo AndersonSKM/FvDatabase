@@ -198,7 +198,7 @@ bool SchemaVersion::writeDbChanges(Migration &migration)
                   " (:v , :d, :s, :h, :t)");
     query.bindValue(0, migration.version());
     query.bindValue(1, migration.description());
-    query.bindValue(2, migration.SQL());
+    query.bindValue(2, migration.UpSql());
     query.bindValue(3, QDateTime::currentDateTime().toString());
     query.bindValue(4, migration.executionTime());
 

@@ -51,8 +51,6 @@ bool LaycanEditorPlugin::initialize(const QStringList &arguments, QString *error
     menu->addAction(cmd);
     Core::ActionManager::actionContainer(Core::Constants::M_TOOLS)->addMenu(menu);
 
-    pluginLoader.metaData().value("MetaData").toObject().value("name").toString();
-
     return true;
 }
 
@@ -80,6 +78,7 @@ void LaycanEditorPlugin::callWindow()
         Qt::WindowCloseButtonHint |
         Qt::WindowMinimizeButtonHint);
     view->setAttribute(Qt::WA_DeleteOnClose);
+
 
 
     view->show();

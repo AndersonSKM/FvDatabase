@@ -7,7 +7,6 @@
 #include "ui_configconnection.h"
 
 #include "laycan.h"
-#include "connection.h"
 #include "mainwindow.h"
 
 ConfigConnection::ConfigConnection(QWidget *parent) :
@@ -31,23 +30,22 @@ ConfigConnection::~ConfigConnection()
 void ConfigConnection::on_btnOk_clicked()
 {
     if (ui->edtServer->text().isEmpty()) {
-        Database::Menssage("The Server field can not be empty!");
+        QMessageBox::information(this,"","The Server field can not be empty!");
         ui->edtServer->setFocus();
     } else if (ui->edtUsuario->text().isEmpty()) {
-        Database::Menssage("The User field can not be empty!");
+        QMessageBox::information(this,"","The User field can not be empty!");
         ui->edtUsuario->setFocus();
     } else if (ui->edtDatabase->text().isEmpty()) {
-        Database::Menssage("The Database field can not be empty!");
+        QMessageBox::information(this,"","The Database field can not be empty!");
         ui->edtDatabase->setFocus();
     } else {
         writeSettings();
 
-        Database data;
-        if (data.setConection()) {
+        if (setConnection()) {
             ui->stackedWidget->setCurrentIndex(1);
 
             laycan->setLogFilePath(ui->edtLogFilePath->text());
-            if (!laycan->Migrate(":/Migrations.xml")) {
+            if (!laycan->Migrate(":/Migrations.json")) {
                 QMessageBox::critical(this,"",laycan->lastError());
                 return;
             }
@@ -118,6 +116,34 @@ void ConfigConnection::writeSettings(void)
     setttings.endGroup();
 }
 
+bool ConfigConnection::setConnection()
+{
+    qDebug() << "[Starting connection]";
+
+    QSettings setttings("Laycan","LaycanExemple");
+    setttings.beginGroup("CONNECTION");
+
+    QSqlDatabase db = QSqlDatabase::addDatabase(setttings.value("Driver").toString());
+    db.setHostName(setttings.value("Server").toString());
+    db.setUserName(setttings.value("User").toString()) ;
+    db.setPassword(setttings.value("Passwd").toString());
+    db.setDatabaseName(setttings.value("Database").toString());
+    db.setPort(setttings.value("Port").toInt());
+    setttings.endGroup();
+
+    qDebug() << "[Validating connection]";
+    if (!db.open()) {
+        const QString errorMessage = "The application was unable to connect to database, "
+                                     "please check the error connection: "+db.lastError().text();
+
+        QMessageBox::critical(this,"Error connecting to database: ",errorMessage);
+        return false;
+    }
+
+    qDebug() << "[Established connection with " << db.databaseName() << "database]";
+    return true;
+}
+
 void ConfigConnection::closeEvent()
 {
     writeSettings();
@@ -128,3 +154,4 @@ void ConfigConnection::on_btnCancel_clicked()
     closeEvent();
     QApplication::exit();
 }
+

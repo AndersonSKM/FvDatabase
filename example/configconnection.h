@@ -28,6 +28,7 @@ public slots:
 private:
     void loadSettings(void);
     void writeSettings(void);
+    bool setConnection(void);
 
     Laycan *laycan;
 
