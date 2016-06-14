@@ -30,9 +30,8 @@ private:
     void writeSettings(void);
     bool setConnection(void);
 
-    Laycan *laycan;
-
     Ui::ConfigConnection *ui;
+    Laycan *laycan;
 };
 
 #endif // CONFIGCONNECTION_H

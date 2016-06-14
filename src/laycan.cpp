@@ -3,6 +3,7 @@
 
 Laycan::Laycan(QObject* parent) : QObject(parent)
 {
+    m_autoCommit = false;
     m_logger = new LaycanLogger;
 }
 
@@ -123,6 +124,16 @@ void Laycan::log(const QString &msg)
     log(INFORMATION,msg);
 }
 
+bool Laycan::autoCommit() const
+{
+    return m_autoCommit;
+}
+
+void Laycan::setAutoCommit(bool autoCommit)
+{
+    m_autoCommit = autoCommit;
+}
+
 QString Laycan::lastError() const
 {
     return m_lastError;
@@ -158,10 +169,8 @@ bool Laycan::executeMigrations()
     }
 
     bool inTransaction;
-    //bool hasTransactions = QSqlDatabase::database().
-    //                            driver()->hasFeature(QSqlDriver::Transactions);
-
-    bool hasTransactions = false;
+    bool hasTransactions = (QSqlDatabase::database().driver()->
+                                hasFeature(QSqlDriver::Transactions) && (m_autoCommit = false));
 
     foreach (Migration script, m_migrations) {
         m_dbVersion.loadVersion(script.version());

@@ -54,6 +54,9 @@ public:
 
     float currentVersion();
 
+    bool autoCommit() const;
+    void setAutoCommit(bool autoCommit);
+
 signals:
     void logChanged(QString,LogLevel);
 
@@ -67,6 +70,7 @@ private:
     void logList(const QStringList &list);
     void log(const QString &msg);
 
+    bool m_autoCommit;
     QString m_lastError;
 
     LaycanLogger *m_logger;
