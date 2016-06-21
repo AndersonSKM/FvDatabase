@@ -41,8 +41,6 @@ public:
     int verifiedMigrationsCount(void) const;
     void setVerifiedMigrations(const int value);
 
-    int executedMigrationsCount(void) const;
-
     LaycanLogger* Logger();
     void setLogger(LaycanLogger &logger);
 
@@ -57,8 +55,15 @@ public:
     bool autoCommit() const;
     void setAutoCommit(bool autoCommit);
 
+    QList<Migration> ExecutedMigrations() const;
+
 signals:
     void logChanged(QString,LogLevel);
+    void beforeExecuteMigration(Migration);
+    void afterExecuteMigation(Migration);
+    void beforeSaveDbChanges(Migration);
+    void afterSaveDbChanges(Migration);
+    void onErrorOccurred(QString);
 
 private:
     bool executeMigrations(void);

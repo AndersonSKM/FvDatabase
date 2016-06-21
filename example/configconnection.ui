@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>384</width>
-    <height>286</height>
+    <height>307</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -28,7 +28,7 @@
      <x>10</x>
      <y>0</y>
      <width>381</width>
-     <height>291</height>
+     <height>301</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -41,16 +41,16 @@
        <x>7</x>
        <y>8</y>
        <width>354</width>
-       <height>271</height>
+       <height>291</height>
       </rect>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>10</y>
         <width>331</width>
-        <height>251</height>
+        <height>277</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">

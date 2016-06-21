@@ -3,7 +3,7 @@
 
 Laycan::Laycan(QObject* parent) : QObject(parent)
 {
-    m_autoCommit = false;
+    m_autoCommit = true;
     m_logger = new LaycanLogger;
 }
 
@@ -89,11 +89,6 @@ void Laycan::rollbackMigration(const Migration &m)
     }
 }
 
-int Laycan::executedMigrationsCount() const
-{
-    return m_ExecutedMigrations.count();
-}
-
 LaycanLogger *Laycan::Logger()
 {
     return m_logger;
@@ -122,6 +117,11 @@ void Laycan::logList(const QStringList &list)
 void Laycan::log(const QString &msg)
 {
     log(INFORMATION,msg);
+}
+
+QList<Migration> Laycan::ExecutedMigrations() const
+{
+    return m_ExecutedMigrations;
 }
 
 bool Laycan::autoCommit() const
@@ -172,13 +172,13 @@ bool Laycan::executeMigrations()
     bool hasTransactions = (QSqlDatabase::database().driver()->
                                 hasFeature(QSqlDriver::Transactions) && (m_autoCommit = false));
 
-    foreach (Migration script, m_migrations) {
-        m_dbVersion.loadVersion(script.version());
+    foreach (Migration migrate, m_migrations) {
+        m_dbVersion.loadVersion(migrate.version());
 
         if (!m_dbVersion.isExecuted()) {
 
             log(QString("Migrating version of the schema for: %1")
-                    .arg(script.version()));
+                    .arg(migrate.version()));
 
             if (hasTransactions) {
                 inTransaction = QSqlDatabase::database().transaction();
@@ -189,53 +189,65 @@ bool Laycan::executeMigrations()
             QSqlQuery query;
             QTime timer;
 
-            log(QString("Executing migration: %1").arg(script.description()));
+            emit beforeExecuteMigration(migrate);
+
+            log(QString("Executing migration: %1").arg(migrate.description()));
             timer.start();
 
-            if (!query.exec(script.UpSql())) {
+            if (!query.exec(migrate.UpSql())) {
+                emit onErrorOccurred(query.lastError().text());
+
                 log(ERROR,QString("Error executing SQL: %1 Error: %2 SQL: %3")
-                            .arg(script.description())
+                            .arg(migrate.description())
                             .arg(query.lastError().text())
                             .arg(query.lastQuery()));
 
                 if (inTransaction) {
                     QSqlDatabase::database().rollback();
                 } else {
-                    rollbackMigration(script);
+                    rollbackMigration(migrate);
                 }
 
                 return false;
             }
 
-            script.setExecutionTime(timer.elapsed());
+            migrate.setExecutionTime(timer.elapsed());
+
+            emit afterExecuteMigation(migrate);
 
             log(QString("Saving database changes, execution time: %1")
-                  .arg(script.executionTime()));
+                  .arg(migrate.executionTime()));
 
-            if (!m_dbVersion.writeDbChanges(script)) {
+            emit beforeSaveDbChanges(migrate);
+
+            if (!m_dbVersion.writeDbChanges(migrate)) {
+                emit onErrorOccurred(m_dbVersion.lastError());
+
                 log(ERROR,m_dbVersion.lastError());
 
                 if (inTransaction) {
                     QSqlDatabase::database().rollback();
                 } else {
-                    rollbackMigration(script);
+                    rollbackMigration(migrate);
                 }
 
                 return false;
             }
 
+            emit afterSaveDbChanges(migrate);
+
             if (inTransaction) {
                 QSqlDatabase::database().commit();
             }
 
-            addExecutedMigration(script);
+            addExecutedMigration(migrate);
         }
         QApplication::processEvents();
     }
     log("Finalizing the migration");
 
     log(QString("Performed migrations: %1")
-          .arg(executedMigrationsCount()));
+          .arg(m_ExecutedMigrations.count()));
 
     log("Pending migrations");
     return true;

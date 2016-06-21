@@ -45,6 +45,7 @@ void ConfigConnection::on_btnOk_clicked()
             ui->stackedWidget->setCurrentIndex(1);
 
             laycan->setLogFilePath(ui->edtLogFilePath->text());
+            laycan->setAutoCommit(false);
             if (!laycan->Migrate(":/Migrations.json")) {
                 QMessageBox::critical(this,"",laycan->lastError());
                 return;
