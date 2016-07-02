@@ -37,7 +37,7 @@ An easy way to migrate the database from your application in C++/Qt.
 }
 ```
 
-And simply migrate
+And simply migrate.
 
 ```cpp
 #include "laycan.h"
