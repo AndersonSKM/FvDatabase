@@ -50,4 +50,4 @@ if(!ok) {
 }
 ```
 
-##### It is ! Your database schema out version 0 to version 1 (or a blank schema) #####
+##### It is ! Laycan will apply UpVersion SQL in the database and the version of the schema will go up version 0 (or a blank schema) to 1. #####
