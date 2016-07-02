@@ -1,5 +1,5 @@
 # Laycan
-An easy way to migrate the database from your application in C++/Qt. 
+An easy way to migrate the database schema from your application in C++/Qt. 
 
 ### How it works ###
  
