@@ -46,7 +46,7 @@ Laycan laycan;
 bool ok = laycan.Migrate(":/MyMigrations.json"); //Your Migration File
 
 if(!ok) {
-  QMessageBox::critical(this,"An error occurred during migration",laycan.lastError());
+  QMessageBox::critical(this, "An error occurred during migration", laycan.lastError());
 }
 ```
 
